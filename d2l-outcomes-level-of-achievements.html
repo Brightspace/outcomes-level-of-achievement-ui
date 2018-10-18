@@ -1,6 +1,5 @@
 <link rel="import" href="../polymer/polymer.html">
-<link rel="import" href="squishy-button-selector/d2l-squishy-button-selector.html">
-<link rel="import" href="squishy-button-selector/d2l-squishy-button.html">
+<link rel="import" href="d2l-outcome-level-of-achievement.html">
 
 <!--
 `d2l-outcomes-level-of-achievements`
@@ -11,18 +10,23 @@ Polymer Web-Component to display levels of achievements
 <dom-module id="d2l-outcomes-level-of-achievements">
 	<template strip-whitespace>
 		<style>
-			d2l-squishy-button-selector {
-				width: 100%;
+			:host {
+				margin: 1.2rem 0.5rem 1.5rem 0.5rem;
+				display: inline-block;
+			}
+
+			d2l-outcome-level-of-achievement:last-of-type {
+				margin-bottom: 0;
 			}
 		</style>
 
-		<d2l-squishy-button-selector>
-			<template is="dom-repeat" items=[[_buttons]]>
-				<d2l-squishy-button style$="--d2l-squishy-button-selected-color: [[item.color]]">
-					<div> [[item.content]] </div>
-				</d2l-squishy-button>
-			</template>
-		</d2l-squishy-button-selector>
+		<template is="dom-repeat" items=[[_outcomeData]]>
+			<d2l-outcome-level-of-achievement
+				text="[[item.text]]"
+				levels="[[item.levels]]"
+			>
+			</d2l-outcome-level-of-achievement>
+		</template>
 
 	</template>
 	<script>
@@ -41,17 +45,30 @@ Polymer Web-Component to display levels of achievements
 					type: String,
 					value: null
 				},
-				_buttons: {
+				_outcomeData: {
 					type: Array,
 					value: function() {
 						return [
-							{ content: 'level 1', color: 'red' },
-							{ content: 'level 2', color: 'blue' },
-							{ content: 'level 3', color: 'green' }
+							{
+								text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
+								levels: [
+									{ content: 'level 1', color: 'red' },
+									{ content: 'level 2', color: 'blue' },
+									{ content: 'level 3', color: 'green' }
+								]
+							},
+							{
+								text: 'Bacon ipsum dolor amet shoulder t-bone chicken pancetta beef ribs, corned beef salami rump pork belly pastrami ground round sirloin sausage beef. Short loin prosciutto strip steak, ground round bacon pork belly frankfurter pancetta cow chicken porchetta andouille burgdoggen filet mignon short ribs. Cupim corned beef meatball filet mignon, pork ham ribeye fatback bresaola ball tip flank sausage.',
+								levels: [
+									{ content: 'BAD', color: 'red' },
+									{ content: 'NOT BAD', color: 'orange' },
+									{ content: 'MIGHTY SWELL', color: 'yellow' }
+								]
+							}
 						];
 					}
 				}
-			},
-			behaviors: []
+			}
 		});
 	</script>
+</dom-module>

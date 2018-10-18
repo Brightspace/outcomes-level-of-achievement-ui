@@ -1,0 +1,55 @@
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../d2l-typography/d2l-typography-shared-styles.html">
+<link rel="import" href="squishy-button-selector/d2l-squishy-button-selector.html">
+<link rel="import" href="squishy-button-selector/d2l-squishy-button.html">
+
+<!--
+`d2l-outcome-level-of-achievement`
+Polymer Web-Component to display levels of achievements
+-->
+<dom-module id="d2l-outcome-level-of-achievement">
+	<template strip-whitespace>
+		<style>
+			:host {
+				display: inline-block;
+				margin: 0 0 1.5rem 0;
+			}
+
+			d2l-squishy-button-selector {
+				width: 100%;
+			}
+
+			p {
+				@apply --d2l-body-small-text;
+				margin-left: 0;
+				margin-right: 0;
+				padding-left: 0;
+				padding-right: 0;
+				margin-bottom: 0.6rem;
+			}
+
+			d2l-squishy-button > div {
+				font-weight: bold;
+			}
+		</style>
+
+		<p>[[text]]</p>
+		<d2l-squishy-button-selector>
+			<template is="dom-repeat" items=[[levels]]>
+				<d2l-squishy-button style$="--d2l-squishy-button-selected-color: [[item.color]]">
+					<div> [[item.content]] </div>
+				</d2l-squishy-button>
+			</template>
+		</d2l-squishy-button-selector>
+
+	</template>
+	<script>
+		Polymer({
+			is: 'd2l-outcome-level-of-achievement',
+			properties: {
+				text: String,
+				levels: Array
+			}
+		});
+	</script>
+</dom-module>
