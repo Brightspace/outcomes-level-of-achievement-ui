@@ -1,5 +1,6 @@
 <link rel="import" href="../../polymer/polymer.html">
 <link rel="import" href="../../d2l-colors/d2l-colors.html">
+<link rel="import" href="../../d2l-tooltip/d2l-tooltip.html">
 <link rel="import" href="../../d2l-polymer-behaviors/d2l-focusable-arrowkeys-behavior.html">
 
 <!--
@@ -102,6 +103,9 @@ Polymer Web-Component for a responsive list of selectable buttons
 		<div class="d2l-squishy-buttons">
 			<slot></slot>
 		</div>
+		<d2l-tooltip hidden$="[[!_tooltipItem]]" for="[[_tooltipItem]]">
+			[[_tooltipText]]
+		</d2l-tooltip>
 	</template>
 	<script>
 		Polymer({
@@ -122,6 +126,14 @@ Polymer Web-Component for a responsive list of selectable buttons
 				ariaLabel: {
 					type: String,
 					reflectToAttribute: true
+				},
+				_tooltipItem: {
+					type: String,
+					value: ''
+				},
+				_tooltipText: {
+					type: String,
+					value: ''
 				}
 			},
 
@@ -145,12 +157,15 @@ Polymer Web-Component for a responsive list of selectable buttons
 					this.addEventListener('focus', this._onFocus, true);
 					this.addEventListener('blur', this._onBlur, true);
 
+					this.addEventListener('mouseover', this._onHover, true);
+
 					this.arrowKeyFocusablesContainer = this.$$('.d2l-squishy-buttons');
 					this.arrowKeyFocusablesProvider = function() {
 						return Promise.resolve(this._buttons);
 					}.bind(this);
 
 					this._updateButtonSelectedAttribute(this.selectedIndex);
+					this._setShortTextIfAppropriate();
 				});
 
 				this._disabledChanged(this.disabled);
@@ -168,6 +183,7 @@ Polymer Web-Component for a responsive list of selectable buttons
 				this._getListOfAllButtons();
 				this._setButtonProperties();
 				this._updateButtonSelectedAttribute();
+				this._setShortTextIfAppropriate();
 			},
 
 			_getListOfAllButtons() {
@@ -237,7 +253,69 @@ Polymer Web-Component for a responsive list of selectable buttons
 				event.preventDefault();
 			},
 
+			_setShortTextIfAppropriate: function() {
+				if (!this._buttons || this._buttons.length === 0) {
+					return;
+				}
+
+				var regex = /(.*[^\d])(\d+)$/;
+
+				var toMatch;
+				var prevNum;
+
+				var toSet = [];
+				var hasShortText = true;
+
+				for(var i=0; i<this._buttons.length; i++) {
+					var text = this._buttons[i].getAttribute('text');
+					var match = regex.exec(text || '');
+					if (!match) {
+						hasShortText = false;
+						break;
+					}
+					var preText = match[1];
+					var num = Number.parseInt(match[2]);
+					if (!toMatch) {
+						toMatch = preText;
+						prevNum = num;
+					} else {
+						if (preText !== toMatch || num !== ++prevNum) {
+							hasShortText = false;
+							break;
+						}
+					}
+
+					toSet.push({
+						button: this._buttons[i],
+						text: num
+					});
+				}
+
+				if (hasShortText) {
+					toSet.forEach(function(item) {
+						item.button.setAttribute('short-text', item.text);
+					});
+				} else {
+					this._buttons.forEach(function(button) {
+						button.removeAttribute('short-text');
+					})
+				}
+			},
+
+			_setTooltipToCurrentIfAppropriate: function(node) {
+				if (node.nodeName === 'D2L-SQUISHY-BUTTON') {
+					this._tooltipItem = node.id;
+					this._tooltipText = node.getAttribute('text');
+				}
+			},
+
+			_onHover: function(event) {
+				this._setTooltipToCurrentIfAppropriate(event.target);
+			},
+
 			_onFocus: function (event) {
+				this._setTooltipToCurrentIfAppropriate(event.target);
+
 				if (this.disabled || this._focused) {
 					return;
 				}

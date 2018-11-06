@@ -63,7 +63,7 @@
 			}
 
 			/* Default inside styling */
-			div ::slotted(*) {
+			div {
 				@apply --d2l-body-small-text;
 				margin: 0.25rem auto 0.25rem auto;
 				overflow: hidden;
@@ -73,14 +73,15 @@
 				word-break: break-all;
 			}
 
-			:host([selected]) div ::slotted(*) {
+			:host([selected]) div {
 				color: var(--d2l-color-ferrite);
 				font-weight: 700;
 			}
 		</style>
 
 		<div class="d2l-squishy-button-inner">
-			<slot></slot>
+			<span hidden$="[[!shortText]]">[[shortText]]</span>
+			<span hidden$="[[shortText]]">[[text]]</span>
 		</div>
 	</template>
 	<script>
@@ -112,6 +113,16 @@
 				color: {
 					type: String,
 					observer: '_updateColor'
+				},
+
+				text: {
+					type: String,
+					reflectToAttribute: true
+				},
+
+				shortText: {
+					type: String,
+					reflectToAttribute: true
 				}
 			},
 

@@ -6,6 +6,7 @@
 <link rel="import" href="d2l-outcomes-loa-demonstration-level.html">
 <link rel="import" href="squishy-button-selector/d2l-squishy-button-selector.html">
 <link rel="import" href="squishy-button-selector/d2l-squishy-button.html">
+<link rel="import" href="../d2l-tooltip/d2l-tooltip.html">
 
 <!--
 `d2l-outcomes-level-of-achievements`
@@ -27,9 +28,21 @@ Polymer Web-Component to display levels of achievements
 
 		<d2l-squishy-button-selector>
 			<template is="dom-repeat" items="[[_getDemonstrationLevels(entity)]]">
-				<d2l-squishy-button color="[[item.color]]" selected="[[item.selected]]" button-data="[[_getButtonData(item)]]">
-					<d2l-outcomes-loa-demonstration-level color="{{item.color}}" item="[[item]]" href="[[item.entity]]" token="[[token]]"></d2l-outcomes-loa-demonstration-level>
+				<d2l-squishy-button
+					color="[[item.color]]"
+					selected="[[item.selected]]"
+					button-data="[[_getButtonData(item)]]"
+					text="[[item.text]]"
+				>
 				</d2l-squishy-button>
+				<d2l-outcomes-loa-demonstration-level
+					id$="item-[[index]]"
+					text="{{item.text}}"
+					color="{{item.color}}"
+					item="[[item]]"
+					href="[[item.entity]]"
+					token="[[token]]"
+				></d2l-outcomes-loa-demonstration-level>
 			</template>
 		</d2l-squishy-button-selector>
 
@@ -48,7 +61,13 @@ Polymer Web-Component to display levels of achievements
 				_hasAction: {
 					type: Boolean,
 					observer: '_hasActionChanged'
+				},
+
+				_curIndex: {
+					type: Number,
+					value: 0
 				}
+
 			},
 
 			behaviors: [
