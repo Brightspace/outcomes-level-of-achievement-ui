@@ -109,6 +109,7 @@ Polymer Web-Component for a responsive list of selectable buttons
 			hidden$="[[_tooltipIsHidden(_tooltipHidden, _tooltipItem)]]"
 			for="[[_tooltipItem]]"
 			boundary="[[_tooltipBoundary]]"
+			position="[[tooltipPosition]]"
 		>
 			[[_tooltipText]]
 		</d2l-tooltip>
@@ -148,6 +149,10 @@ Polymer Web-Component for a responsive list of selectable buttons
 				_tooltipBoundary: {
 					type: Object,
 					value: null
+				},
+				tooltipPosition: {
+					type: String,
+					value: 'bottom'
 				}
 			},
 
