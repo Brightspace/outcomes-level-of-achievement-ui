@@ -16,6 +16,7 @@ Polymer Web-Component for a responsive list of selectable buttons
 				display:block;
 				height: 1.6rem;
 				background: white;
+				position: relative;
 			}
 
 			.d2l-squishy-buttons {
@@ -100,13 +101,14 @@ Polymer Web-Component for a responsive list of selectable buttons
 			}
 		</style>
 
-		<div class="d2l-squishy-buttons">
+		<div id="buttonlist" class="d2l-squishy-buttons">
 			<slot></slot>
 		</div>
 		<d2l-tooltip
 			id="tooltip"
 			hidden$="[[_tooltipIsHidden(_tooltipHidden, _tooltipItem)]]"
 			for="[[_tooltipItem]]"
+			boundary="[[_tooltipBoundary]]"
 		>
 			[[_tooltipText]]
 		</d2l-tooltip>
@@ -142,6 +144,10 @@ Polymer Web-Component for a responsive list of selectable buttons
 				_tooltipHidden: {
 					type: Boolean,
 					value: true
+				},
+				_tooltipBoundary: {
+					type: Object,
+					value: null
 				}
 			},
 
@@ -165,6 +171,8 @@ Polymer Web-Component for a responsive list of selectable buttons
 					this.addEventListener('focus', this._onFocus, true);
 					this.addEventListener('blur', this._onBlur, true);
 					this.addEventListener('mouseover', this._onHover, true);
+					this._setBoundary = this._setBoundary.bind(this);
+					window.addEventListener('resize', this._setBoundary);
 
 					this.arrowKeyFocusablesContainer = this.$$('.d2l-squishy-buttons');
 					this.arrowKeyFocusablesProvider = function() {
@@ -173,6 +181,7 @@ Polymer Web-Component for a responsive list of selectable buttons
 
 					this._updateButtonSelectedAttribute(this.selectedIndex);
 					this._setShortTextIfAppropriate();
+					this._setBoundary();
 				});
 
 				this._disabledChanged(this.disabled);
@@ -185,6 +194,7 @@ Polymer Web-Component for a responsive list of selectable buttons
 				this.removeEventListener('focus', this._onFocus);
 				this.removeEventListener('blur', this._onBlur);
 				this.removeEventListener('mouseover', this._onHover);
+				window.removeEventListener('resize', this._setBoundary);
 			},
 
 			_handleDomChanges: function() {
@@ -320,6 +330,14 @@ Polymer Web-Component for a responsive list of selectable buttons
 					this._tooltipText = node.getAttribute('text');
 					this._tooltipHidden = !node.hasAttribute('text-overflowing')
 				}
+			},
+
+			_setBoundary: function() {
+				var rect = this.$.buttonlist.getBoundingClientRect();
+				this._tooltipBoundary = {
+					left: 0,
+					right: rect.width
+				};
 			},
 
 			_onHover: function(event) {

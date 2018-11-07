@@ -143,9 +143,12 @@
 			},
 
 			ready: function() {
-				this._seeIfTextIsOverflowing();
-				this._seeIfTextIsOverflowing = this._seeIfTextIsOverflowing.bind(this);
-				window.addEventListener('resize', this._seeIfTextIsOverflowing);
+				Polymer.RenderStatus.afterNextRender(this, function() {
+					this._seeIfTextIsOverflowing();
+					this._seeIfTextIsOverflowing = this._seeIfTextIsOverflowing.bind(this);
+					window.addEventListener('resize', this._seeIfTextIsOverflowing);
+					this._updateColor(this.color);
+				});
 			},
 
 			detached: function() {
@@ -174,8 +177,9 @@
 			},
 
 			_updateColor: function(color) {
-				this.customStyle['--d2l-squishy-button-selected-color'] = color;
-				this.updateStyles();
+				if (color) {
+					this.updateStyles({'--d2l-squishy-button-selected-color': color });
+				}
 			},
 
 			_onKeyDown: function (event) {
