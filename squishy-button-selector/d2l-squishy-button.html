@@ -62,8 +62,12 @@
 				display: none !important;
 			}
 
+			div.hide {
+				opacity: 0;
+			}
+
 			/* Default inside styling */
-			div {
+			#textcontainer {
 				@apply --d2l-body-small-text;
 				margin: 0.25rem auto 0.25rem auto;
 				overflow: hidden;
@@ -73,15 +77,15 @@
 				word-break: break-all;
 			}
 
-			:host([selected]) div {
+			:host([selected]) #textcontainer {
 				color: var(--d2l-color-ferrite);
 				font-weight: 700;
 			}
 		</style>
 
-		<div class="d2l-squishy-button-inner">
-			<span hidden$="[[!shortText]]">[[shortText]]</span>
-			<span hidden$="[[shortText]]">[[text]]</span>
+		<div id="textcontainer" class="d2l-squishy-button-inner">
+			<div hidden$="[[!_showShortText(shortText, textOverflowing)]]">[[shortText]]</div>
+			<div id="textarea" class$="[[_getTextClass(shortText, textOverflowing)]]">[[text]]</div>
 		</div>
 	</template>
 	<script>
@@ -117,11 +121,18 @@
 
 				text: {
 					type: String,
-					reflectToAttribute: true
+					reflectToAttribute: true,
+					observer: '_seeIfTextIsOverflowing'
 				},
 
 				shortText: {
 					type: String,
+					reflectToAttribute: true
+				},
+
+				textOverflowing: {
+					type: Boolean,
+					value: false,
 					reflectToAttribute: true
 				}
 			},
@@ -131,9 +142,35 @@
 				'tap': '_handleTap'
 			},
 
+			ready: function() {
+				this._seeIfTextIsOverflowing();
+				this._seeIfTextIsOverflowing = this._seeIfTextIsOverflowing.bind(this);
+				window.addEventListener('resize', this._seeIfTextIsOverflowing);
+			},
+
+			detached: function() {
+				window.removeEventListener('resize', this._seeIfTextIsOverflowing);
+			},
+
 			_keyCodes: {
 				ENTER: 13,
 				SPACE: 32
+			},
+
+			_showShortText: function(shortText, textOverflowing) {
+				return shortText && textOverflowing;
+			},
+
+			_seeIfTextIsOverflowing: function() {
+				Polymer.RenderStatus.afterNextRender(this, function() {
+					var innerHeight = this.$.textarea.getBoundingClientRect().height;
+					var outerHeight = this.$.textcontainer.getBoundingClientRect().height;
+					this.textOverflowing = innerHeight > outerHeight;
+				}.bind(this));
+			},
+
+			_getTextClass(shortText, textOverflowing) {
+				return this._showShortText(shortText, textOverflowing) ? "hide" : "";
 			},
 
 			_updateColor: function(color) {
