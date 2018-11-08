@@ -8,16 +8,7 @@
 Polymer Web-Component to display levels of achievements
 -->
 <dom-module id="d2l-outcomes-loa-demonstration-level">
-	<template strip-whitespace>
-		<style>
-			:host {
-				display: block;
-				font-weight: bold;
-			}
-		</style>
-
-		<div style="width: 0; height: 0"></div>
-	</template>
+	<template strip-whitespace></template>
 
 	<script>
 		Polymer({
@@ -41,14 +32,6 @@ Polymer Web-Component to display levels of achievements
 				item: {
 					type: Object,
 					observer: '_itemChanged'
-				},
-				entity: {
-					type: Object,
-					value: {
-						properties: {
-							name: "Godly!"
-						}
-					}
 				}
 			},
 			observers: [
