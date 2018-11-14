@@ -19,42 +19,44 @@ Polymer Web-Component to display levels of achievements
 			properties: {
 				color: {
 					type: String,
-					notify: true
-				},
-				name: {
-					type: String,
-					notify: true
+					notify: true,
+					observer: '_keepColorSame'
 				},
 				text: {
 					type: String,
-					notify: true
+					notify: true,
+					reflectToAttribute: true,
+					observer: '_keepTextSame'
 				},
 				item: {
-					type: Object,
-					observer: '_itemChanged'
+					type: Object
 				}
 			},
 			observers: [
-				'_updateColor(entity, item)'
+				'_updateItemProps(entity, item)'
 			],
 
-			_itemChanged: function(newItem, oldItem) {
-				if (!newItem) {
-					return;
-				}
-				if (!newItem.color && oldItem && oldItem.color) {
-					newItem.color = oldItem.color;
-					newItem.text = oldItem.text;
+			_keepTextSame: function (newVal, oldVal) {
+				if (!newVal && oldVal) {
+					this.text = oldVal;
 				}
 			},
 
-			_updateColor: function(entity) {
+			_keepColorSame: function (newVal, oldVal) {
+				if (!newVal && oldVal) {
+					this.color = oldVal;
+				}
+			},
+
+			_updateItemProps: function(entity) {
 				if (!entity) {
 					return;
 				}
 
 				this.color = entity.properties.color;
-				this.text = entity.properties.name;
+				if (entity.properties.name) {
+					this.text = entity.properties.name;
+				}
 			}
 		});
 	</script>
