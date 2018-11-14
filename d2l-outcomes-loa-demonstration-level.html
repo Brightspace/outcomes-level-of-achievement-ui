@@ -35,6 +35,9 @@ Polymer Web-Component to display levels of achievements
 			observers: [
 				'_updateItemProps(entity, item)'
 			],
+			listeners: {
+				'd2l-siren-entity-changed': '_updateColor'
+			},
 
 			_keepTextSame: function (newVal, oldVal) {
 				if (!newVal && oldVal) {
