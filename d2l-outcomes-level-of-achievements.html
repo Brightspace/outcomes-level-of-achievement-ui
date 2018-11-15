@@ -3,7 +3,6 @@
 <link rel="import" href="../d2l-polymer-siren-behaviors/store/entity-behavior.html">
 <link rel="import" href="../d2l-polymer-siren-behaviors/store/siren-action-behavior.html">
 <link rel="import" href="../d2l-hm-constants-behavior/d2l-hm-constants-behavior.html">
-<link rel="import" href="d2l-outcomes-loa-demonstration-level.html">
 <link rel="import" href="squishy-button-selector/d2l-squishy-button-selector.html">
 <link rel="import" href="squishy-button-selector/d2l-squishy-button.html">
 
@@ -36,6 +35,7 @@ Polymer Web-Component to display levels of achievements
 					selected="[[item.selected]]"
 					button-data="[[_getButtonData(item)]]"
 					text="[[item.text]]"
+					id="item-[[index]]"
 				></d2l-squishy-button>
 			</template>
 		</d2l-squishy-button-selector>
@@ -95,7 +95,6 @@ Polymer Web-Component to display levels of achievements
 
 					return window.D2L.Siren.EntityStore.fetch(entityHref, this.token, true).then(function(levelRequest) {
 						var levelEntity = levelRequest.entity;
-						console.log(levelEntity);
 						return {
 							action: action,
 							selected: selected,
