@@ -28,7 +28,9 @@ Polymer Web-Component to display levels of achievements
 			}
 		</style>
 
-		<d2l-squishy-button-selector>
+		<d2l-squishy-button-selector
+			tooltip-position="top"
+		>
 			<template is="dom-repeat" items="[[_demonstrationLevels]]">
 				<d2l-squishy-button
 					color="[[item.color]]"
