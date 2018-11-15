@@ -166,7 +166,7 @@
 			},
 
 			_seeIfTextIsOverflowing: function() {
-				Polymer.RenderStatus.afterNextRender(this, function() {
+				fastdom.measure(function() {
 					var innerHeight = this.$.textarea.getBoundingClientRect().height;
 					var outerHeight = this.$.textcontainer.getBoundingClientRect().height;
 					this.textOverflowing = innerHeight > outerHeight;

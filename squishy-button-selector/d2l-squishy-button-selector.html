@@ -338,11 +338,13 @@ Polymer Web-Component for a responsive list of selectable buttons
 			},
 
 			_setBoundary: function() {
-				var rect = this.$.buttonlist.getBoundingClientRect();
-				this._tooltipBoundary = {
-					left: 0,
-					right: rect.width
-				};
+				fastdom.measure(function() {
+					var rect = this.$.buttonlist.getBoundingClientRect();
+					this._tooltipBoundary = {
+						left: 0,
+						right: rect.width
+					}
+				}.bind(this));
 			},
 
 			_onHover: function(event) {
