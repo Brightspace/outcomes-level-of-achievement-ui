@@ -1,6 +1,5 @@
 <link rel="import" href="../../polymer/polymer.html">
 <link rel="import" href="../../d2l-colors/d2l-colors.html">
-<link rel="import" href="../../d2l-tooltip/d2l-tooltip.html">
 <link rel="import" href="../../d2l-polymer-behaviors/d2l-focusable-arrowkeys-behavior.html">
 
 <!--
@@ -106,16 +105,6 @@ Polymer Web-Component for a responsive list of selectable buttons
 		<div id="buttonlist" class="d2l-squishy-buttons">
 			<slot></slot>
 		</div>
-		<d2l-tooltip
-			id="tooltip"
-			hidden$="[[_tooltipIsHidden(_tooltipHidden, _tooltipItem)]]"
-			for="[[_tooltipItem]]"
-			boundary="[[_tooltipBoundary]]"
-			position$="[[tooltipPosition]]"
-			aria-hidden
-		>
-			[[_tooltipText]]
-		</d2l-tooltip>
 	</template>
 	<script>
 		Polymer({
@@ -137,25 +126,9 @@ Polymer Web-Component for a responsive list of selectable buttons
 					type: String,
 					reflectToAttribute: true
 				},
-				_tooltipItem: {
-					type: String,
-					value: ''
-				},
-				_tooltipText: {
-					type: String,
-					value: ''
-				},
-				_tooltipHidden: {
-					type: Boolean,
-					value: true
-				},
-				_tooltipBoundary: {
-					type: Object,
-					value: null
-				},
 				tooltipPosition: {
 					type: String,
-					value: 'bottom'
+					reflectToAttribute: true
 				}
 			},
 
@@ -231,6 +204,9 @@ Polymer Web-Component for a responsive list of selectable buttons
 						button.setAttribute('disabled', this.disabled);
 					} else {
 						button.removeAttribute('disabled', this.disabled);
+					}
+					if (this.tooltipPosition) {
+						button.setAttribute('tooltip-position', this.tooltipPosition);
 					}
 				}
 			},
@@ -328,35 +304,18 @@ Polymer Web-Component for a responsive list of selectable buttons
 				}
 			},
 
-			_tooltipIsHidden: function(tooltipHidden, tooltipItem) {
-				return tooltipHidden || !tooltipItem;
-			},
-
-			_setTooltipToCurrentIfAppropriate: function(node) {
-				if (node.nodeName === 'D2L-SQUISHY-BUTTON') {
-					this._tooltipItem = node.id;
-					this._tooltipText = node.getAttribute('text');
-					this._tooltipHidden = !node.hasAttribute('text-overflowing')
-				}
-			},
-
 			_setBoundary: function() {
 				fastdom.measure(function() {
-					var rect = this.$.buttonlist.getBoundingClientRect();
-					this._tooltipBoundary = {
-						left: 0,
-						right: rect.width
+					var width = this.$.buttonlist.offsetWidth;
+					if (this._buttons) {
+						this._buttons.forEach(function(button) {
+							button.setAttribute('container-width', width);
+						});
 					}
 				}.bind(this));
 			},
 
-			_onHover: function(event) {
-				this._setTooltipToCurrentIfAppropriate(event.target);
-			},
-
 			_onFocus: function (event) {
-				this._setTooltipToCurrentIfAppropriate(event.target);
-
 				if (this.disabled || this._focused) {
 					return;
 				}
