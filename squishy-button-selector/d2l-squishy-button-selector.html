@@ -112,6 +112,7 @@ Polymer Web-Component for a responsive list of selectable buttons
 			for="[[_tooltipItem]]"
 			boundary="[[_tooltipBoundary]]"
 			position$="[[tooltipPosition]]"
+			aria-hidden
 		>
 			[[_tooltipText]]
 		</d2l-tooltip>
@@ -168,7 +169,8 @@ Polymer Web-Component for a responsive list of selectable buttons
 			],
 
 			listeners: {
-				'd2l-squishy-button-selection-changed': '_onItemSelected'
+				'd2l-squishy-button-selection-changed': '_onItemSelected',
+				'squishy-button-text-changed': '_setShortTextIfAppropriate'
 			},
 
 			ready: function() {
@@ -208,7 +210,6 @@ Polymer Web-Component for a responsive list of selectable buttons
 				this._getListOfAllButtons();
 				this._setButtonProperties();
 				this._updateButtonSelectedAttribute();
-				this._setShortTextIfAppropriate();
 			},
 
 			_getListOfAllButtons: function() {

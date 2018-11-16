@@ -85,8 +85,8 @@
 		</style>
 
 		<div id="textcontainer" class="d2l-squishy-button-inner">
-			<div hidden$="[[!_showShortText(shortText, textOverflowing)]]">[[shortText]]</div>
-			<div id="textarea" class$="[[_getTextClass(shortText, textOverflowing)]]">[[text]]</div>
+			<div aria-hidden hidden$="[[!_showShortText(shortText, textOverflowing)]]">[[shortText]]</div>
+			<div id="textarea" class$="[[_getTextClass(shortText, textOverflowing)]]"><slot></slot></div>
 		</div>
 	</template>
 	<script>
@@ -149,11 +149,21 @@
 					this._seeIfTextIsOverflowing = this._seeIfTextIsOverflowing.bind(this);
 					window.addEventListener('resize', this._seeIfTextIsOverflowing);
 					this._updateColor(this.color);
+					this._handleDomChanges = this._handleDomChanges.bind(this);
+					this._slotObserver = Polymer.dom(this).observeNodes(this._handleDomChanges);
 				});
 			},
 
 			detached: function() {
 				window.removeEventListener('resize', this._seeIfTextIsOverflowing);
+				if (this._slotObserver) {
+					Polymer.dom(this).unobserveNodes(this._slotObserver);
+				}
+			},
+
+			_handleDomChanges: function() {
+				this.text = this.textContent;
+				this.dispatchEvent(new CustomEvent('squishy-button-text-changed', { bubbles: true } ));
 			},
 
 			_keyCodes: {
