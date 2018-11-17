@@ -153,8 +153,6 @@ Polymer Web-Component for a responsive list of selectable buttons
 					this.addEventListener('focus', this._onFocus, true);
 					this.addEventListener('blur', this._onBlur, true);
 					this.addEventListener('mouseover', this._onHover, true);
-					this._setBoundary = this._setBoundary.bind(this);
-					window.addEventListener('resize', this._setBoundary);
 
 					this.arrowKeyFocusablesContainer = this.$$('.d2l-squishy-buttons');
 					this.arrowKeyFocusablesProvider = function() {
@@ -163,7 +161,6 @@ Polymer Web-Component for a responsive list of selectable buttons
 
 					this._updateButtonSelectedAttribute(this.selectedIndex);
 					this._setShortTextIfAppropriate();
-					this._setBoundary();
 				});
 
 				this._disabledChanged(this.disabled);
@@ -176,7 +173,6 @@ Polymer Web-Component for a responsive list of selectable buttons
 				this.removeEventListener('focus', this._onFocus);
 				this.removeEventListener('blur', this._onBlur);
 				this.removeEventListener('mouseover', this._onHover);
-				window.removeEventListener('resize', this._setBoundary);
 			},
 
 			_handleDomChanges: function() {
@@ -302,17 +298,6 @@ Polymer Web-Component for a responsive list of selectable buttons
 						button.removeAttribute('short-text');
 					})
 				}
-			},
-
-			_setBoundary: function() {
-				fastdom.measure(function() {
-					var width = this.$.buttonlist.offsetWidth;
-					if (this._buttons) {
-						this._buttons.forEach(function(button) {
-							button.setAttribute('container-width', width);
-						});
-					}
-				}.bind(this));
 			},
 
 			_onFocus: function (event) {
