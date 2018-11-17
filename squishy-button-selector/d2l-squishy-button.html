@@ -219,8 +219,8 @@
 
 			_seeIfTextIsOverflowing: function() {
 				fastdom.measure(function() {
-					var innerHeight = this.$.textarea.getBoundingClientRect().height;
-					var outerHeight = this.$$('.d2l-squishy-button-inner').getBoundingClientRect().height;
+					var innerHeight = this.$.textarea.offsetHeight;
+					var outerHeight = this.$$('.d2l-squishy-button-inner').offsetHeight;
 					this._textOverflowing = innerHeight > outerHeight;
 				}.bind(this));
 			},
