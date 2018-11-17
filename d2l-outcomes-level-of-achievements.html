@@ -105,7 +105,7 @@ Polymer Web-Component to display levels of achievements
 					});
 				}.bind(this))).then(function(demonstrationLevels) {
 					this._demonstrationLevels = demonstrationLevels;
-					this._hasAction = demonstrationLevels.some(function(level) { return !!level.action });
+					this._hasAction = demonstrationLevels.some(function(level) { return !!level.action; });
 				}.bind(this));
 
 			},
