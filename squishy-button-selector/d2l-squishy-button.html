@@ -1,5 +1,6 @@
 <link rel="import" href="../../polymer/polymer.html">
 <link rel="import" href="../../d2l-colors/d2l-colors.html">
+<link rel="import" href="../../d2l-polymer-behaviors/d2l-dom.html">
 <link rel="import" href="../../d2l-tooltip/d2l-tooltip.html">
 <link rel="import" href="../../d2l-typography/d2l-typography-shared-styles.html">
 
@@ -142,7 +143,7 @@
 				text: {
 					type: String,
 					reflectToAttribute: true,
-					observer: '_seeIfTextIsOverflowing'
+					observer: '_measureSize'
 				},
 
 				shortText: {
@@ -165,12 +166,6 @@
 				_containerBoundary: {
 					type: Object
 				},
-
-				containerWidth: {
-					type: String,
-					reflectToAttribute: true,
-					observer: '_onContainerWidthSet'
-				}
 			},
 
 			listeners: {
@@ -180,17 +175,28 @@
 
 			ready: function() {
 				Polymer.RenderStatus.afterNextRender(this, function() {
-					this._seeIfTextIsOverflowing();
-					this._seeIfTextIsOverflowing = this._seeIfTextIsOverflowing.bind(this);
-					window.addEventListener('resize', this._seeIfTextIsOverflowing);
-					this._updateColor(this.color);
+					this.__squishySelector = D2L.Dom.findComposedAncestor(this, function(node) {
+						if (!node || node.nodeType !== 1) {
+							return false;
+						}
+
+						return node.nodeName === 'D2L-SQUISHY-BUTTON-SELECTOR';
+					});
+
+					this._measureSize = this._measureSize.bind(this);
 					this._handleDomChanges = this._handleDomChanges.bind(this);
+
+					window.addEventListener('resize', this._measureSize);
 					this._slotObserver = Polymer.dom(this).observeNodes(this._handleDomChanges);
+
+					this._measureSize();
+					this._updateColor(this.color);
 				});
 			},
 
 			detached: function() {
-				window.removeEventListener('resize', this._seeIfTextIsOverflowing);
+				this.__squishySelector = null;
+				window.removeEventListener('resize', this._measureSize);
 				if (this._slotObserver) {
 					Polymer.dom(this).unobserveNodes(this._slotObserver);
 				}
@@ -206,22 +212,20 @@
 				SPACE: 32
 			},
 
-			_onContainerWidthSet: function(containerWidth) {
-				this._containerBoundary = {
-					left: 0,
-					right: containerWidth
-				};
-			},
-
 			_showShortText: function(shortText, textOverflowing) {
 				return shortText && textOverflowing;
 			},
 
-			_seeIfTextIsOverflowing: function() {
+			_measureSize: function() {
 				fastdom.measure(function() {
 					var innerHeight = this.$.textarea.offsetHeight;
 					var outerHeight = this.$$('.d2l-squishy-button-inner').offsetHeight;
 					this._textOverflowing = innerHeight > outerHeight;
+
+					this._containerBoundary = {
+						left: 0,
+						right: (this.__squishySelector || this).offsetWidth
+					};
 				}.bind(this));
 			},
 
