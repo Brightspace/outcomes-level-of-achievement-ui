@@ -37,9 +37,9 @@ describe('<d2l-squishy-button-selector>', function() {
 
 		it('Is a list of all the buttons', function() {
 			expect(element._buttons.length).to.equal(3);
-			expect(element._buttons[0].getAttribute('text')).to.equal('BUTTON 1');
-			expect(element._buttons[1].getAttribute('text')).to.equal('BUTTON 2');
-			expect(element._buttons[2].getAttribute('text')).to.equal('BUTTON 3');
+			expect(element._buttons[0].getAttribute('text').trim()).to.equal('BUTTON 1');
+			expect(element._buttons[1].getAttribute('text').trim()).to.equal('BUTTON 2');
+			expect(element._buttons[2].getAttribute('text').trim()).to.equal('BUTTON 3');
 		});
 	});
 
