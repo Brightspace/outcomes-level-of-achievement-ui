@@ -19,7 +19,7 @@
 
 	<script type="module" src="../../@polymer/iron-demo-helpers/demo-pages-shared-styles.js"></script>
 	<script type="module" src="../../@polymer/iron-demo-helpers/demo-snippet.js"></script>
-	<script type="module" src="../squishy-button-selector/d2l-outcomes-loa-override-button.js"></script>
+	<script type="module" src="../override-button/d2l-outcomes-loa-override-button.js"></script>
 
 	<script type="module" src="../../d2l-typography/d2l-typography.js"></script>
 	<!-- FIXME(polymer-modulizer):
@@ -54,23 +54,24 @@ document.body.appendChild($_documentContainer.content);</script>
 	<script type="module">const $_documentContainer = document.createElement('template');
 
 $_documentContainer.innerHTML = `<div class="vertical-section-container centered">
-		<h1>d2l-outcomes-loa-override-button (default to no override) </h1>
+		<h1>d2l-outcomes-loa-override-button</h1>
+		<h3>Default to no override:</h3>
 		<demo-snippet>
 			<d2l-outcomes-loa-override-button tooltip-position="top" selected-index="0">
 			</d2l-outcomes-loa-override-button>
 		</demo-snippet>
 
-		<h1>d2l-outcomes-loa-override-button (default to override)</h1>
+		<h3>Default to override:</h3>
 		<demo-snippet>
 			<d2l-outcomes-loa-override-button override-active="true" selected-index="1">
 			</d2l-outcomes-loa-override-button>
 		</demo-snippet>
 
-		<h1>d2l-outcomes-loa-override-button (hidden)</h1>
+		<h3>Hidden:</h3>
 		<demo-snippet>
 			<d2l-outcomes-loa-override-button display="none" selected-index="1">
 			</d2l-outcomes-loa-override-button>
-			<body>(The button should not be visible)</body>
+			<p style="line-height:0;font-family:arial;font-size:16px;font-style:normal;">(The button should not be visible)</p>
 		</demo-snippet>
 	</div>`;
 
