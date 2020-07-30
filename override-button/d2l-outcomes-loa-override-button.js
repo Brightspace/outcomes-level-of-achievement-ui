@@ -7,6 +7,7 @@ calculated values for a user's overall outcome achievement level
 */
 
 import '@polymer/polymer/polymer-legacy.js';
+import '../localize-behavior.js';
 import '@brightspace-ui/core/components/tooltip/tooltip.js';
 import 'd2l-polymer-behaviors/d2l-dom.js';
 import 'd2l-typography/d2l-typography-shared-styles.js';
@@ -61,15 +62,20 @@ Polymer({
 			reflectToAttribute: true
 		},
 	},
+
 	listeners: {
 		'keydown': '_onKeyDown',
 		'tap': '_handleTap'
 	},
 
+	behaviors: [
+		D2L.PolymerBehaviors.OutcomesLOA.LocalizeBehavior
+	],
+
 	//TODO: define event behavior and other methods
 	ready: function () {
 		afterNextRender(this, /* @this */ function () {
-			this._measureSize = this._measureSize.bind(this);
+			/*this._measureSize = this._measureSize.bind(this);
 			this._handleDomChanges = this._handleDomChanges.bind(this);
 
 			window.addEventListener('resize', this._measureSize);
@@ -77,6 +83,7 @@ Polymer({
 
 			this._measureSize();
 			this._updateColor(this.color);
+			*/
 		});
 	},
 
