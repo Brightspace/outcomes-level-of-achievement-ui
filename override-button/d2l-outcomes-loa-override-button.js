@@ -16,7 +16,7 @@ $_documentContainer.innerHTML = `<dom-module id="d2l-outcomes-loa-override-butto
 	<d2l-tooltip id="tooltip[[index]]" hidden$="[[!_textOverflowing]]" position$="[[tooltipPosition]]" boundary="{&quot;left&quot;: 0, &quot;right&quot;:0}" aria-hidden="">[[text]]</d2l-tooltip>
 
 	<div class="d2l-outcomes-loa-override-button-container">
-		<d2l-button-subtle aria-hidden="true" on-focusin="_handleVisibleFeedbackFocusin" on-focusout="_handleVisibleFeedbackFocusout" id="addFeedback[[_getRowIndex(criterionNum)]]" tabindex="-1" hidden="[[!_showAddFeedback(criterion, criterionResultMap, criterionNum, _addingFeedback, _savingFeedback.*, _feedbackInvalid.*)]]" text="[[localize('addFeedback')]]" on-click=""></d2l-button-subtle>
+		<d2l-button-subtle text="[[_getButtonText()]]" icon="[[_getButtonIcon()]]" aria-hidden="true" id="overrideButton" tabindex="-1" hidden="[[hidden]]" on-click="_handleSelected"></d2l-button-subtle>
 	</template>
 </dom-module> `;
 
@@ -45,24 +45,64 @@ Polymer({
 			value: function () { return {}; }
 		},
 
-		textLangterm: {
-			type: String,
-			reflectToAttribute: true,
-		},
-
-		shortText: {
-			type: String,
-			reflectToAttribute: true
-		},
-
 		tooltipPosition: {
 			type: String,
 			value: 'bottom',
 			reflectToAttribute: true
 		},
 	},
+	listeners: {
+		'keydown': '_onKeyDown',
+		'tap': '_handleTap'
+	},
 
 	//TODO: define event behavior and other methods
+	ready: function () {
+		afterNextRender(this, /* @this */ function () {
+			this._measureSize = this._measureSize.bind(this);
+			this._handleDomChanges = this._handleDomChanges.bind(this);
+
+			window.addEventListener('resize', this._measureSize);
+			this._slotObserver = dom(this).observeNodes(this._handleDomChanges);
+
+			this._measureSize();
+			this._updateColor(this.color);
+		});
+	},
+
+	_keyCodes: {
+		ENTER: 13,
+		SPACE: 32
+	},
+
+	_onKeyDown: function (event) {
+		if (this.hidden) {
+			return;
+		}
+
+		if (event.keyCode === this._keyCodes.ENTER || event.keyCode === this._keyCodes.SPACE) {
+			//TODO: handle button toggle similar to handling clicks
+
+		}
+	},
+
+	_handleTap: function (event) {
+		if (this.disabled) {
+			return;
+		}
+
+		this._dispatchItemSelectedEvent(true, true);
+		this.selected = true;
+		event.preventDefault();
+	},
+
+	_handleSelected: function (newVal, oldVal) {
+		if (newVal === false && newVal === oldVal) {
+			return;
+		}
+
+		this._dispatchItemSelectedEvent(false, newVal);
+	},
 
 	_getHidden: function (hidden) {
 		return hidden;
@@ -72,8 +112,22 @@ Polymer({
 		return overrideActive;
 	},
 
-	_getText: function (overrideActive) {
+	_getButtonText: function () {
+		if (this.overrideActive) {
+			return this.localize('clearManualOverride')
+		}
+		else {
+			return this.localize('manuallyOverride')
+		}
+	}
 
+	_getButtonIcon: function () {
+		if (this.overrideActive) {
+			return "tier1:cancel";
+		}
+		else {
+			return "tier1:edit";
+		}
 	}
 
 });
