@@ -20,13 +20,12 @@ const $_documentContainer = document.createElement('template');
 $_documentContainer.innerHTML = `<dom-module id="d2l-outcomes-loa-override-button">
 <template strip-whitespace="">	
 	<style>
+		[hidden] {
+			display: none !important;
+		}
 	</style>
-
-	<d2l-tooltip id="tooltip[[index]]" hidden$="[[!_textOverflowing]]" position$="[[tooltipPosition]]" boundary="{&quot;left&quot;: 0, &quot;right&quot;:0}" aria-hidden="">[[text]]</d2l-tooltip>
-
-	<div class="d2l-outcomes-loa-override-button-container">
-		<d2l-button-subtle text="[[_getButtonText()]]" icon="[[_getButtonIcon()]]" aria-hidden="true" id="overrideButton" tabindex="-1" hidden="[[hidden]]" on-click="_handleClick"></d2l-button-subtle>
-	</template>
+	<d2l-button-subtle text="[[buttonText]]" icon="[[buttonIcon]]" aria-hidden="true" id="overrideButton" tabindex="-1" hidden="[[hidden]]" on-click="_handleClick"></d2l-button-subtle>
+</template>
 </dom-module> `;
 
 document.head.appendChild($_documentContainer.content);
@@ -36,6 +35,16 @@ Polymer({
 
 	properties: {
 
+		buttonText: {
+			type: String,
+			value: 'Manually override'
+		},
+
+		buttonIcon: {
+			type: String,
+			value: 'tier1:edit'
+		},
+
 		hidden: {
 			type: Boolean,
 			value: false
@@ -43,7 +52,9 @@ Polymer({
 
 		overrideActive: {
 			type: Boolean,
-			value: false
+			value: false,
+			reflectToAttribute: true,
+			observer: '_onOverrideToggled'
 		},
 
 		index: {
@@ -75,21 +86,17 @@ Polymer({
 	//TODO: define event behavior and other methods
 	ready: function () {
 		afterNextRender(this, /* @this */ function () {
-			/*this._measureSize = this._measureSize.bind(this);
-			this._handleDomChanges = this._handleDomChanges.bind(this);
-
-			window.addEventListener('resize', this._measureSize);
-			this._slotObserver = dom(this).observeNodes(this._handleDomChanges);
-
-			this._measureSize();
-			this._updateColor(this.color);
-			*/
 		});
 	},
 
 	_keyCodes: {
 		ENTER: 13,
 		SPACE: 32
+	},
+
+	_onOverrideToggled: function () {
+		this.buttonIcon = this._getButtonIcon(this.overrideActive);
+		this.buttonText = this._getButtonText(this.overrideActive);
 	},
 
 	_onKeyDown: function (event) {
@@ -112,7 +119,9 @@ Polymer({
 	},
 
 	_handleClick: function () {
-
+		if (this.hidden) {
+			return;
+		}
 		this._dispatchItemToggledEvent();
 	},
 
@@ -124,18 +133,18 @@ Polymer({
 		return overrideActive;
 	},
 
-	_getButtonText: function () {
-		if (this.overrideActive) {
-			return this.localize('clearManualOverride')
+	_getButtonText: function (overrideActive) {
+		if (overrideActive) {
+			return this.localize('clearManualOverride');
 		}
 		else {
-			return this.localize('manuallyOverride')
+			return this.localize('manuallyOverride');
 		}
 	},
 
-	_getButtonIcon: function () {
-		if (this.overrideActive) {
-			return "tier1:cancel";
+	_getButtonIcon: function (overrideActive) {
+		if (overrideActive) {
+			return "tier1:close-default";
 		}
 		else {
 			return "tier1:edit";
@@ -144,8 +153,12 @@ Polymer({
 
 	_dispatchItemToggledEvent: function () {
 		var eventName = this.overrideActive ? 'd2l-loa-manual-override-disabled' : 'd2l-loa-manual-override-enabled';
+
 		this.dispatchEvent(new CustomEvent(eventName, {
 			bubbles: true
 		}));
+
+		this.overrideActive = !this.overrideActive;
+
 	}
 });

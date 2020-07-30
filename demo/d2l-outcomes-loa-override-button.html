@@ -57,13 +57,13 @@ $_documentContainer.innerHTML = `<div class="vertical-section-container centered
 		<h1>d2l-outcomes-loa-override-button</h1>
 		<h3>Default to no override:</h3>
 		<demo-snippet>
-			<d2l-outcomes-loa-override-button tooltip-position="top" selected-index="0">
+			<d2l-outcomes-loa-override-button overrideActive="false" tooltip-position="top" selected-index="0">
 			</d2l-outcomes-loa-override-button>
 		</demo-snippet>
 
 		<h3>Default to override:</h3>
 		<demo-snippet>
-			<d2l-outcomes-loa-override-button override-active="true" selected-index="1">
+			<d2l-outcomes-loa-override-button override-active="true" tooltip-position="top" selected-index="1">
 			</d2l-outcomes-loa-override-button>
 		</demo-snippet>
 
@@ -71,7 +71,7 @@ $_documentContainer.innerHTML = `<div class="vertical-section-container centered
 		<demo-snippet>
 			<d2l-outcomes-loa-override-button display="none" selected-index="1">
 			</d2l-outcomes-loa-override-button>
-			<p style="line-height:0;font-family:arial;font-size:16px;font-style:normal;">(The button should not be visible)</p>
+			<body>(The button should not be visible)</body>
 		</demo-snippet>
 	</div>`;
 
