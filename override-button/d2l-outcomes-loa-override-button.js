@@ -1,6 +1,5 @@
 import '@polymer/polymer/polymer-legacy.js';
 import '@brightspace-ui/core/components/tooltip/tooltip.js';
-import 'd2l-colors/d2l-colors.js';
 import 'd2l-polymer-behaviors/d2l-dom.js';
 import 'd2l-typography/d2l-typography-shared-styles.js';
 import '@brightspace-ui/core/components/button/button-subtle.js';
@@ -72,4 +71,9 @@ Polymer({
 	_getOverrideActive: function (overrideActive) {
 		return overrideActive;
 	},
+
+	_getText: function (overrideActive) {
+
+	}
+
 });
