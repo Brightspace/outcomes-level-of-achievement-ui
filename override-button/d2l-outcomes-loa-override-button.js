@@ -20,11 +20,12 @@ const $_documentContainer = document.createElement('template');
 $_documentContainer.innerHTML = `<dom-module id="d2l-outcomes-loa-override-button">
 <template strip-whitespace="">	
 	<style>
+		
 		[hidden] {
 			display: none !important;
 		}
 	</style>
-	<d2l-button-subtle text="[[buttonText]]" icon="[[buttonIcon]]" aria-hidden="true" id="overrideButton" tabindex="-1" hidden="[[hidden]]" on-click="_handleClick"></d2l-button-subtle>
+	<d2l-button-subtle display="" text="[[buttonText]]" icon="[[buttonIcon]]" aria-hidden="true" id="overrideButton" tabindex="-1" hidden="[[hidden]]" on-click="_handleClick"></d2l-button-subtle>
 </template>
 </dom-module> `;
 
@@ -47,7 +48,8 @@ Polymer({
 
 		hidden: {
 			type: Boolean,
-			value: false
+			value: false,
+			reflectToAttribute: true
 		},
 
 		overrideActive: {
