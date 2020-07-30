@@ -16,7 +16,7 @@ $_documentContainer.innerHTML = `<dom-module id="d2l-outcomes-loa-override-butto
 	<d2l-tooltip id="tooltip[[index]]" hidden$="[[!_textOverflowing]]" position$="[[tooltipPosition]]" boundary="{&quot;left&quot;: 0, &quot;right&quot;:0}" aria-hidden="">[[text]]</d2l-tooltip>
 
 	<div class="d2l-outcomes-loa-override-button-container">
-		<d2l-button-subtle text="[[_getButtonText()]]" icon="[[_getButtonIcon()]]" aria-hidden="true" id="overrideButton" tabindex="-1" hidden="[[hidden]]" on-click="_handleSelected"></d2l-button-subtle>
+		<d2l-button-subtle text="[[_getButtonText()]]" icon="[[_getButtonIcon()]]" aria-hidden="true" id="overrideButton" tabindex="-1" hidden="[[hidden]]" on-click="_handleClick"></d2l-button-subtle>
 	</template>
 </dom-module> `;
 
@@ -26,14 +26,16 @@ Polymer({
 	is: 'd2l-outcomes-loa-override-button',
 
 	properties: {
-		selected: {
+
+		hidden: {
 			type: Boolean,
-			reflectToAttribute: true,
-			observer: '_handleSelected'
+			value: false
 		},
 
-		hidden: Boolean,
-		overrideActive: Boolean,
+		overrideActive: {
+			type: Boolean,
+			value: false
+		},
 
 		index: {
 			type: Number,
@@ -81,27 +83,22 @@ Polymer({
 		}
 
 		if (event.keyCode === this._keyCodes.ENTER || event.keyCode === this._keyCodes.SPACE) {
-			//TODO: handle button toggle similar to handling clicks
-
+			this._dispatchItemToggledEvent();
 		}
 	},
 
 	_handleTap: function (event) {
-		if (this.disabled) {
+		if (this.hidden) {
 			return;
 		}
 
-		this._dispatchItemSelectedEvent(true, true);
-		this.selected = true;
+		this._dispatchItemToggledEvent();
 		event.preventDefault();
 	},
 
-	_handleSelected: function (newVal, oldVal) {
-		if (newVal === false && newVal === oldVal) {
-			return;
-		}
+	_handleClick: function () {
 
-		this._dispatchItemSelectedEvent(false, newVal);
+		this._dispatchItemToggledEvent();
 	},
 
 	_getHidden: function (hidden) {
@@ -119,7 +116,7 @@ Polymer({
 		else {
 			return this.localize('manuallyOverride')
 		}
-	}
+	},
 
 	_getButtonIcon: function () {
 		if (this.overrideActive) {
@@ -128,6 +125,12 @@ Polymer({
 		else {
 			return "tier1:edit";
 		}
-	}
+	},
 
+	_dispatchItemToggledEvent: function () {
+		var eventName = this.overrideActive ? 'd2l-loa-manual-override-disabled' : 'd2l-loa-manual-override-enabled';
+		this.dispatchEvent(new CustomEvent(eventName, {
+			bubbles: true
+		}));
+	}
 });
