@@ -1,3 +1,11 @@
+/**
+`d2l-outcomes-loa-override-button`
+Polymer Web-Component for a button that lets the user manually override
+calculated values for a user's overall outcome achievement level
+
+@demo demo/d2l-outcomes-loa-override-button.html
+*/
+
 import '@polymer/polymer/polymer-legacy.js';
 import '@brightspace-ui/core/components/tooltip/tooltip.js';
 import 'd2l-polymer-behaviors/d2l-dom.js';
