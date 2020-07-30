@@ -1,3 +1,8 @@
 {
+    "calculatedLevel": "{calcMethod}: {calcValue}",
+    "calculationMethod": "Calculation method: {calcMethod}",
+    "clearManualOverride": "Clear Manual Override",
+    "manuallyOverride": "Manually Override",
+    "selectOverallAchievement": "Select Overall Achievement",
     "suggestedLevel": "Sugestão: {level}"
 }

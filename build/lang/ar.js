@@ -10,6 +10,11 @@ window.D2L.PolymerBehaviors.OutcomesLOA.LocalizeBehavior = window.D2L.PolymerBeh
  */
 D2L.PolymerBehaviors.OutcomesLOA.LocalizeBehavior.LangArBehavior = {
 	ar: {
+		'calculatedLevel': '{calcMethod}: {calcValue}',
+		'calculationMethod': 'Calculation method: {calcMethod}',
+		'clearManualOverride': 'Clear Manual Override',
+		'manuallyOverride': 'Manually Override',
+		'selectOverallAchievement': 'Select Overall Achievement',
 		'suggestedLevel': 'المُقترح: {level}'
 	}
 };
