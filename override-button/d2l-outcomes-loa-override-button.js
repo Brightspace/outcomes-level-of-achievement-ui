@@ -8,9 +8,11 @@ calculated values for a user's overall outcome achievement level
 
 import '@polymer/polymer/polymer-legacy.js';
 import '../localize-behavior.js';
-import '@brightspace-ui/core/components/tooltip/tooltip.js';
 import 'd2l-polymer-behaviors/d2l-dom.js';
 import 'd2l-typography/d2l-typography-shared-styles.js';
+import 'd2l-colors/d2l-colors.js';
+import '@brightspace-ui/core/components/tooltip/tooltip.js';
+import '@brightspace-ui/core/components/icons/icon.js';
 import '@brightspace-ui/core/components/button/button-subtle.js';
 import { Polymer } from '@polymer/polymer/lib/legacy/polymer-fn.js';
 import { afterNextRender } from '@polymer/polymer/lib/utils/render-status.js';
@@ -20,12 +22,10 @@ const $_documentContainer = document.createElement('template');
 $_documentContainer.innerHTML = `<dom-module id="d2l-outcomes-loa-override-button">
 <template strip-whitespace="">	
 	<style>
-		
-		[hidden] {
-			display: none !important;
-		}
 	</style>
-	<d2l-button-subtle display="" text="[[buttonText]]" icon="[[buttonIcon]]" aria-hidden="true" id="overrideButton" tabindex="-1" hidden="[[hidden]]" on-click="_handleClick"></d2l-button-subtle>
+	<d2l-button-subtle id="overrideButton" aria-hidden="true" tabindex="-1" hidden="[[hidden]]" on-click="_handleClick">
+	<p style="line-spacing: 0; color: var(--d2l-color-celestine);"><d2l-icon icon="[[buttonIcon]]"></d2l-icon>[[buttonText]]</body>
+	</d2l-button-subtle>
 </template>
 </dom-module> `;
 
