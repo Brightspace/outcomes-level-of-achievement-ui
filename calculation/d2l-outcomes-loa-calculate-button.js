@@ -48,12 +48,12 @@ Polymer({
 			type: Boolean,
 			value: false,
 			reflectToAttribute: true,
-			observer: '_handleUpdateNeedChange'
+			observer: '_handleUpdateNeedChanged'
 		},
 
 		hidden: {
 			type: Boolean,
-			value: false,
+			value: true,
 			reflectToAttribute: true
 		},
 
@@ -116,8 +116,8 @@ Polymer({
 		this.updateNeeded = false;
 	},
 
-	_handleUpdateNeedChange: function () {
-		this.hidden = !this.updateNeeded;
+	_handleUpdateNeedChanged: function () {
+		this.hidden = !(this.updateNeeded);
 	},
 
 	_getButtonText: function () {
