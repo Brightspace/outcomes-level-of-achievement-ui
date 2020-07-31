@@ -23,8 +23,7 @@ $_documentContainer.innerHTML = `<dom-module id="d2l-outcomes-loa-override-butto
 <template strip-whitespace="">	
 	<style>
 	</style>
-	<d2l-button-subtle id="overrideButton" aria-hidden="true" tabindex="-1" hidden="[[hidden]]" on-click="_handleClick">
-	<p style="line-spacing: 0; color: var(--d2l-color-celestine);"><d2l-icon icon="[[buttonIcon]]"></d2l-icon>[[buttonText]]</body>
+	<d2l-button-subtle text="[[buttonText]]" icon="[[buttonIcon]]" id="overrideButton" aria-hidden="true" tabindex="-1" hidden="[[hidden]]">
 	</d2l-button-subtle>
 </template>
 </dom-module> `;
@@ -108,6 +107,7 @@ Polymer({
 
 		if (event.keyCode === this._keyCodes.ENTER || event.keyCode === this._keyCodes.SPACE) {
 			this._dispatchItemToggledEvent();
+			event.preventDefault();
 		}
 	},
 
@@ -118,13 +118,6 @@ Polymer({
 
 		this._dispatchItemToggledEvent();
 		event.preventDefault();
-	},
-
-	_handleClick: function () {
-		if (this.hidden) {
-			return;
-		}
-		this._dispatchItemToggledEvent();
 	},
 
 	_getHidden: function (hidden) {
