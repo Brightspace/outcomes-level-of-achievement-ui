@@ -1,4 +1,4 @@
-<!doctype html>
+﻿<!doctype html>
 
 <html lang="en">
 <head>
@@ -58,21 +58,21 @@ $_documentContainer.innerHTML = `<div class="vertical-section-container centered
 
 		<h3>Default to no override:</h3>
 		<div class="override-button-default-inactive">
-			<d2l-outcomes-loa-override-button overrideActive="false" tooltip-position="top" selected-index="0">
+			<d2l-outcomes-loa-override-button overrideActive="false" tooltip-position="top" tabindex="1">
 			</d2l-outcomes-loa-override-button>
 		</div>
 
 		<h3>Default to override:</h3>
 		<div class="override-button-default-active">
-			<d2l-outcomes-loa-override-button override-active="true" tooltip-position="top" selected-index="1">
+			<d2l-outcomes-loa-override-button override-active="true" tooltip-position="top" tabindex="0">
 			</d2l-outcomes-loa-override-button>
 		</div>
 
 		<h3>Hidden:</h3>
 		<div class="override-button-hidden">
-			<p style="font: 16px; line-spacing=0;">(The button should not be visible or clickable)</p>
-			<d2l-outcomes-loa-override-button hidden="true" selected-index="1">
+			<d2l-outcomes-loa-override-button hidden="true" tabindex="2">
 			</d2l-outcomes-loa-override-button>
+			<p style="font: 16px; line-spacing=0;">(The button should not be visible, clickable or selectable.)</p>
 		</div>
 	</div>`;
 
