@@ -22,7 +22,7 @@ $_documentContainer.innerHTML = `<dom-module id="d2l-outcomes-loa-calculate-butt
 <template strip-whitespace="">	
 	<style>
 	</style>
-	<d2l-button-icon id="calculateButton" text="test" icon="tier1:calculate" aria-hidden="true" tabindex="-1" hidden="[[hidden]]">
+	<d2l-button-icon id="calculateButton" text="[[buttonText]]" icon="[[buttonIcon]]" aria-hidden="true" tabindex="-1" hidden="[[hidden]]">
 	</d2l-button-icon>
 </template>
 </dom-module> `;
@@ -42,6 +42,13 @@ Polymer({
 		buttonText: {
 			type: String,
 			value: 'Recalculate Overall Achievement'
+		},
+
+		updateNeeded: {
+			type: Boolean,
+			value: false,
+			reflectToAttribute: true,
+			observer: '_handleUpdateNeedChange'
 		},
 
 		hidden: {
@@ -74,7 +81,7 @@ Polymer({
 	//TODO: define event behavior and other methods
 	ready: function () {
 		afterNextRender(this, /* @this */ function () {
-			//this.buttonText = this._getButtonText();
+			this.buttonText = this._getButtonText();
 		});
 	},
 
@@ -103,9 +110,14 @@ Polymer({
 		event.preventDefault();
 	},
 
-	//Invoked when the button is clicked, tapped, or selected with the keyboard
+	//Invoked when the button is clicked, tapped, or keyboard-activated
 	_handleSelected: function () {
-		
+		//TODO: incorporate calculations and events
+		this.updateNeeded = false;
+	},
+
+	_handleUpdateNeedChange: function () {
+		this.hidden = !this.updateNeeded;
 	},
 
 	_getButtonText: function () {

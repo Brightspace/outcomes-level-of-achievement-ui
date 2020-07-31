@@ -25,7 +25,7 @@ D2L.PolymerBehaviors.OutcomesLOA.LocalizeBehavior.LangFrBehavior = {
 		'calculationMethod': 'Calculation method: {calcMethod}',
 		'clearManualOverride': 'Clear Manual Override',
 		'manuallyOverride': 'Manually Override',
-		'realculateOverallAchievement': 'Recalculate Overall Achievement',
+		'recalculateOverallAchievement': 'Recalculate Overall Achievement',
 		'selectOverallAchievement': 'Select Overall Achievement',
 		'suggestedLevel': 'Suggéré : {level}'
 	}
