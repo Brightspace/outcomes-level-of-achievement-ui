@@ -21,10 +21,11 @@ D2L.PolymerBehaviors.OutcomesLOA.LocalizeBehavior.LangKoBehavior = {
 		'calcHelpMultipleCommonLevelsBody': '{policy}',
 		'calcHelpMultipleCommonLevelsLabel': 'when there are multiple most common achievement levels, use the:',
 		'calcHelpTitle': 'Calculation Method Details',
-		'calcLevel': '{calcMethod}: {calcValue}',
-		'calcMethod': 'Calculation method: {calcMethod}',
+		'calculatedLevelValue': '{calcMethod}: {calcValue}',
+		'calculationMethod': 'Calculation method: {calcMethod}',
 		'clearManualOverride': 'Clear Manual Override',
 		'manuallyOverride': 'Manually Override',
+		'realculateOverallAchievement': 'Recalculate Overall Achievement',
 		'selectOverallAchievement': 'Select Overall Achievement',
 		'suggestedLevel': '제안됨: {level}'
 	}
