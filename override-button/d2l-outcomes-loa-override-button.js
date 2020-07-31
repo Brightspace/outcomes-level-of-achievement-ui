@@ -106,7 +106,7 @@ Polymer({
 		}
 
 		if (event.keyCode === this._keyCodes.ENTER || event.keyCode === this._keyCodes.SPACE) {
-			this._dispatchItemToggledEvent();
+			this._toggleOverrideState();
 			event.preventDefault();
 		}
 	},
@@ -116,8 +116,13 @@ Polymer({
 			return;
 		}
 
-		this._dispatchItemToggledEvent();
+		this._toggleOverrideState();
 		event.preventDefault();
+	},
+
+	_toggleOverrideState: function () {
+		this.overrideActive = !this.overrideActive;
+		this._dispatchItemToggledEvent(this.overrideActive);
 	},
 
 	_getHidden: function (hidden) {
@@ -146,14 +151,11 @@ Polymer({
 		}
 	},
 
-	_dispatchItemToggledEvent: function () {
-		var eventName = this.overrideActive ? 'd2l-loa-manual-override-disabled' : 'd2l-loa-manual-override-enabled';
+	_dispatchItemToggledEvent: function (newOverrideState) {
+		var eventName = newOverrideState ? 'd2l-loa-manual-override-enabled' : 'd2l-loa-manual-override-disabled';
 
 		this.dispatchEvent(new CustomEvent(eventName, {
 			bubbles: true
 		}));
-
-		this.overrideActive = !this.overrideActive;
-
 	}
 });
