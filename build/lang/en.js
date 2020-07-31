@@ -22,6 +22,7 @@ D2L.PolymerBehaviors.OutcomesLOA.LocalizeBehavior.LangEnBehavior = {
 		'calcHelpMultipleCommonLevelsLabel': 'when there are multiple most common achievement levels, use the:',
 		'calcHelpTitle': 'Calculation Method Details',
 		'calculationMethod': 'Calculation method: {calcMethod}',
+		'calculationMethodDetails': 'Calculation Method Details',
 		'calculatedLevelValue': '{calcMethod}: {calcValue}',
 		'clearManualOverride': 'Clear Manual Override',
 		'manuallyOverride': 'Manually Override',
