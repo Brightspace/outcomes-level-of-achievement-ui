@@ -22,7 +22,7 @@ $_documentContainer.innerHTML = `<dom-module id="d2l-outcomes-loa-calculate-butt
 <template strip-whitespace="">	
 	<style>
 	</style>
-	<d2l-button-icon icon="[[buttonIcon]]" id="calculateButton" aria-hidden="true" tabindex="-1" hidden="[[hidden]]">
+	<d2l-button-icon id="calculateButton" text="test" icon="tier1:calculate" aria-hidden="true" tabindex="-1" hidden="[[hidden]]">
 	</d2l-button-icon>
 </template>
 </dom-module> `;
@@ -30,7 +30,7 @@ $_documentContainer.innerHTML = `<dom-module id="d2l-outcomes-loa-calculate-butt
 document.head.appendChild($_documentContainer.content);
 
 Polymer({
-	is: 'd2l-outcomes-loa-override-button',
+	is: 'd2l-outcomes-loa-calculate-button',
 
 	properties: {
 
@@ -39,14 +39,14 @@ Polymer({
 			value: 'tier1:calculate'
 		},
 
+		buttonText: {
+			type: String,
+			value: 'Recalculate Overall Achievement'
+		},
+
 		hidden: {
 			type: Boolean,
 			value: false,
-			reflectToAttribute: true
-		},
-
-		index: {
-			type: Number,
 			reflectToAttribute: true
 		},
 
@@ -74,6 +74,7 @@ Polymer({
 	//TODO: define event behavior and other methods
 	ready: function () {
 		afterNextRender(this, /* @this */ function () {
+			//this.buttonText = this._getButtonText();
 		});
 	},
 
@@ -107,11 +108,15 @@ Polymer({
 		
 	},
 
-	_dispatchItemToggledEvent: function (newOverrideState) {
-		var eventName = newOverrideState ? 'd2l-loa-manual-override-enabled' : 'd2l-loa-manual-override-disabled';
+	_getButtonText: function () {
+		return this.localize('recalculateOverallAchievement');
+	},
+
+	_dispatchItemToggledEvent: function () {
+		/*var eventName = newOverrideState ? 'd2l-loa-manual-override-enabled' : 'd2l-loa-manual-override-disabled';
 
 		this.dispatchEvent(new CustomEvent(eventName, {
 			bubbles: true
-		}));
+		}));*/
 	}
 });

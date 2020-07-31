@@ -54,20 +54,22 @@ document.body.appendChild($_documentContainer.content);</script>
 	<script type="module">const $_documentContainer = document.createElement('template');
 
 $_documentContainer.innerHTML = `<div class="vertical-section-container centered">
-		<h1>d2l-outcomes-loa-override-button</h1>
+		<h1>d2l-outcomes-loa-calculate-button</h1>
 
 		<h3>Visible:</h3>
 		<div class="calculate-button-visible">
-			<d2l-outcomes-loa-calculate-button tooltip-position="top" selected-index="0">
+			<d2l-outcomes-loa-calculate-button tooltip-position="top" tabindex="0">
 			</d2l-outcomes-loa-calculate-button>
 		</div>
 
 		<h3>Hidden:</h3>
 		<div class="calculate-button-hidden">
-			<p style="font: 16px; line-spacing=0;">(The button should not be visible or clickable)</p>
-			<d2l-outcomes-loa-calculate-button hidden="true" selected-index="1">
+			<p style="font: 16px; line-spacing=0;">(The button should not be visible, clickable or selectable.)</p>
+			<d2l-outcomes-loa-calculate-button hidden="true" tabindex="0">
 			</d2l-outcomes-loa-calculate-button>
 		</div>
+
+		<!--TODO: add some calculation demos with false API data-->
 	</div>`;
 
 document.body.appendChild($_documentContainer.content);</script>
