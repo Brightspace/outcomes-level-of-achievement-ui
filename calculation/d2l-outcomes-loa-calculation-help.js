@@ -20,7 +20,7 @@ import { afterNextRender } from '@polymer/polymer/lib/utils/render-status.js';
 import { dom } from '@polymer/polymer/lib/legacy/polymer.dom.js';
 const $_documentContainer = document.createElement('template');
 
-$_documentContainer.innerHTML = `<dom-module id="d2l-outcomes-loa-calculation-help-button">
+$_documentContainer.innerHTML = `<dom-module id="d2l-outcomes-loa-calculation-help">
 <template strip-whitespace="" id="button-template">	
 	<d2l-button-icon id="help-button" text="[[_getHelpButtonText()]]" icon="[[buttonIcon]]" aria-hidden="true" tabindex="-1" hidden="[[buttonHidden]]">
 	</d2l-button-icon>
@@ -60,7 +60,7 @@ document.head.appendChild($_documentContainer.content);
 
 
 Polymer({
-	is: 'd2l-outcomes-loa-calculation-help-button',
+	is: 'd2l-outcomes-loa-calculation-help',
 
 	properties: {
 

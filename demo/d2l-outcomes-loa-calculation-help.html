@@ -20,7 +20,7 @@
 
 	<script type="module" src="../../@polymer/iron-demo-helpers/demo-pages-shared-styles.js"></script>
 	<script type="module" src="../../@polymer/iron-demo-helpers/demo-snippet.js"></script>
-	<script type="module" src="../calculation/d2l-outcomes-loa-calculation-help-button.js"></script>
+	<script type="module" src="../calculation/d2l-outcomes-loa-calculation-help.js"></script>
 
 	<script type="module" src="../../d2l-typography/d2l-typography.js"></script>
 	<!-- FIXME(polymer-modulizer):
@@ -55,26 +55,26 @@ document.body.appendChild($_documentContainer.content);</script>
 	<script type="module">const $_documentContainer = document.createElement('template');
 
 $_documentContainer.innerHTML = `<div class="vertical-section-container centered">
-		<h1>d2l-outcomes-loa-calculation-help-button</h1>
+		<h1>d2l-outcomes-loa-calculation-help</h1>
 
 		<h3>Decaying Average:</h3>
-		<div class="help-button-decaying-average">
-			<d2l-outcomes-loa-calculation-help-button calculation-method="Decaying Average" tabindex="0"></d2l-outcomes-loa-calculation-help-button>
+		<div class="help-decaying-average">
+			<d2l-outcomes-loa-calculation-help calculation-method="Decaying Average" tabindex="0"></d2l-outcomes-loa-calculation-help>
 		</div>
 
 		<h3>Most Common:</h3>
-		<div class="help-button-most-common">
-			<d2l-outcomes-loa-calculation-help-button calculation-method="Most Common" tabindex="0"></d2l-outcomes-loa-calculation-help-button>
+		<div class="help-most-common">
+			<d2l-outcomes-loa-calculation-help calculation-method="Most Common" tabindex="0"></d2l-outcomes-loa-calculation-help>
 		</div>
 
 		<h3>Highest:</h3>
-		<div class="help-button-highest">
-			<d2l-outcomes-loa-calculation-help-button calculation-method="Highest" tabindex="0"></d2l-outcomes-loa-calculation-help-button>
+		<div class="help-highest">
+			<d2l-outcomes-loa-calculation-help calculation-method="Highest" tabindex="0"></d2l-outcomes-loa-calculation-help>
 		</div>
 
 		<h3>Other or no calculation method:</h3>
-		<div class="calculate-button-hidden">
-			<d2l-outcomes-loa-calculation-help-button calculation-method="" tabindex="0"></d2l-outcomes-loa-calculation-help-button>
+		<div class="help-button-hidden">
+			<d2l-outcomes-loa-calculation-help calculation-method="" tabindex="0"></d2l-outcomes-loa-calculation-help>
 			<p style="font: 14px; line-spacing=0;">(No button should be visible, clickable or selectable.)</p>
 		</div>
 
