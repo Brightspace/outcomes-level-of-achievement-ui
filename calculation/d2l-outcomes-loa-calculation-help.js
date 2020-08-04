@@ -139,18 +139,19 @@ Polymer({
 	},
 
 	_onKeyDown: function (event) {
-		if (this.hidden) {
+		if (this.buttonHidden) {
 			return;
 		}
 
+		console.log("input logged");
+
 		if (event.keyCode === this._keyCodes.ENTER || event.keyCode === this._keyCodes.SPACE) {
 			this._handleSelected();
-			event.preventDefault();
 		}
 	},
 
 	_handleTap: function (event) {
-		if (this.hidden) {
+		if (this.buttonHidden) {
 			return;
 		}
 
@@ -161,7 +162,9 @@ Polymer({
 	//Invoked when the button is clicked, tapped, or keyboard-activated
 	_handleSelected: function () {
 		var helpDialog = this.shadowRoot.getElementById('help-dialog');
-		helpDialog.opened = true;
+		if (!helpDialog.opened) {
+			helpDialog.opened = true;
+		}
 	},
 
 	//TODO: replace this property observer with an event that changes the calc method and uses parameters to build a help menu with received data
