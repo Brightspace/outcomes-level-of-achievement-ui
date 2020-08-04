@@ -22,13 +22,34 @@ const $_documentContainer = document.createElement('template');
 
 $_documentContainer.innerHTML = `<dom-module id="d2l-outcomes-loa-calculation-help-button">
 <template strip-whitespace="" id="button-template">	
-	<style>
-	</style>
-	<d2l-button-icon id="help-button" text="[[buttonText]]" icon="[[buttonIcon]]" aria-hidden="true" tabindex="-1" hidden="[[hidden]]">
+	<d2l-button-icon id="help-button" text="[[_getHelpButtonText()]]" icon="[[buttonIcon]]" aria-hidden="true" tabindex="-1" hidden="[[hidden]]">
 	</d2l-button-icon>
 
-	<d2l-dialog id="help-dialog" title-text="Calculation Method Details">
-		<div>Some dialog content</div>
+	<d2l-dialog id="help-dialog" title-text="[[_getHelpMenuTitle()]]">
+		<style>
+			p {
+			    display: block;
+			    content: "";
+				font-size = 12px;
+				line-height: 30px;
+			}
+		</style>
+
+		<div id="help-method">
+			<p><b>[[_getHelpMethodLabel()]]</b><br>[[_getHelpMethodBody()]]</p>
+		</div>
+		<div id="help-decaying-rate">
+			<p><b>[[_getHelpDecayRateLabel()]]</b><br>[[_getHelpDecayRateBody()]]</p>
+		</div>
+		<div id="help-activities-used">
+			<p><b>[[_getHelpActivitiesLabel()]]</b><br>[[_getHelpActivitiesBody()]]</p>
+		</div>
+		<div id="help-multi-most-common-policy">
+			<p><b>[[_getHelpMultipleCommonLevelsLabel()]]</b><br>[[_getHelpMultipleCommonLevelsBody()]]</p>
+		</div>
+		<div id="help-multi-attempts-policy">
+			<p><b>[[_getHelpMultipleAttemptsLabel()]]</b><br>[[_getHelpMultipleAttemptsBody()]]</p>
+		</div>
 		<d2l-button slot="footer" primary data-dialog-action="done">OK</d2l-button>
 	</d2l-dialog>
 </template>
@@ -47,21 +68,11 @@ Polymer({
 			value: 'tier1:help'
 		},
 
-		buttonText: {
-			type: String,
-			value: 'Calculation Method Details'
-		},
-
 		calculationMethod: {
 			type: String,
 			value: '',
 			reflectToAttribute: true,
 			observer: '_handleCalcMethodChanged'
-		},
-
-		dialogIsOpen: {
-			type: Boolean,
-			value: false
 		},
 
 		hidden: {
@@ -94,7 +105,6 @@ Polymer({
 	//TODO: define event behavior and other methods
 	ready: function () {
 		afterNextRender(this, /* @this */ function () {
-			this.buttonText = this._getButtonText();
 		});
 	},
 
@@ -125,10 +135,8 @@ Polymer({
 
 	//Invoked when the button is clicked, tapped, or keyboard-activated
 	_handleSelected: function () {
-		//this.dialogIsOpen = true;
 		var elem = this.shadowRoot.getElementById('help-dialog');
 		elem.opened = true;
-		//TODO: handle dialog being closed
 	},
 
 	_onDialogClosed: function () {
@@ -149,10 +157,56 @@ Polymer({
 		}
 	},
 
-
-	_getButtonText: function () {
+	//Text localization
+	//Currently using placeholder arguments where applicable rather than properties or data
+	_getHelpButtonText: function () {
 		return this.localize('calculationMethodDetails');
 	},
+
+	_getHelpMenuTitle: function () {
+		return this.localize('calculationMethodDetails');
+	},
+
+	_getHelpMethodLabel: function () {
+		return this.localize('calcHelpMethodLabel');
+	},
+
+	_getHelpMethodBody: function () {
+		return this.localize('calcHelpMethodBody', 'calcMethod', this.calculationMethod);
+	},
+
+	_getHelpDecayRateLabel: function () {
+		return this.localize('calcHelpDecayRateLabel');
+	},
+
+	_getHelpDecayRateBody: function () {
+		return this.localize('calcHelpDecayRateBody', 'number', '75');
+	},
+
+	_getHelpActivitiesLabel: function () {
+		return this.localize('calcHelpActivitiesLabel');
+	},
+
+	_getHelpActivitiesBody: function () {
+		return this.localize('calcHelpActivitiesBody', 'calcActivities', 'All activities');
+	},
+
+	_getHelpMultipleCommonLevelsLabel: function () {
+		return this.localize('calcHelpMultipleCommonLevelsLabel');
+	},
+
+	_getHelpMultipleCommonLevelsBody: function () {
+		return this.localize('calcHelpMultipleCommonLevelsBody', 'policy', 'Highest level');
+	},
+
+	_getHelpMultipleAttemptsLabel: function () {
+		return this.localize('calcHelpMultipleAttemptsLabel');
+	},
+
+	_getHelpMultipleAttemptsBody: function () {
+		return this.localize('calcHelpMultipleAttemptsBody', 'policy', 'Highest attempt');
+	},
+
 
 	_dispatchItemToggledEvent: function () {
 		/*var eventName = newOverrideState ? 'd2l-loa-manual-override-enabled' : 'd2l-loa-manual-override-disabled';
