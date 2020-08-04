@@ -25,5 +25,18 @@ suite('<d2l-outcomes-loa-override-button>', function () {
 			expect(element.is).to.equal('d2l-outcomes-loa-override-button');
 		});
 
+		test('correct inactive text and icon', function () {
+			element.overrideActive = false;
+			expect(element.buttonText).to.equal("Manually Override");
+			expect(element.buttonIcon).to.equal("tier1:edit");
+			expect(element.hidden).to.equal(false);
+		});
+
+		test('correct active text and icon', function () {
+			element.overrideActive = true;
+			expect(element.buttonText).to.equal("Clear Manual Override");
+			expect(element.buttonIcon).to.equal("tier1:close-default");
+			expect(element.hidden).to.equal(false);
+		});
 	});
 });
