@@ -22,7 +22,7 @@ const $_documentContainer = document.createElement('template');
 
 $_documentContainer.innerHTML = `<dom-module id="d2l-outcomes-loa-calculation-help-button">
 <template strip-whitespace="" id="button-template">	
-	<d2l-button-icon id="help-button" text="[[_getHelpButtonText()]]" icon="[[buttonIcon]]" aria-hidden="true" tabindex="-1" hidden="[[hidden]]">
+	<d2l-button-icon id="help-button" text="[[_getHelpButtonText()]]" icon="[[buttonIcon]]" aria-hidden="true" tabindex="-1" hidden="[[buttonHidden]]">
 	</d2l-button-icon>
 
 	<d2l-dialog id="help-dialog" title-text="[[_getHelpMenuTitle()]]">
@@ -33,21 +33,22 @@ $_documentContainer.innerHTML = `<dom-module id="d2l-outcomes-loa-calculation-he
 				font-size = 12px;
 				line-height: 30px;
 			}
+			
 		</style>
 
 		<div id="help-method">
 			<p><b>[[_getHelpMethodLabel()]]</b><br>[[_getHelpMethodBody()]]</p>
 		</div>
-		<div id="help-decaying-rate">
+		<div id="help-decaying-rate" style$="display: {{helpDecayRateVisible}}">
 			<p><b>[[_getHelpDecayRateLabel()]]</b><br>[[_getHelpDecayRateBody()]]</p>
 		</div>
-		<div id="help-activities-used">
+		<div id="help-activities-used" style$="display: {{helpActivitiesVisible}}">
 			<p><b>[[_getHelpActivitiesLabel()]]</b><br>[[_getHelpActivitiesBody()]]</p>
 		</div>
-		<div id="help-multi-most-common-policy">
+		<div id="help-multi-most-common-policy" style$="display: {{helpMultipleCommonLevelsVisible}}">
 			<p><b>[[_getHelpMultipleCommonLevelsLabel()]]</b><br>[[_getHelpMultipleCommonLevelsBody()]]</p>
 		</div>
-		<div id="help-multi-attempts-policy">
+		<div id="help-multi-attempts-policy" style$="display: {{helpMultipleAttemptsVisible}}">
 			<p><b>[[_getHelpMultipleAttemptsLabel()]]</b><br>[[_getHelpMultipleAttemptsBody()]]</p>
 		</div>
 		<d2l-button slot="footer" primary data-dialog-action="done">OK</d2l-button>
@@ -68,6 +69,17 @@ Polymer({
 			value: 'tier1:help'
 		},
 
+		buttonHidden: {
+			type: Boolean,
+			value: true,
+			reflectToAttribute: true
+		},
+
+		buttonData: {
+			type: Object,
+			value: function () { return {}; }
+		},
+
 		calculationMethod: {
 			type: String,
 			value: '',
@@ -75,15 +87,28 @@ Polymer({
 			observer: '_handleCalcMethodChanged'
 		},
 
-		hidden: {
-			type: Boolean,
-			value: false,
-			reflectToAttribute: true
+		helpDecayRateDisplay: {
+			type: String,
+			value: 'Block',
+			reflectToAttrubite: true
 		},
 
-		buttonData: {
-			type: Object,
-			value: function () { return {}; }
+		helpActivitiesDisplay: {
+			type: String,
+			value: 'Block',
+			reflectToAttrubite: true
+		},
+
+		helpMultipleCommonLevelsDisplay: {
+			type: String,
+			value: 'Block',
+			reflectToAttrubite: true
+		},
+
+		helpMultipleAttemptsDisplay: {
+			type: String,
+			value: 'Block',
+			reflectToAttrubite: true
 		},
 
 		tooltipPosition: {
@@ -135,26 +160,50 @@ Polymer({
 
 	//Invoked when the button is clicked, tapped, or keyboard-activated
 	_handleSelected: function () {
-		var elem = this.shadowRoot.getElementById('help-dialog');
-		elem.opened = true;
+		var helpDialog = this.shadowRoot.getElementById('help-dialog');
+		helpDialog.opened = true;
 	},
 
-	_onDialogClosed: function () {
-
-		this.dialogIsOpen = false;
-	},
-
+	//TODO: replace this property observer with an event that changes the calc method and uses parameters to build a help menu with received data
 	_handleCalcMethodChanged: function () {
 		switch (this.calculationMethod) {
 			case 'Decaying Average':
+				this._buildDecayingAverageHelpDialog();
+				break;
 			case 'Most Common':
+				this._buildMostCommonHelpDialog();
+				break;
 			case 'Highest':
-				this.hidden = false;
+				this._buildHighestHelpDialog();
 				break;
 			default:
 				this.hidden = true;
 				break;
 		}
+	},
+
+	_buildDecayingAverageHelpDialog: function () {
+		this.helpDecayRateVisible = 'block';
+		this.helpActivitiesVisible = 'block';
+		this.helpMultipleCommonLevelsVisible = 'none';
+		this.helpMultipleAttemptsVisible = 'block';
+		this.buttonHidden = false;
+	},
+
+	_buildMostCommonHelpDialog: function () {
+		this.helpDecayRateVisible = 'none';
+		this.helpActivitiesVisible = 'block';
+		this.helpMultipleCommonLevelsVisible = 'block';
+		this.helpMultipleAttemptsVisible = 'block';
+		this.buttonHidden = false;
+	},
+
+	_buildHighestHelpDialog: function () {
+		this.helpDecayRateVisible = 'none';
+		this.helpActivitiesVisible = 'block';
+		this.helpMultipleCommonLevelsVisible = 'none';
+		this.helpMultipleAttemptsVisible = 'none';
+		this.buttonHidden = false;
 	},
 
 	//Text localization
