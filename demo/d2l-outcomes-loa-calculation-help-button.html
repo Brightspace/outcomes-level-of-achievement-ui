@@ -1,4 +1,4 @@
-<!doctype html>
+﻿<!doctype html>
 
 <html lang="en">
 <head>
@@ -8,6 +8,7 @@
 	<title>d2l-outcomes-loa-override-button demo</title>
 
 	<script src="../../@webcomponents/webcomponentsjs/webcomponents-bundle.js"></script>
+
 	<script>window.d2lfetch = {
 	fetch: function(req, opts) {
 		return window.fetch(req, opts);
@@ -56,13 +57,19 @@ document.body.appendChild($_documentContainer.content);</script>
 $_documentContainer.innerHTML = `<div class="vertical-section-container centered">
 		<h1>d2l-outcomes-loa-calculation-help-button</h1>
 
-		<h3>Visible:</h3>
-		<div class="calculate-button-visible">
+		<h3>Decaying Average:</h3>
+		<div class="help-button-decaying-average">
 			<d2l-outcomes-loa-calculation-help-button calculation-method="Decaying Average" tabindex="0"></d2l-outcomes-loa-calculation-help-button>
-			<d2l-outcomes-loa-calculation-help-button calculation-method="Most Common" tabindex="0"></d2l-outcomes-loa-calculation-help-button>
-			<d2l-outcomes-loa-calculation-help-button calculation-method="Highest" tabindex="0"></d2l-outcomes-loa-calculation-help-button>
-			<p style="font: 14px; line-spacing=0;">Left to right: decaying average, most common, and highest calculation methods.</p>
+		</div>
 
+		<h3>Most Common:</h3>
+		<div class="help-button-most-common">
+			<d2l-outcomes-loa-calculation-help-button calculation-method="Most Common" tabindex="0"></d2l-outcomes-loa-calculation-help-button>
+		</div>
+
+		<h3>Highest:</h3>
+		<div class="help-button-highest">
+			<d2l-outcomes-loa-calculation-help-button calculation-method="Highest" tabindex="0"></d2l-outcomes-loa-calculation-help-button>
 		</div>
 
 		<h3>Other or no calculation method:</h3>

@@ -12,22 +12,30 @@ import 'd2l-polymer-behaviors/d2l-dom.js';
 import 'd2l-typography/d2l-typography-shared-styles.js';
 import 'd2l-colors/d2l-colors.js';
 import '@brightspace-ui/core/components/tooltip/tooltip.js';
+import '@brightspace-ui/core/components/button/button.js';
 import '@brightspace-ui/core/components/button/button-icon.js';
+import '@brightspace-ui/core/components/dialog/dialog.js';
 import { Polymer } from '@polymer/polymer/lib/legacy/polymer-fn.js';
 import { afterNextRender } from '@polymer/polymer/lib/utils/render-status.js';
 import { dom } from '@polymer/polymer/lib/legacy/polymer.dom.js';
 const $_documentContainer = document.createElement('template');
 
 $_documentContainer.innerHTML = `<dom-module id="d2l-outcomes-loa-calculation-help-button">
-<template strip-whitespace="">	
+<template strip-whitespace="" id="button-template">	
 	<style>
 	</style>
-	<d2l-button-icon id="calculationHelpButton" text="[[buttonText]]" icon="[[buttonIcon]]" aria-hidden="true" tabindex="-1" hidden="[[hidden]]">
+	<d2l-button-icon id="help-button" text="[[buttonText]]" icon="[[buttonIcon]]" aria-hidden="true" tabindex="-1" hidden="[[hidden]]">
 	</d2l-button-icon>
+
+	<d2l-dialog id="help-dialog" title-text="Calculation Method Details">
+		<div>Some dialog content</div>
+		<d2l-button slot="footer" primary data-dialog-action="done">OK</d2l-button>
+	</d2l-dialog>
 </template>
 </dom-module> `;
 
 document.head.appendChild($_documentContainer.content);
+
 
 Polymer({
 	is: 'd2l-outcomes-loa-calculation-help-button',
@@ -49,6 +57,11 @@ Polymer({
 			value: '',
 			reflectToAttribute: true,
 			observer: '_handleCalcMethodChanged'
+		},
+
+		dialogIsOpen: {
+			type: Boolean,
+			value: false
 		},
 
 		hidden: {
@@ -112,7 +125,15 @@ Polymer({
 
 	//Invoked when the button is clicked, tapped, or keyboard-activated
 	_handleSelected: function () {
-		//TODO: send event that triggers the appropriate help dialog to open
+		//this.dialogIsOpen = true;
+		var elem = this.shadowRoot.getElementById('help-dialog');
+		elem.opened = true;
+		//TODO: handle dialog being closed
+	},
+
+	_onDialogClosed: function () {
+
+		this.dialogIsOpen = false;
 	},
 
 	_handleCalcMethodChanged: function () {
