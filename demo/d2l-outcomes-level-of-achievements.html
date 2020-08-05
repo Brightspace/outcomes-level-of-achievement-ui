@@ -1,4 +1,4 @@
-<!doctype html>
+﻿<!doctype html>
 <html lang="en">
 <head>
 	<meta charset="utf-8">
@@ -52,19 +52,27 @@
 		const $_documentContainer = document.createElement('template');
 
 		$_documentContainer.innerHTML = `<div class="vertical-section-container centered">
+				<style>
+					d2l-outcomes-level-of-achievements {
+						border-width: 2px solid black;
+					}
+				</style>
+
 				<h1>d2l-outcomes-level-of-achievements demo</h1>
 				<demo-snippet>
-					<h3>3 Levels</h3>
+					<h3>3 Levels</h3><br>
 					<d2l-outcomes-level-of-achievements href="data/demonstrations/3-levels.json" token="abc123"></d2l-outcomes-level-of-achievements>
 				</demo-snippet>
+				<br><br>
 
 				<demo-snippet>
-					<h3>Read Only (Level Selected)</h3>
+					<h3>Read Only (Level Selected)</h3><br>
 					<d2l-outcomes-level-of-achievements href="data/demonstrations/4-levels-selected.json" token="abc123" read-only=""></d2l-outcomes-level-of-achievements>
 				</demo-snippet>
+				<br><br>
 
 				<demo-snippet>
-					<h3>Suggested Level</h3>
+					<h3>Suggested Level</h3><br>
 					<d2l-outcomes-level-of-achievements href="data/demonstrations/suggested-level.json" token="abc123"></d2l-outcomes-level-of-achievements>
 				</demo-snippet>
 			</div>`;
