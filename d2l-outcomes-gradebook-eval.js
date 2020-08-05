@@ -1,7 +1,8 @@
 /**
-`d2l-outcomes-level-of-achievements`
+`d2l-outcomes-gradebook-eval`
 Polymer Web-Component to display levels of achievements
-@demo demo/d2l-outcomes-level-of-achievements.html
+
+@demo demo/d2l-outcomes-gradebook-eval.html
 */
 /*
   FIXME(polymer-modulizer): the above comments were extracted
@@ -10,36 +11,116 @@ Polymer Web-Component to display levels of achievements
 */
 import '@polymer/polymer/polymer-legacy.js';
 
+import '@brightspace-ui/core/components/colors/colors.js';
+import 'd2l-typography/d2l-typography-shared-styles.js';
 import 'd2l-polymer-siren-behaviors/store/entity-store.js';
 import 'd2l-polymer-siren-behaviors/store/entity-behavior.js';
 import 'd2l-polymer-siren-behaviors/store/siren-action-behavior.js';
 import { Actions, Classes } from 'd2l-hypermedia-constants';
+
 import './squishy-button-selector/d2l-squishy-button-selector.js';
 import './squishy-button-selector/d2l-squishy-button.js';
+import './override-button/d2l-outcomes-loa-override-button.js';
+import './calculation/d2l-outcomes-loa-calculate-button.js';
+import './calculation/d2l-outcomes-loa-calculation-help.js';
+
 import { Polymer } from '@polymer/polymer/lib/legacy/polymer-fn.js';
 import './localize-behavior.js';
 const $_documentContainer = document.createElement('template');
 
-$_documentContainer.innerHTML = `<dom-module id="d2l-outcomes-level-of-achievements">
+$_documentContainer.innerHTML = `<dom-module id="d2l-outcomes-gradebook-eval">
 	<template strip-whitespace="">
-		<style>
-			d2l-squishy-button-selector {
-				width: 100%;
+		<style include="d2l-typography">
+
+			:host {
+				background-color: --d2l-color-regolith;
 			}
-			d2l-squishy-button {
-				max-width: 9rem;
+
+			.left-border {
+				border-left-width: 6px;
+				border-left-style: solid;
+				border-left-color: --d2l-color-gypsum;
 			}
+
+			.d2l-typography {
+			}
+
 			.d2l-suggestion-text {
 				@apply --d2l-body-small-text;
 				margin: 0.3rem 0 0.3rem 0;
 			}
+
+			.page-heading {
+				@apply --d2l-heading-3;
+				margin: 0;
+				padding-top: 36px;
+			}
+
+			.title-container {
+				float: left;
+				margin-top: 0;
+			}
+
+			.calc-button-container {
+				float: right;
+				width: 44px;
+				height: 44px;
+				margin: 0;
+				padding-top: 24px;
+			}
+
+			d2l-outcomes-loa-calculate-button {
+			}
+
+			.calculation-info {
+				@apply --d2l-body-small-text;
+				padding-bottom: 12px;
+			}
+
+			.decaying-average-info {
+				@apply --d2l-body-small-text;
+				padding-bottom: 12px;
+			}
+
+			d2l-squishy-button-selector {
+				width: 100%;
+				padding-bottom: 12px;
+			}
+
+			d2l-squishy-button {
+				max-width: 9rem;
+			}
+
+			d2l-outcomes-loa-override-button
+
 			:host {
 				display: block;
 			}
 		</style>
+		
+		<div class="flex-box">
+			<span class="title-container">
+				<h3 class="page-heading">Select Overall Achievement</h3>
+			</span>
+			<span class="calc-button-container">
+				<d2l-outcomes-loa-calculate-button align="right" update-needed tabindex="0"></d2l-outcomes-loa-calculate-button>
+			</span>
+		</div>
+
+		<div style="clear: both;"></div>
+
+		<span class="calculation-info">
+			Calculation method: Decaying Average
+			<d2l-outcomes-loa-calculation-help calculation-method="Highest" tabindex="0"></d2l-outcomes-loa-calculation-help>
+		</span>
+		<div class="decaying-average-info" display="">
+			Decaying Average: 3.24
+		</div>
+
 		<template is="dom-if" if="[[_shouldShowSuggestion(readOnly,_hasAction,_suggestedLevel)]]">
 			<p class="d2l-suggestion-text">[[_getSuggestedLevelText(_suggestedLevel.text)]]</p>
 		</template>
+
 		<d2l-squishy-button-selector tooltip-position="top" disabled="[[_getIsDisabled(readOnly,_hasAction)]]">
 			<template is="dom-repeat" items="[[_demonstrationLevels]]">
 				<d2l-squishy-button color="[[item.color]]" selected="[[item.selected]]" button-data="[[_getButtonData(item)]]" id="item-[[index]]">
@@ -47,12 +128,16 @@ $_documentContainer.innerHTML = `<dom-module id="d2l-outcomes-level-of-achieveme
 				</d2l-squishy-button>
 			</template>
 		</d2l-squishy-button-selector>
+	
+		<d2l-outcomes-loa-override-button tooltip-position="top" tabindex="0">
+		</d2l-outcomes-loa-override-button>
 	</template>
+
 </dom-module>`;
 
 document.head.appendChild($_documentContainer.content);
 Polymer({
-	is: 'd2l-outcomes-level-of-achievements',
+	is: 'd2l-outcomes-gradebook-eval',
 
 	properties: {
 		readOnly: {

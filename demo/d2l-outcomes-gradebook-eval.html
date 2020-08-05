@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes">
+
+	<title>d2l-outcomes-level-of-achievements demo</title>
+
+	<script src="../node_modules/@webcomponents/webcomponentsjs/webcomponents-bundle.js"></script>
+	<script>window.d2lfetch = {
+			fetch: function(req, opts) {
+				return window.fetch(req, opts);
+			}
+		};</script>
+	<script src="../node_modules/whatwg-fetch/fetch.js"></script>
+	<script type="module" src="../d2l-outcomes-gradebook-eval.js"></script>
+	<!-- FIXME(polymer-modulizer):
+		These imperative modules that innerHTML your HTML are
+		a hacky way to be sure that any mixins in included style
+		modules are ready before any elements that reference them are
+		instantiated, otherwise the CSS @apply mixin polyfill won't be
+		able to expand the underlying CSS custom properties.
+		See: https://github.com/Polymer/polymer-modulizer/issues/154
+		-->
+	<script type="module">const $_documentContainer = document.createElement('template');
+
+		$_documentContainer.innerHTML = `<custom-style>
+				<style is="custom-style" include="demo-pages-shared-styles"></style>
+			</custom-style>`;
+
+		document.body.appendChild($_documentContainer.content);</script>
+	<script type="module">const $_documentContainer = document.createElement('template');
+
+		$_documentContainer.innerHTML = `<custom-style include="d2l-typography">
+				<style is="custom-style" include="d2l-typography">
+					html {
+						font-size: 20px;
+					}
+				</style>
+			</custom-style>`;
+
+		document.body.appendChild($_documentContainer.content);</script>
+</head>
+<body unresolved class="d2l-typography">
+	<script type="module">const $_documentContainer = document.createElement('template');
+
+		$_documentContainer.innerHTML = `<div class="vertical-section-container centered">
+				<style>
+					d2l-outcomes-gradebook-eval {
+						border-width: 2px solid black;
+					}
+				</style>
+
+				<h1>d2l-outcomes-gradebook-eval demo</h1>
+
+				<demo-snippet>
+					<h3>Decaying average</h3><br>
+					<d2l-outcomes-gradebook-eval href="data/demonstrations/3-levels.json" token="abc123"></d2l-outcomes-gradebook-eval>
+				</demo-snippet>
+				<br><br>
+				<hr>
+
+				<demo-snippet>
+					<h3>Most common</h3><br>
+					<d2l-outcomes-gradebook-eval href="data/demonstrations/4-levels-selected.json" token="abc123"></d2l-outcomes-gradebook-eval>
+				</demo-snippet>
+				<br><br>
+				<hr>
+
+				<demo-snippet>
+					<h3>Highest</h3><br>
+					<d2l-outcomes-gradebook-eval href="data/demonstrations/suggested-level.json" token="abc123"></d2l-outcomes-gradebook-eval>
+				</demo-snippet>
+				<br><br>
+				<hr>
+
+				<demo-snippet>
+					<h3>No calculation</h3><br>
+					<d2l-outcomes-gradebook-eval href="data/demonstrations/suggested-level.json" token="abc123"></d2l-outcomes-gradebook-eval>
+				</demo-snippet>
+			</div>`;
+
+		document.body.appendChild($_documentContainer.content);</script>
+</body>
+</html>
