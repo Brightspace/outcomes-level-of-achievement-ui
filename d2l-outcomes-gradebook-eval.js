@@ -58,32 +58,44 @@ $_documentContainer.innerHTML = `<dom-module id="d2l-outcomes-gradebook-eval">
 			.title-container {
 				float: left;
 				margin-top: 0;
+				margin-bottom: 0;
 			}
 
 			.calc-button-container {
 				float: right;
 				width: 44px;
 				height: 44px;
-				margin: 0;
+				margin: 0px;
 				padding-top: 24px;
 			}
 
 			d2l-outcomes-loa-calculate-button {
 			}
 
-			.calculation-info {
+			.calculation-label {
 				@apply --d2l-body-small-text;
-				padding-bottom: 12px;
+				float: left;
+				margin-top: 30px;
+				margin-bottom: 12px;
+			}
+
+			d2l-outcomes-loa-calculation-help {
+				float: left;
+				margin-bottom: 0;
+				margin-top: 16px;
+				margin-left: 2px;
 			}
 
 			.decaying-average-info {
 				@apply --d2l-body-small-text;
 				padding-bottom: 12px;
+				padding-top: 0px;
 			}
 
 			d2l-outcomes-level-of-achievements {
 				width: 100%;
 				padding-bottom: 12px;
+				padding-top: 0px;
 			}
 
 			d2l-outcomes-loa-override-button {
@@ -99,22 +111,25 @@ $_documentContainer.innerHTML = `<dom-module id="d2l-outcomes-gradebook-eval">
 			<span class="title-container">
 				<h3 class="page-heading">Select Overall Achievement</h3>
 			</span>
-			<span class="calc-button-container">
-				<d2l-outcomes-loa-calculate-button align="right" update-needed tabindex="0"></d2l-outcomes-loa-calculate-button>
-			</span>
+			<d2l-outcomes-loa-calculate-button align="right" update-needed="[[_isRecalculationNeeded()]]" tabindex="0"></d2l-outcomes-loa-calculate-button>
 		</div>
 
 		<div style="clear: both;"></div>
 
-		<span class="calculation-info">
-			Calculation method: Decaying Average
-			<d2l-outcomes-loa-calculation-help calculation-method="Highest" tabindex="0"></d2l-outcomes-loa-calculation-help>
-		</span>
-		<div class="decaying-average-info" display="">
-			Decaying Average: 3.24
+		<div class="calculation-info">
+			<span class="calculation-label">
+				Calculation method: [[calculationMethod]]
+			</span>
+			<d2l-outcomes-loa-calculation-help calculation-method="[[calculationMethod]]" decaying-average-rate="[[decayingAverageRate]]" tabindex="0"></d2l-outcomes-loa-calculation-help>
 		</div>
 
-		<d2l-outcomes-level-of-achievements tooltip-position="top" readonly="[[!overrideEnabled]]" token="[[_getToken()]]" href="[[levelsOfAchievementData]]">
+		<div style="clear: both;"></div>
+
+		<div class="decaying-average-info" hidden="[[!_isDecayingAverageVisible()]]">
+			[[_getDecayingAverageText()]]
+		</div>
+
+		<d2l-outcomes-level-of-achievements tooltip-position="top" read-only="[[!isOverrideEnabled]]" token="[[_getToken()]]" href="[[levelsOfAchievementData]]">
 		</d2l-outcomes-level-of-achievements>
 	
 		<d2l-outcomes-loa-override-button tooltip-position="top" tabindex="0">
@@ -128,7 +143,14 @@ Polymer({
 	is: 'd2l-outcomes-gradebook-eval',
 
 	properties: {
-		overrideEnabled: {
+
+
+		isOverrideEnabled: {
+			type: Boolean,
+			value: false
+		},
+
+		newAssessmentsAdded: {
 			type: Boolean,
 			value: false
 		},
@@ -138,6 +160,22 @@ Polymer({
 			type: String,
 			value: null,
 			reflectToAttribute: true
+		},
+
+		calculationMethod: {
+			type: String,
+			value: 'Highest',
+			reflectToAttribute: true
+		},
+
+		decayingAverageValue: {
+			type: Float32Array,
+			value: 0.0
+		},
+
+		decayingAverageRate: {
+			type: Float32Array,
+			value: 75
 		},
 
 		token: {
@@ -153,12 +191,30 @@ Polymer({
 	],
 
 	behaviors: [
-		//D2L.PolymerBehaviors.Siren.EntityBehavior,
-		//D2L.PolymerBehaviors.Siren.SirenActionBehavior,
-		//D2L.PolymerBehaviors.OutcomesLOA.LocalizeBehavior
+		D2L.PolymerBehaviors.Siren.EntityBehavior,
+		D2L.PolymerBehaviors.Siren.SirenActionBehavior,
+		D2L.PolymerBehaviors.OutcomesLOA.LocalizeBehavior
 	],
 
 	ready: function () {
+	},
+
+	_isRecalculationNeeded: function () {
+		//TODO: insert logic for when an update is required
+		return (this.isOverrideEnabled && this.newAssessmentsAdded);
+	},
+
+	_isDecayingAverageVisible: function () {
+		if (this.calculationMethod === 'Decaying Average') {
+			return true;
+		}
+		else {
+			return false;
+		}
+	},
+
+	_getDecayingAverageText: function () {
+		return this.localize('decayingAverageValue', 'value', this.decayingAverageValue.toString());
 	},
 
 	_getToken: function () {

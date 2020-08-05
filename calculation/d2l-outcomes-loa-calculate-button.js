@@ -22,7 +22,7 @@ $_documentContainer.innerHTML = `<dom-module id="d2l-outcomes-loa-calculate-butt
 <template strip-whitespace="">	
 	<style>
 	</style>
-	<d2l-button-icon id="calculateButton" text="[[buttonText]]" icon="[[buttonIcon]]" aria-hidden="true" tabindex="-1" hidden="[[hidden]]">
+	<d2l-button-icon id="calculateButton" text="[[buttonText]]" icon="[[buttonIcon]]" aria-hidden="true" tabindex="-1" hidden="[[!updateNeeded]]">
 	</d2l-button-icon>
 </template>
 </dom-module> `;

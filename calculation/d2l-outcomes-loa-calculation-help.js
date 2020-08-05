@@ -22,7 +22,7 @@ const $_documentContainer = document.createElement('template');
 
 $_documentContainer.innerHTML = `<dom-module id="d2l-outcomes-loa-calculation-help">
 <template strip-whitespace="" id="button-template">	
-	<d2l-button-icon id="help-button" text="[[_getHelpButtonText()]]" icon="[[buttonIcon]]" aria-hidden="true" tabindex="-1" hidden="[[buttonHidden]]">
+	<d2l-button-icon id="help-button" text="[[_getHelpButtonText()]]" icon="[[buttonIcon]]" aria-hidden="true" tabindex="0" hidden="[[buttonHidden]]">
 	</d2l-button-icon>
 
 	<d2l-dialog id="help-dialog" title-text="[[_getHelpMenuTitle()]]">
@@ -87,28 +87,10 @@ Polymer({
 			observer: '_handleCalcMethodChanged'
 		},
 
-		helpDecayRateDisplay: {
-			type: String,
-			value: 'Block',
-			reflectToAttrubite: true
-		},
-
-		helpActivitiesDisplay: {
-			type: String,
-			value: 'Block',
-			reflectToAttrubite: true
-		},
-
-		helpMultipleCommonLevelsDisplay: {
-			type: String,
-			value: 'Block',
-			reflectToAttrubite: true
-		},
-
-		helpMultipleAttemptsDisplay: {
-			type: String,
-			value: 'Block',
-			reflectToAttrubite: true
+		decayingAverageRate: {
+			type: Float32Array,
+			value: 75,
+			reflectToAttribute: true
 		},
 
 		tooltipPosition: {
@@ -185,6 +167,17 @@ Polymer({
 		}
 	},
 
+	_isButtonVisible: function () {
+		switch (this.calculationMethod) {
+			case 'Decaying Average':
+			case 'Most Common':
+			case 'Highest':
+				return true;
+			default:
+				return false;
+		}
+	},
+
 	_buildDecayingAverageHelpDialog: function () {
 		this.helpDecayRateVisible = 'block';
 		this.helpActivitiesVisible = 'block';
@@ -232,7 +225,7 @@ Polymer({
 	},
 
 	_getHelpDecayRateBody: function () {
-		return this.localize('calcHelpDecayRateBody', 'number', '75');
+		return this.localize('calcHelpDecayRateBody', 'number', this.decayingAverageRate.toString());
 	},
 
 	_getHelpActivitiesLabel: function () {
