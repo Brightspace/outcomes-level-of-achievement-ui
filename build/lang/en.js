@@ -23,7 +23,7 @@ D2L.PolymerBehaviors.OutcomesLOA.LocalizeBehavior.LangEnBehavior = {
 		'calcHelpTitle': 'Calculation Method Details',
 		'calculationMethod': 'Calculation method: {calcMethod}',
 		'calculationMethodDetails': 'Calculation Method Details',
-		'calculatedLevelValue': '{calcMethod}: {calcValue}',
+		'decayingAverageValue': 'Decaying Average: {value}',
 		'clearManualOverride': 'Clear Manual Override',
 		'manuallyOverride': 'Manually Override',
 		'recalculateOverallAchievement': 'Recalculate Overall Achievement',
