@@ -52,6 +52,11 @@ $_documentContainer.innerHTML = `<dom-module id="d2l-outcomes-gradebook-eval">
 				margin-top: 0;
 				margin-bottom: 0;
 			}
+			:dir(rtl) .title-container {
+				float: right;
+				margin-top: 0;
+				margin-bottom: 0;
+			}
 
 			.calc-button-container {
 				float: right;
@@ -60,13 +65,23 @@ $_documentContainer.innerHTML = `<dom-module id="d2l-outcomes-gradebook-eval">
 				margin: 0px;
 				padding-top: 24px;
 			}
-
-			d2l-outcomes-loa-calculate-button {
+			:dir(rtl) .calc-button-container {
+				float: left;
+				width: 44px;
+				height: 44px;
+				margin: 0px;
+				padding-top: 24px;
 			}
 
 			.calculation-label {
 				@apply --d2l-body-small-text;
 				float: left;
+				margin-top: 30px;
+				margin-bottom: 12px;
+			}
+			:dir(rtl) .calculation-label {
+				@apply --d2l-body-small-text;
+				float: right;
 				margin-top: 30px;
 				margin-bottom: 12px;
 			}
@@ -76,6 +91,12 @@ $_documentContainer.innerHTML = `<dom-module id="d2l-outcomes-gradebook-eval">
 				margin-bottom: 0;
 				margin-top: 16px;
 				margin-left: 2px;
+			}
+			:dir(rtl) d2l-outcomes-loa-calculation-help {
+				float: right;
+				margin-bottom: 0;
+				margin-top: 16px;
+				margin-right: 2px;
 			}
 
 			.decaying-average-info {
