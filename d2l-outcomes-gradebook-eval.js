@@ -45,6 +45,16 @@ $_documentContainer.innerHTML = `<dom-module id="d2l-outcomes-gradebook-eval">
 				@apply --d2l-heading-3;
 				margin: 0;
 				padding-top: 36px;
+				padding-bottom: 10px;
+				float: left;
+			}
+
+			:dir(rtl) .page-heading {
+				@apply --d2l-heading-3;
+				margin: 0;
+				padding-top: 36px;
+				padding-bottom: 10px;
+				float: right;
 			}
 
 			.flex-box {
@@ -62,14 +72,14 @@ $_documentContainer.innerHTML = `<dom-module id="d2l-outcomes-gradebook-eval">
 				margin-bottom: 0;
 			}
 
-			d2l-outcomes-calculate-button {
+			.calculate-button-container {
 				float: right;
 				width: 44px;
 				height: 44px;
 				margin: 0px;
-				padding-top: 36px;
+				padding-top: 24px;
 			}
-			:dir(rtl) d2l-outcomes-calculate-button {
+			:dir(rtl) .calculate-button-container {
 				float: left;
 				width: 44px;
 				height: 44px;
@@ -80,7 +90,7 @@ $_documentContainer.innerHTML = `<dom-module id="d2l-outcomes-gradebook-eval">
 			.calculation-label {
 				@apply --d2l-body-small-text;
 				float: left;
-				margin-top: 30px;
+				margin-top: 20px;
 				margin-bottom: 12px;
 			}
 			:dir(rtl) .calculation-label {
@@ -93,7 +103,7 @@ $_documentContainer.innerHTML = `<dom-module id="d2l-outcomes-gradebook-eval">
 			d2l-outcomes-loa-calculation-help {
 				float: left;
 				margin-bottom: 0;
-				margin-top: 16px;
+				margin-top: 6px;
 				margin-left: 2px;
 			}
 			:dir(rtl) d2l-outcomes-loa-calculation-help {
@@ -124,33 +134,36 @@ $_documentContainer.innerHTML = `<dom-module id="d2l-outcomes-gradebook-eval">
 			}
 		</style>
 		<div class="flex-box">
-			<span class="title-container">
-				<h3 class="page-heading">Select Overall Achievement
-					<d2l-outcomes-loa-calculate-button align="right" update-needed="[[!_calcUpdateNeeded]]" tabindex="0"></d2l-outcomes-loa-calculate-button>
-				</h3>
+			<h3 class="page-heading">Select Overall Achievement</h3>
+			<span class="calculate-button-container">
+				<d2l-outcomes-loa-calculate-button align="right" update-needed="[[!_calcUpdateNeeded]]" tabindex="0"></d2l-outcomes-loa-calculate-button>
 			</span>
 		</div>
 
 		<div style="clear: both;"></div>
 
-		<div class="calculation-info">
-			<span class="calculation-label">
-				Calculation method: [[calculationMethod]]
-			</span>
-			<d2l-outcomes-loa-calculation-help calculation-method="[[calculationMethod]]" decaying-average-rate="[[decayingAverageRate]]" tabindex="0"></d2l-outcomes-loa-calculation-help>
-		</div>
+		<template is="dom-if" if="[[_hasCalculation()]]">
+			<div class="calculation-info">
+				<span class="calculation-label">
+					Calculation method: [[calculationMethod]]
+				</span>
+				<d2l-outcomes-loa-calculation-help calculation-method="[[calculationMethod]]" decaying-average-rate="[[decayingAverageRate]]" tabindex="0"></d2l-outcomes-loa-calculation-help>
+			</div>
+		</template>
 
 		<div style="clear: both;"></div>
 
-		<div class="decaying-average-info" hidden="[[!_isDecayingAverageVisible()]]">
-			[[_getDecayingAverageText()]]
-		</div>
-
+		<template is="dom-if" if="[[_isDecayingAverageVisible()]]">
+			<div class="decaying-average-info">
+				[[_getDecayingAverageText()]]
+			</div>
+		</template>
 		<d2l-outcomes-level-of-achievements id="level-selector" tooltip-position="top" read-only="[[!isOverrideEnabled]]" has-calculation="[[_hasCalculation()]]" token="[[_getToken()]]" href="[[levelsOfAchievementData]]">
 		</d2l-outcomes-level-of-achievements>
 	
-		<d2l-outcomes-loa-override-button id="override-button" tooltip-position="top" override-active="[[isOverrideEnabled]]" tabindex="0">
-		</d2l-outcomes-loa-override-button>
+		<template is="dom-if" if="[[_hasCalculation()]]">
+			<d2l-outcomes-loa-override-button id="override-button" tooltip-position="top" override-active="[[isOverrideEnabled]]" tabindex="0"></d2l-outcomes-loa-override-button>
+		</template>
 	</template>
 
 </dom-module>`;
@@ -252,9 +265,7 @@ Polymer({
 	},
 
 	_updateCalculationButtonVisibility: function () {
-		console.log("checking calculation status");
 		this._calcUpdateNeeded = (this.isOverrideEnabled && this.newAssessmentsAdded && this._hasCalculation());
-		console.log(this._calcUpdateNeeded);
 		this._calcButton.setUpdateNeeded(this._calcUpdateNeeded);
 	},
 
