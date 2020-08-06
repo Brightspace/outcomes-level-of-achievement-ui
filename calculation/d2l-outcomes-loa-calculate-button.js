@@ -44,22 +44,10 @@ Polymer({
 			value: 'Recalculate Overall Achievement'
 		},
 
-		newItems: {
+		updateNeeded: {
 			type: Boolean,
 			value: false,
-			reflectToAttribute: true,
-			observer: '_handleUpdateNeedChanged'
-		},
-
-		hidden: {
-			type: Boolean,
-			value: true,
 			reflectToAttribute: true
-		},
-
-		buttonData: {
-			type: Object,
-			value: function () { return {}; }
 		},
 
 		tooltipPosition: {
@@ -83,6 +71,14 @@ Polymer({
 		afterNextRender(this, /* @this */ function () {
 			this.buttonText = this._getButtonText();
 		});
+	},
+
+	_getButtonText: function () {
+		return this.localize('recalculateOverallAchievement');
+	},
+
+	setUpdateNeeded: function (newVal) {
+		this.updateNeeded = newVal;
 	},
 
 	_keyCodes: {
@@ -112,18 +108,7 @@ Polymer({
 
 	//Invoked when the button is clicked, tapped, or keyboard-activated
 	_handleSelected: function () {
-		//TODO: this should trigger an action which requests a calculated level
-		//The API work for this is not yet finished
 		this._dispatchCalculationEvent();
-		this.newItems = false;
-	},
-
-	_handleUpdateNeedChanged: function () {
-		this.hidden = !(this.updateNeeded);
-	},
-
-	_getButtonText: function () {
-		return this.localize('recalculateOverallAchievement');
 	},
 
 	_dispatchCalculationEvent: function () {

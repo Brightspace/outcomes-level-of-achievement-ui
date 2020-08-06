@@ -47,6 +47,10 @@ $_documentContainer.innerHTML = `<dom-module id="d2l-outcomes-gradebook-eval">
 				padding-top: 36px;
 			}
 
+			.flex-box {
+				width: 100%;
+			}
+
 			.title-container {
 				float: left;
 				margin-top: 0;
@@ -58,14 +62,14 @@ $_documentContainer.innerHTML = `<dom-module id="d2l-outcomes-gradebook-eval">
 				margin-bottom: 0;
 			}
 
-			.calc-button-container {
+			d2l-outcomes-calculate-button {
 				float: right;
 				width: 44px;
 				height: 44px;
 				margin: 0px;
-				padding-top: 24px;
+				padding-top: 36px;
 			}
-			:dir(rtl) .calc-button-container {
+			:dir(rtl) d2l-outcomes-calculate-button {
 				float: left;
 				width: 44px;
 				height: 44px;
@@ -121,9 +125,10 @@ $_documentContainer.innerHTML = `<dom-module id="d2l-outcomes-gradebook-eval">
 		</style>
 		<div class="flex-box">
 			<span class="title-container">
-				<h3 class="page-heading">Select Overall Achievement</h3>
+				<h3 class="page-heading">Select Overall Achievement
+					<d2l-outcomes-loa-calculate-button align="right" update-needed="[[!_calcUpdateNeeded]]" tabindex="0"></d2l-outcomes-loa-calculate-button>
+				</h3>
 			</span>
-			<d2l-outcomes-loa-calculate-button align="right" new-items="[[_isRecalculationNeeded()]]" tabindex="0"></d2l-outcomes-loa-calculate-button>
 		</div>
 
 		<div style="clear: both;"></div>
@@ -203,7 +208,13 @@ Polymer({
 			reflectToAttribute: true
 		},
 
-		_overrideButton: {
+		_calcUpdateNeeded: {
+			type: Boolean,
+			value: false,
+			reflectToAttribute: true
+		},
+
+		_calcButton: {
 			type: Object,
 			value: null
 		},
@@ -211,7 +222,12 @@ Polymer({
 		_loaSelector: {
 			type: Object,
 			value: null
-		}
+		},
+
+		_overrideButton: {
+			type: Object,
+			value: null
+		},
 
 	},
 
@@ -226,14 +242,20 @@ Polymer({
 	],
 
 	ready: function () {
-		this._overrideButton = this.$$('d2l-outcomes-loa-override-button');
+		this._calcButton = this.$$('d2l-outcomes-loa-calculate-button');
 		this._levelSelector = this.$$('d2l-outcomes-level-of-achievements');
+		this._overrideButton = this.$$('d2l-outcomes-loa-override-button');
 		this.addEventListener('d2l-loa-manual-override-enabled', this._onOverrideEnabled);
 		this.addEventListener('d2l-loa-manual-override-disabled', this._onOverrideDisabled);
+		this.addEventListener('d2l-loa-calculation-clicked', this._onCalcButtonClicked);
+		this._updateCalculationButtonVisibility();
 	},
 
-	_isRecalculationNeeded: function () {
-		return (this.isOverrideEnabled && this.newAssessmentsAdded);
+	_updateCalculationButtonVisibility: function () {
+		console.log("checking calculation status");
+		this._calcUpdateNeeded = (this.isOverrideEnabled && this.newAssessmentsAdded && this._hasCalculation());
+		console.log(this._calcUpdateNeeded);
+		this._calcButton.setUpdateNeeded(this._calcUpdateNeeded);
 	},
 
 	_isDecayingAverageVisible: function () {
@@ -246,7 +268,6 @@ Polymer({
 	},
 
 	_hasCalculation: function () {
-		console.log(!!this.calculationMethod && this.calculationMethod != 'None');
 		return !!this.calculationMethod && this.calculationMethod != 'None';
 	},
 
@@ -258,22 +279,23 @@ Polymer({
 		return this.token;
 	},
 
-	_getOverrideEnabled: function () {
-		return this.isOverrideEnabled;
-	},
-
 	_onOverrideEnabled: function (event) {
 		this.isOverrideEnabled = true;
 		this._levelSelector.setFocus();
+		this._updateCalculationButtonVisibility();
 	},
 
 	_onOverrideDisabled: function (event) {
 		this._levelSelector.resetToSuggested();
 		this.isOverrideEnabled = false;
+		this._updateCalculationButtonVisibility();
 	},
 
-	_handleOverrideToggled: function (overrideEnabled) {
-		this._loaSelector._setReadOnly(!overrideEnabled);
+	_onCalcButtonClicked: function (event) {
+		//TODO: send calculation request here. This will return a suggested level.
+		//Change selection to this new suggested level, then hide the calculation button
+		this._levelSelector.resetToSuggested();
+		this.newAssessmentsAdded = false;
+		this._updateCalculationButtonVisibility();
 	}
-
 });
