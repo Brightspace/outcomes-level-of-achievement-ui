@@ -246,6 +246,7 @@ Polymer({
 
 	_onOverrideEnabled: function (event) {
 		this.isOverrideEnabled = true;
+		this._levelSelector.setFocus();
 	},
 
 	_onOverrideDisabled: function (event) {

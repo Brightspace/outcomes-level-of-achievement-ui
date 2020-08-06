@@ -180,12 +180,7 @@ Polymer({
 		return this.localize('suggestedLevel', 'level', level);
 	},
 
-	_onOverrideEnabled: function (event) {
-		this.readOnly = false;
-		console.log("override enabled");
-	},
-
-	_onOverrideDisabled: function (event) {
-		this.readOnly = true;
-	},
+	setFocus: function () {
+		this.$$('d2l-squishy-button-selector').focus();
+	}
 });
