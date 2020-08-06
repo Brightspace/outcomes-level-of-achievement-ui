@@ -256,6 +256,7 @@ Polymer({
 		this._dispatchItemSelectedEvent(true, true);
 		this.selected = true;
 		event.preventDefault();
+
 	},
 
 	_handleSelected: function(newVal, oldVal) {

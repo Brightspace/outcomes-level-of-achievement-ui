@@ -139,16 +139,19 @@ Polymer({
 			this._demonstrationLevels = demonstrationLevels;
 
 			var firstSuggested = undefined;
+			var firstSuggestedIndex = null;
 			for (var i = 0; i < demonstrationLevels.length; i++) {
 				const level = demonstrationLevels[i];
 				if (level.isSuggested) {
 					firstSuggested = level;
+					firstSuggestedIndex = i;
 					break;
 				}
 			}
 			if (typeof firstSuggested !== 'undefined') {
 				newSuggestedLevel = {
-					text: firstSuggested.text
+					text: firstSuggested.text,
+					index: firstSuggestedIndex
 				};
 			}
 
@@ -191,7 +194,8 @@ Polymer({
 	},
 
 	resetToSuggested: function () {
-		level
+		var suggestedLevelElement = this.shadowRoot.getElementById("item-" + this._suggestedLevel.index.toString());
+		suggestedLevelElement.click();
 	}
 
 });

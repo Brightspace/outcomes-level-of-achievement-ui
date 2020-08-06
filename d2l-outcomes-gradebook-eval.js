@@ -247,6 +247,7 @@ Polymer({
 	},
 
 	_onOverrideDisabled: function (event) {
+		this._levelSelector.resetToSuggested();
 		this.isOverrideEnabled = false;
 	},
 
