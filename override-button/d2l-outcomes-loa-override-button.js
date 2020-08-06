@@ -153,9 +153,11 @@ Polymer({
 
 	_dispatchItemToggledEvent: function (newOverrideState) {
 		var eventName = newOverrideState ? 'd2l-loa-manual-override-enabled' : 'd2l-loa-manual-override-disabled';
-
+		//var eventName = 'd2l-manual-override-toggled';
 		this.dispatchEvent(new CustomEvent(eventName, {
-			bubbles: true
+			bubbles: true,
+			composed: true
+			//newVal: newOverrideState
 		}));
 	}
 });

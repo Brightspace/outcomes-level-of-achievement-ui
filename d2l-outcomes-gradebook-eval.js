@@ -12,7 +12,7 @@ Polymer Web-Component to display levels of achievements
 import '@polymer/polymer/polymer-legacy.js';
 
 import '@brightspace-ui/core/components/colors/colors.js';
-import 'd2l-typography/d2l-typography-shared-styles.js';
+import '@brightspace-ui/core/components/typography/typography.js';
 import 'd2l-polymer-siren-behaviors/store/entity-store.js';
 import 'd2l-polymer-siren-behaviors/store/entity-behavior.js';
 import 'd2l-polymer-siren-behaviors/store/siren-action-behavior.js';
@@ -39,9 +39,6 @@ $_documentContainer.innerHTML = `<dom-module id="d2l-outcomes-gradebook-eval">
 				border-left-width: 6px;
 				border-left-style: solid;
 				border-left-color: --d2l-color-gypsum;
-			}
-
-			.d2l-typography {
 			}
 
 			.d2l-suggestion-text {
@@ -106,7 +103,6 @@ $_documentContainer.innerHTML = `<dom-module id="d2l-outcomes-gradebook-eval">
 				display: block;
 			}
 		</style>
-		
 		<div class="flex-box">
 			<span class="title-container">
 				<h3 class="page-heading">Select Overall Achievement</h3>
@@ -129,10 +125,10 @@ $_documentContainer.innerHTML = `<dom-module id="d2l-outcomes-gradebook-eval">
 			[[_getDecayingAverageText()]]
 		</div>
 
-		<d2l-outcomes-level-of-achievements tooltip-position="top" read-only="[[!isOverrideEnabled]]" token="[[_getToken()]]" href="[[levelsOfAchievementData]]">
+		<d2l-outcomes-level-of-achievements id="level-selector" tooltip-position="top" read-only="[[!isOverrideEnabled]]" token="[[_getToken()]]" href="[[levelsOfAchievementData]]">
 		</d2l-outcomes-level-of-achievements>
 	
-		<d2l-outcomes-loa-override-button tooltip-position="top" tabindex="0">
+		<d2l-outcomes-loa-override-button id="override-button" tooltip-position="top" override-active="[[isOverrideEnabled]]" tabindex="0">
 		</d2l-outcomes-loa-override-button>
 	</template>
 
@@ -147,12 +143,14 @@ Polymer({
 
 		isOverrideEnabled: {
 			type: Boolean,
-			value: false
+			value: false,
+			reflectToAttribute: true
 		},
 
 		newAssessmentsAdded: {
 			type: Boolean,
-			value: false
+			value: true,
+			reflectToAttribute: true
 		},
 
 		//Should link to the siren data for the achievement selector component
@@ -160,6 +158,11 @@ Polymer({
 			type: String,
 			value: null,
 			reflectToAttribute: true
+		},
+
+		calculatedLevel: {
+			type: String,
+			value: null
 		},
 
 		calculationMethod: {
@@ -184,6 +187,16 @@ Polymer({
 			reflectToAttribute: true
 		},
 
+		_overrideButton: {
+			type: Object,
+			value: null
+		},
+
+		_loaSelector: {
+			type: Object,
+			value: null
+		}
+
 	},
 
 	observers: [
@@ -197,10 +210,16 @@ Polymer({
 	],
 
 	ready: function () {
+		this._overrideButton = this.$$('d2l-outcomes-loa-override-button');
+		this._levelSelector = this.$$('d2l-outcomes-level-of-achievements');
+		console.log(this._overrideButton);
+		console.log(this._levelSelector);
+		this.addEventListener('d2l-loa-manual-override-enabled', this._onOverrideEnabled);
+		this.addEventListener('d2l-loa-manual-override-disabled', this._onOverrideDisabled);
 	},
 
 	_isRecalculationNeeded: function () {
-		//TODO: insert logic for when an update is required
+		//TODO: insert logic to determine when an update is required
 		return (this.isOverrideEnabled && this.newAssessmentsAdded);
 	},
 
@@ -219,6 +238,23 @@ Polymer({
 
 	_getToken: function () {
 		return this.token;
+	},
+
+	_getOverrideEnabled: function () {
+		return this.isOverrideEnabled;
+	},
+
+	_onOverrideEnabled: function (event) {
+		this.isOverrideEnabled = true;
+	},
+
+	_onOverrideDisabled: function (event) {
+		this.isOverrideEnabled = false;
+	},
+
+	_handleOverrideToggled: function (overrideEnabled) {
+		console.log(this._loaSelector);
+		this._loaSelector._setReadOnly(!overrideEnabled);
 	}
 
 });

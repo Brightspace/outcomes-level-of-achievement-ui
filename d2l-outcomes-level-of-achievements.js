@@ -57,7 +57,8 @@ Polymer({
 	properties: {
 		readOnly: {
 			type: Boolean,
-			value: false
+			value: false,
+			observer: '_readOnlyChanged'
 		},
 		_hasAction: Boolean,
 		_demonstrationLevels: Array,
@@ -71,6 +72,10 @@ Polymer({
 		'_getDemonstrationLevels(entity)'
 	],
 
+	_readOnlyChanged: function () {
+		console.log("readOnly set to " + this.readOnly.toString());
+	},
+
 	behaviors: [
 		D2L.PolymerBehaviors.Siren.EntityBehavior,
 		D2L.PolymerBehaviors.Siren.SirenActionBehavior,
@@ -81,6 +86,9 @@ Polymer({
 		this._onItemSelected = this._onItemSelected.bind(this);
 		this.$$('d2l-squishy-button-selector').addEventListener('d2l-squishy-button-selected', this._onItemSelected);
 		this._handleRefresh = this._handleRefresh.bind(this);
+
+		this.addEventListener('d2l-loa-manual-override-enabled', this._onOverrideEnabled);
+
 	},
 
 	attached: function () {
@@ -170,5 +178,14 @@ Polymer({
 	},
 	_getSuggestedLevelText: function (level) {
 		return this.localize('suggestedLevel', 'level', level);
-	}
+	},
+
+	_onOverrideEnabled: function (event) {
+		this.readOnly = false;
+		console.log("override enabled");
+	},
+
+	_onOverrideDisabled: function (event) {
+		this.readOnly = true;
+	},
 });

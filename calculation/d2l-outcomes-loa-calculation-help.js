@@ -22,7 +22,7 @@ const $_documentContainer = document.createElement('template');
 
 $_documentContainer.innerHTML = `<dom-module id="d2l-outcomes-loa-calculation-help">
 <template strip-whitespace="" id="button-template">	
-	<d2l-button-icon id="help-button" text="[[_getHelpButtonText()]]" icon="[[buttonIcon]]" aria-hidden="true" tabindex="0" hidden="[[buttonHidden]]">
+	<d2l-button-icon id="help-button" text="[[_getHelpButtonText()]]" icon="[[buttonIcon]]" aria-hidden="true" tabindex="-1" hidden="[[buttonHidden]]">
 	</d2l-button-icon>
 
 	<d2l-dialog id="help-dialog" title-text="[[_getHelpMenuTitle()]]">
@@ -124,8 +124,6 @@ Polymer({
 		if (this.buttonHidden) {
 			return;
 		}
-
-		console.log("input logged");
 
 		if (event.keyCode === this._keyCodes.ENTER || event.keyCode === this._keyCodes.SPACE) {
 			this._handleSelected();
