@@ -1,13 +1,8 @@
 /**
 `d2l-outcomes-gradebook-eval`
-Polymer Web-Component to display levels of achievements
+Polymer Web-Component to display controls for course overall achievements
 
 @demo demo/d2l-outcomes-gradebook-eval.html
-*/
-/*
-  FIXME(polymer-modulizer): the above comments were extracted
-  from HTML and may be out of place here. Review them and
-  then delete this comment!
 */
 import '@polymer/polymer/polymer-legacy.js';
 
@@ -107,7 +102,7 @@ $_documentContainer.innerHTML = `<dom-module id="d2l-outcomes-gradebook-eval">
 			<span class="title-container">
 				<h3 class="page-heading">Select Overall Achievement</h3>
 			</span>
-			<d2l-outcomes-loa-calculate-button align="right" update-needed="[[_isRecalculationNeeded()]]" tabindex="0"></d2l-outcomes-loa-calculate-button>
+			<d2l-outcomes-loa-calculate-button align="right" new-items="[[_isRecalculationNeeded()]]" tabindex="0"></d2l-outcomes-loa-calculate-button>
 		</div>
 
 		<div style="clear: both;"></div>
@@ -125,7 +120,7 @@ $_documentContainer.innerHTML = `<dom-module id="d2l-outcomes-gradebook-eval">
 			[[_getDecayingAverageText()]]
 		</div>
 
-		<d2l-outcomes-level-of-achievements id="level-selector" tooltip-position="top" read-only="[[!isOverrideEnabled]]" token="[[_getToken()]]" href="[[levelsOfAchievementData]]">
+		<d2l-outcomes-level-of-achievements id="level-selector" tooltip-position="top" read-only="[[!isOverrideEnabled]]" has-calculation="[[_hasCalculation()]]" token="[[_getToken()]]" href="[[levelsOfAchievementData]]">
 		</d2l-outcomes-level-of-achievements>
 	
 		<d2l-outcomes-loa-override-button id="override-button" tooltip-position="top" override-active="[[isOverrideEnabled]]" tabindex="0">
@@ -167,7 +162,7 @@ Polymer({
 
 		calculationMethod: {
 			type: String,
-			value: 'Highest',
+			value: null,
 			reflectToAttribute: true
 		},
 
@@ -212,14 +207,11 @@ Polymer({
 	ready: function () {
 		this._overrideButton = this.$$('d2l-outcomes-loa-override-button');
 		this._levelSelector = this.$$('d2l-outcomes-level-of-achievements');
-		console.log(this._overrideButton);
-		console.log(this._levelSelector);
 		this.addEventListener('d2l-loa-manual-override-enabled', this._onOverrideEnabled);
 		this.addEventListener('d2l-loa-manual-override-disabled', this._onOverrideDisabled);
 	},
 
 	_isRecalculationNeeded: function () {
-		//TODO: insert logic to determine when an update is required
 		return (this.isOverrideEnabled && this.newAssessmentsAdded);
 	},
 
@@ -230,6 +222,11 @@ Polymer({
 		else {
 			return false;
 		}
+	},
+
+	_hasCalculation: function () {
+		console.log(!!this.calculationMethod && this.calculationMethod != 'None');
+		return !!this.calculationMethod && this.calculationMethod != 'None';
 	},
 
 	_getDecayingAverageText: function () {
@@ -254,7 +251,6 @@ Polymer({
 	},
 
 	_handleOverrideToggled: function (overrideEnabled) {
-		console.log(this._loaSelector);
 		this._loaSelector._setReadOnly(!overrideEnabled);
 	}
 

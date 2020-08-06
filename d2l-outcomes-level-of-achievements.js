@@ -37,7 +37,7 @@ $_documentContainer.innerHTML = `<dom-module id="d2l-outcomes-level-of-achieveme
 				display: block;
 			}
 		</style>
-		<template is="dom-if" if="[[_shouldShowSuggestion(readOnly,_hasAction,_suggestedLevel)]]">
+		<template is="dom-if" if="[[_shouldShowSuggestion(readOnly,_hasAction,hasCalculation,_suggestedLevel)]]">
 			<p class="d2l-suggestion-text">[[_getSuggestedLevelText(_suggestedLevel.text)]]</p>
 		</template>
 		<d2l-squishy-button-selector tooltip-position="top" disabled="[[_getIsDisabled(readOnly,_hasAction)]]">
@@ -65,6 +65,11 @@ Polymer({
 		_suggestedLevel: {
 			type: Object,
 			value: null
+		},
+		hasCalculation: {
+			type: Boolean,
+			value: false,
+			reflectToAttribute: true
 		}
 	},
 
@@ -161,8 +166,9 @@ Polymer({
 	_hasSuggestedLevel: function (suggestedLevel) {
 		return !!suggestedLevel;
 	},
-	_shouldShowSuggestion: function (readOnly, hasAction, suggestedLevel) {
-		return !this._getIsDisabled(readOnly, hasAction) && this._hasSuggestedLevel(suggestedLevel);
+	_shouldShowSuggestion: function (readOnly, hasAction, hasCalculation, suggestedLevel) {
+
+		return !this._getIsDisabled(readOnly, hasAction) && this._hasSuggestedLevel(suggestedLevel) && !this.hasCalculation;
 	},
 	_onItemSelected: function (event) {
 		var action = event.detail.data.action;
@@ -182,5 +188,10 @@ Polymer({
 
 	setFocus: function () {
 		this.$$('d2l-squishy-button-selector').focus();
+	},
+
+	resetToSuggested: function () {
+		level
 	}
+
 });

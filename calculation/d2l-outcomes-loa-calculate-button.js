@@ -44,7 +44,7 @@ Polymer({
 			value: 'Recalculate Overall Achievement'
 		},
 
-		updateNeeded: {
+		newItems: {
 			type: Boolean,
 			value: false,
 			reflectToAttribute: true,
@@ -112,8 +112,10 @@ Polymer({
 
 	//Invoked when the button is clicked, tapped, or keyboard-activated
 	_handleSelected: function () {
-		//TODO: incorporate calculations and events
-		this.updateNeeded = false;
+		//TODO: this should trigger an action which requests a calculated level
+		//The API work for this is not yet finished
+		this._dispatchCalculationEvent();
+		this.newItems = false;
 	},
 
 	_handleUpdateNeedChanged: function () {
@@ -124,11 +126,10 @@ Polymer({
 		return this.localize('recalculateOverallAchievement');
 	},
 
-	_dispatchItemToggledEvent: function () {
-		/*var eventName = newOverrideState ? 'd2l-loa-manual-override-enabled' : 'd2l-loa-manual-override-disabled';
-
+	_dispatchCalculationEvent: function () {
+		var eventName = 'd2l-loa-calculation-clicked';
 		this.dispatchEvent(new CustomEvent(eventName, {
-			bubbles: true
-		}));*/
+			composed: true
+		}));
 	}
 });
