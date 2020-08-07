@@ -22,7 +22,7 @@ $_documentContainer.innerHTML = `<dom-module id="d2l-outcomes-loa-calculate-butt
 <template strip-whitespace="">	
 	<style>
 	</style>
-	<d2l-button-icon id="calculateButton" text="[[buttonText]]" icon="[[buttonIcon]]" aria-hidden="true" tabindex="-1" hidden="[[!updateNeeded]]">
+	<d2l-button-icon id="calculateButton" text="[[buttonText]]" icon="[[buttonIcon]]" aria-hidden="true" tabindex="-1">
 	</d2l-button-icon>
 </template>
 </dom-module> `;
@@ -42,12 +42,6 @@ Polymer({
 		buttonText: {
 			type: String,
 			value: 'Recalculate Overall Achievement'
-		},
-
-		updateNeeded: {
-			type: Boolean,
-			value: false,
-			reflectToAttribute: true
 		},
 
 		tooltipPosition: {
@@ -75,10 +69,6 @@ Polymer({
 
 	_getButtonText: function () {
 		return this.localize('recalculateOverallAchievement');
-	},
-
-	setUpdateNeeded: function (newVal) {
-		this.updateNeeded = newVal;
 	},
 
 	_keyCodes: {

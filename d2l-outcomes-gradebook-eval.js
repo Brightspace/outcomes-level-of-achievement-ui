@@ -135,14 +135,16 @@ $_documentContainer.innerHTML = `<dom-module id="d2l-outcomes-gradebook-eval">
 		</style>
 		<div class="flex-box">
 			<h3 class="page-heading">Select Overall Achievement</h3>
-			<span class="calculate-button-container">
-				<d2l-outcomes-loa-calculate-button align="right" update-needed="[[!_calcUpdateNeeded]]" tabindex="0"></d2l-outcomes-loa-calculate-button>
-			</span>
+			<template is="dom-if" if="[[_isCalculationUpdateNeeded(calculationMethod, newAssessmentsAdded, isOverrideEnabled)]]">
+				<span class="calculate-button-container">
+					<d2l-outcomes-loa-calculate-button align="right" update-needed="[[!_calcUpdateNeeded]]" tabindex="0"></d2l-outcomes-loa-calculate-button>
+				</span>
+			</template>
 		</div>
 
 		<div style="clear: both;"></div>
 
-		<template is="dom-if" if="[[_hasCalculation()]]">
+		<template is="dom-if" if="[[_hasCalculation(calculationMethod)]]">
 			<div class="calculation-info">
 				<span class="calculation-label">
 					Calculation method: [[calculationMethod]]
@@ -158,10 +160,10 @@ $_documentContainer.innerHTML = `<dom-module id="d2l-outcomes-gradebook-eval">
 				[[_getDecayingAverageText()]]
 			</div>
 		</template>
-		<d2l-outcomes-level-of-achievements id="level-selector" tooltip-position="top" read-only="[[!isOverrideEnabled]]" has-calculation="[[_hasCalculation()]]" token="[[_getToken()]]" href="[[levelsOfAchievementData]]">
+		<d2l-outcomes-level-of-achievements id="level-selector" tooltip-position="top" read-only="[[!isOverrideEnabled]]" has-calculation="[[_hasCalculation(calculationMethod)]]" token="[[_getToken()]]" href="[[levelsOfAchievementData]]">
 		</d2l-outcomes-level-of-achievements>
 	
-		<template is="dom-if" if="[[_hasCalculation()]]">
+		<template is="dom-if" if="[[_hasCalculation(calculationMethod)]]">
 			<d2l-outcomes-loa-override-button id="override-button" tooltip-position="top" override-active="[[isOverrideEnabled]]" tabindex="0"></d2l-outcomes-loa-override-button>
 		</template>
 	</template>
@@ -227,17 +229,7 @@ Polymer({
 			reflectToAttribute: true
 		},
 
-		_calcButton: {
-			type: Object,
-			value: null
-		},
-
 		_loaSelector: {
-			type: Object,
-			value: null
-		},
-
-		_overrideButton: {
 			type: Object,
 			value: null
 		},
@@ -255,18 +247,10 @@ Polymer({
 	],
 
 	ready: function () {
-		this._calcButton = this.$$('d2l-outcomes-loa-calculate-button');
 		this._levelSelector = this.$$('d2l-outcomes-level-of-achievements');
-		this._overrideButton = this.$$('d2l-outcomes-loa-override-button');
 		this.addEventListener('d2l-loa-manual-override-enabled', this._onOverrideEnabled);
 		this.addEventListener('d2l-loa-manual-override-disabled', this._onOverrideDisabled);
 		this.addEventListener('d2l-loa-calculation-clicked', this._onCalcButtonClicked);
-		this._updateCalculationButtonVisibility();
-	},
-
-	_updateCalculationButtonVisibility: function () {
-		this._calcUpdateNeeded = (this.isOverrideEnabled && this.newAssessmentsAdded && this._hasCalculation());
-		this._calcButton.setUpdateNeeded(this._calcUpdateNeeded);
 	},
 
 	_isDecayingAverageVisible: function () {
@@ -278,8 +262,12 @@ Polymer({
 		}
 	},
 
-	_hasCalculation: function () {
-		return !!this.calculationMethod && this.calculationMethod != 'None';
+	_isCalculationUpdateNeeded: function (calculationMethod, newAssessments, overrideActive) {
+		return this._hasCalculation(calculationMethod) && overrideActive && newAssessments;
+	},
+
+	_hasCalculation: function (calculationMethod) {
+		return !!calculationMethod && calculationMethod != 'None';
 	},
 
 	_getDecayingAverageText: function () {
@@ -293,20 +281,22 @@ Polymer({
 	_onOverrideEnabled: function (event) {
 		this.isOverrideEnabled = true;
 		this._levelSelector.setFocus();
-		this._updateCalculationButtonVisibility();
 	},
 
 	_onOverrideDisabled: function (event) {
 		this._levelSelector.resetToSuggested();
 		this.isOverrideEnabled = false;
-		this._updateCalculationButtonVisibility();
 	},
 
 	_onCalcButtonClicked: function (event) {
-		//TODO: send calculation request here. This will return a suggested level.
-		//Change selection to this new suggested level, then hide the calculation button
+		this._retrieveLevelCalculation();
 		this._levelSelector.resetToSuggested();
 		this.newAssessmentsAdded = false;
-		this._updateCalculationButtonVisibility();
+	},
+
+	_retrieveLevelCalculation: function () {
+		//TODO: send calculation request here. This will retrieve a calculated value and any corresponding data
+
 	}
+
 });
