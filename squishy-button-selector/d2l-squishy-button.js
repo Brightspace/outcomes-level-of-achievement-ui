@@ -26,7 +26,7 @@ $_documentContainer.innerHTML = `<dom-module id="d2l-squishy-button">
 
 			:host {
 				box-sizing: border-box;
-				border: var(--d2l-squishy-button-border-width) solid var(--d2l-color-mica);
+				border: var(--d2l-squishy-button-border-width) solid var(--d2l-color-tungsten);
 				margin-left: calc(-1 * var(--d2l-squishy-button-border-width));
 			}
 			:host(:dir(rtl)),
@@ -39,7 +39,7 @@ $_documentContainer.innerHTML = `<dom-module id="d2l-squishy-button">
 			}
 
 			:host([disabled]) {
-				border: 0px solid var(--d2l-squishy-button-selected-color, var(--d2l-color-galena));
+				border: 0px;
 				z-index: 0;
 			}
 
@@ -60,7 +60,7 @@ $_documentContainer.innerHTML = `<dom-module id="d2l-squishy-button">
 				align-items: center;
 
 				margin: 0;
-				color: var(--d2l-color-galena);
+				color: var(--d2l-color-tungsten);
 			}
 			:host([selected]) .d2l-squishy-button-container {
 				color: var(--d2l-color-ferrite);

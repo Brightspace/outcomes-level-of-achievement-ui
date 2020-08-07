@@ -102,15 +102,15 @@ $_documentContainer.innerHTML = `<dom-module id="d2l-outcomes-gradebook-eval">
 
 			d2l-outcomes-loa-calculation-help {
 				float: left;
-				margin-bottom: 0;
+				margin-bottom: 12px;
 				margin-top: 6px;
-				margin-left: 2px;
+				margin-left: 6px;
 			}
 			:dir(rtl) d2l-outcomes-loa-calculation-help {
 				float: right;
-				margin-bottom: 0;
+				margin-bottom: 12px;
 				margin-top: 16px;
-				margin-right: 2px;
+				margin-right: 6px;
 			}
 
 			.decaying-average-info {
