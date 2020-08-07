@@ -160,7 +160,7 @@ $_documentContainer.innerHTML = `<dom-module id="d2l-outcomes-gradebook-eval">
 				[[_getDecayingAverageText()]]
 			</div>
 		</template>
-		<d2l-outcomes-level-of-achievements id="level-selector" tooltip-position="top" read-only="[[!isOverrideEnabled]]" has-calculation="[[_hasCalculation(calculationMethod)]]" token="[[_getToken()]]" href="[[levelsOfAchievementData]]">
+		<d2l-outcomes-level-of-achievements id="level-selector" tooltip-position="top" read-only="[[!_canEditLevel(isOverrideEnabled, calculationMethod)]]" has-calculation="[[_hasCalculation(calculationMethod)]]" token="[[_getToken()]]" href="[[levelsOfAchievementData]]">
 		</d2l-outcomes-level-of-achievements>
 	
 		<template is="dom-if" if="[[_hasCalculation(calculationMethod)]]">
@@ -185,7 +185,7 @@ Polymer({
 
 		newAssessmentsAdded: {
 			type: Boolean,
-			value: true,
+			value: false,
 			reflectToAttribute: true
 		},
 
@@ -209,7 +209,8 @@ Polymer({
 
 		decayingAverageValue: {
 			type: Float32Array,
-			value: 0.0
+			value: 0.0,
+			reflectToAttribute: true
 		},
 
 		decayingAverageRate: {
@@ -268,6 +269,10 @@ Polymer({
 
 	_hasCalculation: function (calculationMethod) {
 		return !!calculationMethod && calculationMethod != 'None';
+	},
+
+	_canEditLevel: function (overrideActive, calculationMethod) {
+		return overrideActive || !this._hasCalculation(calculationMethod);
 	},
 
 	_getDecayingAverageText: function () {
