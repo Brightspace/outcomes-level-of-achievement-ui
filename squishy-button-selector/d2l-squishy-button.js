@@ -37,6 +37,12 @@ $_documentContainer.innerHTML = `<dom-module id="d2l-squishy-button">
 			:host(:first-of-type) {
 				margin: 0;
 			}
+
+			:host([disabled]) {
+				border: 0px solid var(--d2l-squishy-button-selected-color, var(--d2l-color-galena));
+				z-index: 0;
+			}
+
 			:host([selected]) {
 				border: var(--d2l-squishy-button-border-width) solid var(--d2l-squishy-button-selected-color, var(--d2l-color-galena));
 				z-index: 1;
