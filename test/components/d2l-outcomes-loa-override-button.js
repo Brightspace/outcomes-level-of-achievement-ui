@@ -4,7 +4,7 @@ import { fixture, expect } from '@open-wc/testing';
 import { afterNextRender } from '@polymer/polymer/lib/utils/render-status.js';
 import '../../override-button/d2l-outcomes-loa-override-button.js';
 
-suite('<d2l-outcomes-loa-override-button>', function () {
+describe('<d2l-outcomes-loa-override-button>', function () {
 
 	var element, sandbox;
 
@@ -31,7 +31,7 @@ suite('<d2l-outcomes-loa-override-button>', function () {
 	describe('Accessibility Tests', () => {
 
 		it('should pass all axe tests', async () => {
-			await expect(el).to.be.accessible();
+			await expect(element).to.be.accessible();
 		});
 
 	});

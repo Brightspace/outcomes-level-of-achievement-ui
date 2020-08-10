@@ -3,7 +3,7 @@
 'use strict';
 import { fixture, expect } from '@open-wc/testing';
 
-suite('<d2l-outcomes-gradebook-eval>', function () {
+describe('<d2l-outcomes-gradebook-eval>', function () {
 
 	var element, sandbox;
 
@@ -27,7 +27,7 @@ suite('<d2l-outcomes-gradebook-eval>', function () {
 	describe('Accessibility Tests', () => {
 
 		it('should pass all axe tests', async () => {
-			await expect(el).to.be.accessible();
+			await expect(element).to.be.accessible();
 		});
 
 	});

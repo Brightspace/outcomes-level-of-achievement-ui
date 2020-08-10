@@ -78,7 +78,7 @@ Polymer({
 	],
 
 	_readOnlyChanged: function () {
-		console.log("readOnly set to " + this.readOnly.toString());
+		console.log('readOnly set to ' + this.readOnly.toString());
 	},
 
 	behaviors: [

@@ -11,7 +11,6 @@ import '@brightspace-ui/core/components/typography/typography.js';
 import 'd2l-polymer-siren-behaviors/store/entity-store.js';
 import 'd2l-polymer-siren-behaviors/store/entity-behavior.js';
 import 'd2l-polymer-siren-behaviors/store/siren-action-behavior.js';
-import { Actions, Classes } from 'd2l-hypermedia-constants';
 
 import './d2l-outcomes-level-of-achievements.js';
 import './override-button/d2l-outcomes-loa-override-button.js';
@@ -167,7 +166,6 @@ Polymer({
 
 	properties: {
 
-
 		isOverrideEnabled: {
 			type: Boolean,
 			value: false
@@ -200,7 +198,7 @@ Polymer({
 
 		token: {
 			type: String,
-			value: "abc123"
+			value: 'abc123'
 		},
 
 		_calcUpdateNeeded: {
@@ -259,15 +257,15 @@ Polymer({
 			this.newAssessmentsAdded = newAssessments;
 		}
 
-		var calcMethodHref = entity.getLinkByRel("calculation-method").href;
-		window.D2L.Siren.EntityStore.fetch(calcMethodHref, this.token, true).then(calcMethodRequest => {			
+		var calcMethodHref = entity.getLinkByRel('calculation-method').href;
+		window.D2L.Siren.EntityStore.fetch(calcMethodHref, this.token, true).then(calcMethodRequest => {
 			var calcMethod = calcMethodRequest.entity;
 			this.calculationMethod = calcMethod.properties.name;
 			//TODO: help menu content population
 			this._hasHelpMenu = calcMethod.properties.hasHelpPopup;
 			this._helpMenuItems = [];
-			var newHelpMenuItems = calcMethod.getSubEntitiesByClass("help-popup-item");
-			newHelpMenuItems.forEach((item, index) => {
+			var newHelpMenuItems = calcMethod.getSubEntitiesByClass('help-popup-item');
+			newHelpMenuItems.forEach((item) => {
 				var label = item.properties.label;
 				var content = item.properties.content;
 				this._helpMenuItems.push({ label, content });
@@ -290,7 +288,7 @@ Polymer({
 	},
 
 	_hasCalculation: function (calculationMethod) {
-		return !!calculationMethod && calculationMethod != 'None';
+		return !!calculationMethod && calculationMethod !== 'None';
 	},
 
 	_canEditLevel: function (overrideActive, calculationMethod) {

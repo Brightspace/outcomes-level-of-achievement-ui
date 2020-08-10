@@ -16,7 +16,6 @@ import '@brightspace-ui/core/components/icons/icon.js';
 import '@brightspace-ui/core/components/button/button-subtle.js';
 import { Polymer } from '@polymer/polymer/lib/legacy/polymer-fn.js';
 import { afterNextRender } from '@polymer/polymer/lib/utils/render-status.js';
-import { dom } from '@polymer/polymer/lib/legacy/polymer.dom.js';
 const $_documentContainer = document.createElement('template');
 
 $_documentContainer.innerHTML = `<dom-module id="d2l-outcomes-loa-override-button">
@@ -144,10 +143,10 @@ Polymer({
 
 	_getButtonIcon: function (overrideActive) {
 		if (overrideActive) {
-			return "tier1:close-default";
+			return 'tier1:close-default';
 		}
 		else {
-			return "tier1:edit";
+			return 'tier1:edit';
 		}
 	},
 
