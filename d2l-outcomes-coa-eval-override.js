@@ -1,8 +1,8 @@
 /**
-`d2l-outcomes-gradebook-eval`
+`d2l-outcomes-coa-eval-override`
 Polymer Web-Component to display controls for course overall achievements
 
-@demo demo/d2l-outcomes-gradebook-eval.html
+@demo demo/d2l-outcomes-coa-eval-override.html
 */
 import '@polymer/polymer/polymer-legacy.js';
 
@@ -13,15 +13,15 @@ import 'd2l-polymer-siren-behaviors/store/entity-behavior.js';
 import 'd2l-polymer-siren-behaviors/store/siren-action-behavior.js';
 
 import './d2l-outcomes-level-of-achievements.js';
-import './override-button/d2l-outcomes-loa-override-button.js';
-import './calculation/d2l-outcomes-loa-calculate-button.js';
-import './calculation/d2l-outcomes-loa-calculation-help.js';
+import './override-button/d2l-outcomes-coa-override-button.js';
+import './calculation/d2l-outcomes-coa-calculate-button.js';
+import './calculation/d2l-outcomes-coa-calculation-help.js';
 
 import { Polymer } from '@polymer/polymer/lib/legacy/polymer-fn.js';
 import './localize-behavior.js';
 const $_documentContainer = document.createElement('template');
 
-$_documentContainer.innerHTML = `<dom-module id="d2l-outcomes-gradebook-eval">
+$_documentContainer.innerHTML = `<dom-module id="d2l-outcomes-coa-eval-override">
 	<template strip-whitespace="">
 		<style include="d2l-typography">
 
@@ -89,13 +89,13 @@ $_documentContainer.innerHTML = `<dom-module id="d2l-outcomes-gradebook-eval">
 				margin-bottom: 12px;
 			}
 
-			d2l-outcomes-loa-calculation-help {
+			d2l-outcomes-coa-calculation-help {
 				float: left;
 				margin-bottom: 12px;
 				margin-top: 6px;
 				margin-left: 6px;
 			}
-			:dir(rtl) d2l-outcomes-loa-calculation-help {
+			:dir(rtl) d2l-outcomes-coa-calculation-help {
 				float: right;
 				margin-bottom: 12px;
 				margin-top: 16px;
@@ -114,7 +114,7 @@ $_documentContainer.innerHTML = `<dom-module id="d2l-outcomes-gradebook-eval">
 				padding-top: 0px;
 			}
 
-			d2l-outcomes-loa-override-button {
+			d2l-outcomes-coa-override-button {
 				
 			}
 
@@ -126,7 +126,7 @@ $_documentContainer.innerHTML = `<dom-module id="d2l-outcomes-gradebook-eval">
 			<h3 class="page-heading">Select Overall Achievement</h3>
 			<template is="dom-if" if="[[_isCalculationUpdateNeeded(calculationMethod, newAssessmentsAdded, isOverrideEnabled)]]">
 				<span class="calculate-button-container">
-					<d2l-outcomes-loa-calculate-button align="right" update-needed="[[!_calcUpdateNeeded]]" tabindex="0"></d2l-outcomes-loa-calculate-button>
+					<d2l-outcomes-coa-calculate-button align="right" update-needed="[[!_calcUpdateNeeded]]" tabindex="0"></d2l-outcomes-coa-calculate-button>
 				</span>
 			</template>
 		</div>
@@ -138,7 +138,7 @@ $_documentContainer.innerHTML = `<dom-module id="d2l-outcomes-gradebook-eval">
 				<span class="calculation-label">
 					Calculation method: [[calculationMethod]]
 				</span>
-				<d2l-outcomes-loa-calculation-help id="calculation-help" popup-items="[[_helpMenuItems]]" hidden="[[!_hasHelpMenu]]" tabindex="0"></d2l-outcomes-loa-calculation-help>
+				<d2l-outcomes-coa-calculation-help id="calculation-help" popup-items="[[_helpMenuItems]]" hidden="[[!_hasHelpMenu]]" tabindex="0"></d2l-outcomes-coa-calculation-help>
 			</div>
 		</template>
 
@@ -154,7 +154,7 @@ $_documentContainer.innerHTML = `<dom-module id="d2l-outcomes-gradebook-eval">
 		</d2l-outcomes-level-of-achievements>
 	
 		<template is="dom-if" if="[[_hasCalculation(calculationMethod)]]">
-			<d2l-outcomes-loa-override-button id="override-button" tooltip-position="top" override-active="[[isOverrideEnabled]]" tabindex="0"></d2l-outcomes-loa-override-button>
+			<d2l-outcomes-coa-override-button id="override-button" tooltip-position="top" override-active="[[isOverrideEnabled]]" tabindex="0"></d2l-outcomes-coa-override-button>
 		</template>
 	</template>
 
@@ -162,7 +162,7 @@ $_documentContainer.innerHTML = `<dom-module id="d2l-outcomes-gradebook-eval">
 
 document.head.appendChild($_documentContainer.content);
 Polymer({
-	is: 'd2l-outcomes-gradebook-eval',
+	is: 'd2l-outcomes-coa-eval-override',
 
 	properties: {
 
@@ -234,9 +234,9 @@ Polymer({
 
 	ready: function() {
 		this._levelSelector = this.$$('d2l-outcomes-level-of-achievements');
-		this.addEventListener('d2l-loa-manual-override-enabled', this._onOverrideEnabled);
-		this.addEventListener('d2l-loa-manual-override-disabled', this._onOverrideDisabled);
-		this.addEventListener('d2l-loa-calculation-clicked', this._onCalcButtonClicked);
+		this.addEventListener('d2l-coa-manual-override-enabled', this._onOverrideEnabled);
+		this.addEventListener('d2l-coa-manual-override-disabled', this._onOverrideDisabled);
+		this.addEventListener('d2l-coa-calculation-clicked', this._onCalcButtonClicked);
 	},
 
 	_getCalculationDetails: function(entity) {

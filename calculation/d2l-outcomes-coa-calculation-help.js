@@ -1,9 +1,9 @@
 /**
-`d2l-outcomes-loa-override-button`
+`d2l-outcomes-coa-override-button`
 Polymer Web-Component for a button that lets the user manually override
 calculated values for a user's overall outcome achievement level
 
-@demo demo/d2l-outcomes-loa-override-button.html
+@demo demo/d2l-outcomes-coa-override-button.html
 */
 
 import '@polymer/polymer/polymer-legacy.js';
@@ -19,7 +19,7 @@ import { Polymer } from '@polymer/polymer/lib/legacy/polymer-fn.js';
 import { afterNextRender } from '@polymer/polymer/lib/utils/render-status.js';
 const $_documentContainer = document.createElement('template');
 
-$_documentContainer.innerHTML = `<dom-module id="d2l-outcomes-loa-calculation-help">
+$_documentContainer.innerHTML = `<dom-module id="d2l-outcomes-coa-calculation-help">
 <template strip-whitespace="" id="button-template">	
 	<d2l-button-icon id="help-button" text="[[_getHelpButtonText()]]" icon="[[buttonIcon]]" tabindex="-1">
 	</d2l-button-icon>
@@ -53,7 +53,7 @@ $_documentContainer.innerHTML = `<dom-module id="d2l-outcomes-loa-calculation-he
 document.head.appendChild($_documentContainer.content);
 
 Polymer({
-	is: 'd2l-outcomes-loa-calculation-help',
+	is: 'd2l-outcomes-coa-calculation-help',
 
 	properties: {
 

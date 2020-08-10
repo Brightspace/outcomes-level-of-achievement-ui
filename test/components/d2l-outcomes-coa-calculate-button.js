@@ -1,9 +1,9 @@
-/* global suite, test, fixture, expect, suiteSetup, describe, done, afterEach, it, sinon */
+/* global suite, test, fixture, expect, describe, done, afterEach, it, suiteSetup, sinon */
 
 import { afterNextRender } from '@polymer/polymer/lib/utils/render-status.js';
-import '../../calculation/d2l-outcomes-loa-calculation-help.js';
+import '../../calculation/d2l-outcomes-coa-calculate-button.js';
 
-describe('<d2l-outcomes-loa-calculation-help>', function() {
+describe('<d2l-outcomes-coa-calculate-button>', function() {
 
 	var element, sandbox;
 
@@ -22,7 +22,7 @@ describe('<d2l-outcomes-loa-calculation-help>', function() {
 	suite('smoke test', function() {
 
 		test('can be instantiated', function() {
-			expect(element.is).to.equal('d2l-outcomes-loa-calculation-help');
+			expect(element.is).to.equal('d2l-outcomes-coa-calculate-button');
 		});
 
 	});

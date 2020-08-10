@@ -1,7 +1,7 @@
 /* global suite, test, fixture, expect, describe, it, suiteSetup, suiteTeardown, sinon */
 
 'use strict';
-describe('<d2l-outcomes-gradebook-eval>', function() {
+describe('<d2l-outcomes-coa-eval-override>', function() {
 
 	var element, sandbox;
 
@@ -17,7 +17,7 @@ describe('<d2l-outcomes-gradebook-eval>', function() {
 	suite('smoke test', function() {
 
 		test('can be instantiated', function() {
-			expect(element.is).to.equal('d2l-outcomes-gradebook-eval');
+			expect(element.is).to.equal('d2l-outcomes-coa-eval-override');
 		});
 
 	});

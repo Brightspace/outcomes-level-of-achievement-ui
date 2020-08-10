@@ -1,9 +1,9 @@
 /**
-`d2l-outcomes-loa-override-button`
+`d2l-outcomes-coa-override-button`
 Polymer Web-Component for a button that lets the user manually override
 calculated values for a user's overall outcome achievement level
 
-@demo demo/d2l-outcomes-loa-override-button.html
+@demo demo/d2l-outcomes-coa-override-button.html
 */
 
 import '@polymer/polymer/polymer-legacy.js';
@@ -18,7 +18,7 @@ import { Polymer } from '@polymer/polymer/lib/legacy/polymer-fn.js';
 import { afterNextRender } from '@polymer/polymer/lib/utils/render-status.js';
 const $_documentContainer = document.createElement('template');
 
-$_documentContainer.innerHTML = `<dom-module id="d2l-outcomes-loa-override-button">
+$_documentContainer.innerHTML = `<dom-module id="d2l-outcomes-coa-override-button">
 <template strip-whitespace="">	
 	<style>
 	</style>
@@ -30,7 +30,7 @@ $_documentContainer.innerHTML = `<dom-module id="d2l-outcomes-loa-override-butto
 document.head.appendChild($_documentContainer.content);
 
 Polymer({
-	is: 'd2l-outcomes-loa-override-button',
+	is: 'd2l-outcomes-coa-override-button',
 
 	properties: {
 
@@ -151,7 +151,7 @@ Polymer({
 	},
 
 	_dispatchItemToggledEvent: function(newOverrideState) {
-		var eventName = newOverrideState ? 'd2l-loa-manual-override-enabled' : 'd2l-loa-manual-override-disabled';
+		var eventName = newOverrideState ? 'd2l-coa-manual-override-enabled' : 'd2l-coa-manual-override-disabled';
 		//var eventName = 'd2l-manual-override-toggled';
 		this.dispatchEvent(new CustomEvent(eventName, {
 			bubbles: true,

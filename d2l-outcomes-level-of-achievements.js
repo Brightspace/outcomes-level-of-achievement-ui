@@ -87,7 +87,7 @@ Polymer({
 		this.$$('d2l-squishy-button-selector').addEventListener('d2l-squishy-button-selected', this._onItemSelected);
 		this._handleRefresh = this._handleRefresh.bind(this);
 
-		this.addEventListener('d2l-loa-manual-override-enabled', this._onOverrideEnabled);
+		this.addEventListener('d2l-coa-manual-override-enabled', this._onOverrideEnabled);
 
 	},
 

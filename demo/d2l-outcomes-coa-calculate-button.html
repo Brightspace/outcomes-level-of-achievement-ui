@@ -8,23 +8,23 @@
 	<script src="/node_modules/@webcomponents/webcomponentsjs/webcomponents-loader.js"></script>
 	<script type="module">
 		import '/node_modules/@brightspace-ui/core/components/demo/demo-page.js';
-		import '../d2l-outcomes-gradebook-eval.js';
+		import '../d2l-outcomes-coa-eval-override.js';
 	</script>
 </head>
 <body unresolved>
 	<d2l-demo-page page-title="d2l-outcomes-calculate-button demo">
 		<h3>Update needed:</h3>
 		<d2l-demo-snippet>
-			<d2l-outcomes-loa-calculate-button update-needed tabindex="0"></d2l-outcomes-loa-calculate-button>
-			<d2l-outcomes-loa-calculate-button update-needed tabindex="0"></d2l-outcomes-loa-calculate-button>
-			<d2l-outcomes-loa-calculate-button update-needed tabindex="0"></d2l-outcomes-loa-calculate-button>
-			<d2l-outcomes-loa-calculate-button update-needed tabindex="0"></d2l-outcomes-loa-calculate-button>
-			<d2l-outcomes-loa-calculate-button update-needed tabindex="0"></d2l-outcomes-loa-calculate-button>
+			<d2l-outcomes-coa-calculate-button update-needed tabindex="0"></d2l-outcomes-coa-calculate-button>
+			<d2l-outcomes-coa-calculate-button update-needed tabindex="0"></d2l-outcomes-coa-calculate-button>
+			<d2l-outcomes-coa-calculate-button update-needed tabindex="0"></d2l-outcomes-coa-calculate-button>
+			<d2l-outcomes-coa-calculate-button update-needed tabindex="0"></d2l-outcomes-coa-calculate-button>
+			<d2l-outcomes-coa-calculate-button update-needed tabindex="0"></d2l-outcomes-coa-calculate-button>
 		</d2l-demo-snippet>
 
 		<h3>No recalculation needed:</h3>
 		<d2l-demo-snippet>
-			<d2l-outcomes-loa-calculate-button tabindex="0"></d2l-outcomes-loa-calculate-button>
+			<d2l-outcomes-coa-calculate-button tabindex="0"></d2l-outcomes-coa-calculate-button>
 			<p style="font: 14px; line-spacing=0;">(No button should be visible, clickable or selectable.)</p>
 		</d2l-demo-snippet>
 	</d2l-demo-page>
