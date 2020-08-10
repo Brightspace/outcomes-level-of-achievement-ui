@@ -41,11 +41,11 @@ $_documentContainer.innerHTML = `<dom-module id="d2l-outcomes-loa-calculation-he
 			}
 			
 		</style>
-
-		<template is="dom-repeat" items="[[popupItems]]">
+		
+		<template id="help-content" is="dom-repeat" items="[[popupItems]]">
 			<p><b>[[_getHelpItemLabelText(item)]]</b><br>[[_getHelpItemContentText(item)]]</p>
 		</template>
-
+		
 		<d2l-button slot="footer" primary data-dialog-action="done">OK</d2l-button>
 	</d2l-dialog>
 </template>
@@ -66,20 +66,7 @@ Polymer({
 
 		popupItems: {
 			type: Array,
-			value: {},
-			reflectToAttribute: true
-		},
-
-		//TODO: remove these as they are replaced with dynamic data
-		calculationMethod: {
-			type: String,
-			value: '',
-			reflectToAttribute: true,
-		},
-
-		decayingAverageRate: {
-			type: Float32Array,
-			value: 75,
+			value: [],
 			reflectToAttribute: true
 		},
 
@@ -158,4 +145,5 @@ Polymer({
 	_getHelpItemContentText: function (item) {
 		return this.localize('calcHelpItemContent', 'content', item.content);
 	},
+
 });
