@@ -1,5 +1,6 @@
 /* global suite, test, fixture, expect, suiteSetup, suiteTeardown, sinon */
 
+import { fixture, expect } from '@open-wc/testing';
 import { afterNextRender } from '@polymer/polymer/lib/utils/render-status.js';
 import '../../override-button/d2l-outcomes-loa-override-button.js';
 
@@ -25,18 +26,14 @@ suite('<d2l-outcomes-loa-override-button>', function () {
 			expect(element.is).to.equal('d2l-outcomes-loa-override-button');
 		});
 
-		test('correct inactive text and icon', function () {
-			element.overrideActive = false;
-			expect(element.buttonText).to.equal("Manually Override");
-			expect(element.buttonIcon).to.equal("tier1:edit");
-			expect(element.hidden).to.equal(false);
+	});
+
+	describe('Accessibility Tests', () => {
+
+		it('should pass all axe tests', async () => {
+			await expect(el).to.be.accessible();
 		});
 
-		test('correct active text and icon', function () {
-			element.overrideActive = true;
-			expect(element.buttonText).to.equal("Clear Manual Override");
-			expect(element.buttonIcon).to.equal("tier1:close-default");
-			expect(element.hidden).to.equal(false);
-		});
 	});
+
 });
