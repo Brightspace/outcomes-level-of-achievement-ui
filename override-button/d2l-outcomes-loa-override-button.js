@@ -23,7 +23,7 @@ $_documentContainer.innerHTML = `<dom-module id="d2l-outcomes-loa-override-butto
 <template strip-whitespace="">	
 	<style>
 	</style>
-	<d2l-button-subtle text="[[buttonText]]" icon="[[buttonIcon]]" id="overrideButton" aria-hidden="true" tabindex="-1" hidden="[[hidden]]">
+	<d2l-button-subtle text="[[buttonText]]" icon="[[buttonIcon]]" id="overrideButton" tabindex="-1" hidden="[[hidden]]">
 	</d2l-button-subtle>
 </template>
 </dom-module> `;

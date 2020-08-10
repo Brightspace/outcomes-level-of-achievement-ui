@@ -22,16 +22,22 @@ const $_documentContainer = document.createElement('template');
 
 $_documentContainer.innerHTML = `<dom-module id="d2l-outcomes-loa-calculation-help">
 <template strip-whitespace="" id="button-template">	
-	<d2l-button-icon id="help-button" text="[[_getHelpButtonText()]]" icon="[[buttonIcon]]" aria-hidden="true" tabindex="-1">
+	<d2l-button-icon id="help-button" text="[[_getHelpButtonText()]]" icon="[[buttonIcon]]" tabindex="-1">
 	</d2l-button-icon>
 
 	<d2l-dialog id="help-dialog" title-text="[[_getHelpMenuTitle()]]">
 		<style>
 			p {
-			    display: block;
-			    content: "";
-				font-size = 12px;
-				line-height: 30px;
+				@apply --d2l-body-text;
+				display: block;
+				content: "";
+				margin-top: 30px;
+			}
+
+			br {
+				display: block; /* makes it have a width */
+				content: ""; /* clears default height */
+				margin-top: 18px; /* change this to whatever height you want it */
 			}
 			
 		</style>

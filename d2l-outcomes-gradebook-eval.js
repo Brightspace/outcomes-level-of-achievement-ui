@@ -26,16 +26,6 @@ $_documentContainer.innerHTML = `<dom-module id="d2l-outcomes-gradebook-eval">
 	<template strip-whitespace="">
 		<style include="d2l-typography">
 
-			:host {
-				background-color: --d2l-color-regolith;
-			}
-
-			.left-border {
-				border-left-width: 6px;
-				border-left-style: solid;
-				border-left-color: --d2l-color-gypsum;
-			}
-
 			.d2l-suggestion-text {
 				@apply --d2l-body-small-text;
 				margin: 0.3rem 0 0.3rem 0;
@@ -144,16 +134,14 @@ $_documentContainer.innerHTML = `<dom-module id="d2l-outcomes-gradebook-eval">
 
 		<div style="clear: both;"></div>
 
-		<div id="calculation-info-container">
-			<template is="dom-if" if="[[_hasCalculation(calculationMethod)]]">
-				<div class="calculation-info">
-					<span class="calculation-label">
-						Calculation method: [[calculationMethod]]
-					</span>
-					<d2l-outcomes-loa-calculation-help id="calculation-help" popup-items="[[_helpMenuItems]]" hidden="[[!_hasHelpMenu]]" tabindex="0"></d2l-outcomes-loa-calculation-help>
-				</div>
-			</template>
-		</div>
+		<template is="dom-if" if="[[_hasCalculation(calculationMethod)]]">
+			<div class="calculation-info">
+				<span class="calculation-label">
+					Calculation method: [[calculationMethod]]
+				</span>
+				<d2l-outcomes-loa-calculation-help id="calculation-help" popup-items="[[_helpMenuItems]]" hidden="[[!_hasHelpMenu]]" tabindex="0"></d2l-outcomes-loa-calculation-help>
+			</div>
+		</template>
 
 		<div style="clear: both;"></div>
 
