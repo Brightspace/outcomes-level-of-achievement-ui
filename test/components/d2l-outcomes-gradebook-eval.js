@@ -1,8 +1,6 @@
-/* global suite, test, fixture, expect, suiteSetup, suiteTeardown, sinon */
+/* global suite, test, fixture, expect, describe, it, suiteSetup, suiteTeardown, sinon */
 
 'use strict';
-import { fixture, expect } from '@open-wc/testing';
-
 describe('<d2l-outcomes-gradebook-eval>', function() {
 
 	var element, sandbox;
@@ -26,7 +24,7 @@ describe('<d2l-outcomes-gradebook-eval>', function() {
 
 	describe('Accessibility Tests', () => {
 
-		it('should pass all axe tests', async () => {
+		it('should pass all axe tests', async() => {
 			await expect(element).to.be.accessible();
 		});
 

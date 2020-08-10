@@ -1,6 +1,5 @@
-/* global suite, test, fixture, expect, suiteSetup, suiteTeardown, sinon */
+/* global suite, test, fixture, expect, suiteSetup, describe, done, afterEach, it, sinon */
 
-import { fixture, expect } from '@open-wc/testing';
 import { afterNextRender } from '@polymer/polymer/lib/utils/render-status.js';
 import '../../calculation/d2l-outcomes-loa-calculation-help.js';
 
@@ -27,13 +26,13 @@ describe('<d2l-outcomes-loa-calculation-help>', function() {
 		});
 
 	});
+
 	describe('Accessibility Tests', () => {
 
-		it('should pass all axe tests', async () => {
+		it('should pass all axe tests', async() => {
 			await expect(element).to.be.accessible();
 		});
 
 	});
-
 
 });

@@ -188,7 +188,7 @@ Polymer({
 	},
 
 	resetToSuggested: function() {
-		var suggestedLevelElement = this.shadowRoot.getElementById("item-" + this._suggestedLevel.index.toString());
+		var suggestedLevelElement = this.shadowRoot.getElementById('item-' + this._suggestedLevel.index.toString());
 		suggestedLevelElement.click();
 	}
 

@@ -1,6 +1,5 @@
-/* global suite, test, fixture, expect, suiteSetup, suiteTeardown, sinon */
+/* global suite, test, fixture, expect, describe, done, afterEach, it, suiteSetup, sinon */
 
-import { fixture, expect } from '@open-wc/testing';
 import { afterNextRender } from '@polymer/polymer/lib/utils/render-status.js';
 import '../../calculation/d2l-outcomes-loa-calculate-button.js';
 

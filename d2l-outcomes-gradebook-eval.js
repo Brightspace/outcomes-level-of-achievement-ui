@@ -245,15 +245,15 @@ Polymer({
 		}
 
 		var demonstrationCalculatedValue = entity.properties.calculatedValue;
-		if (!!demonstrationCalculatedValue) {
+		if (demonstrationCalculatedValue) {
 			this.calculatedAchievementValue = demonstrationCalculatedValue;
 		}
 		var overrideActive = entity.properties.overrideActive;
-		if (!!overrideActive) {
+		if (overrideActive) {
 			this.isOverrideEnabled = overrideActive;
 		}
 		var newAssessments = entity.properties.newAssessments;
-		if (!!newAssessments) {
+		if (newAssessments) {
 			this.newAssessmentsAdded = newAssessments;
 		}
 
@@ -266,9 +266,11 @@ Polymer({
 			this._helpMenuItems = [];
 			var newHelpMenuItems = calcMethod.getSubEntitiesByClass('help-popup-item');
 			newHelpMenuItems.forEach((item) => {
-				var label = item.properties.label;
-				var content = item.properties.content;
-				this._helpMenuItems.push({ label, content });
+				var itemObj = {
+					label: item.properties.label,
+					content: item.properties.content
+				};
+				this._helpMenuItems.push(itemObj);
 			});
 		});
 
@@ -303,12 +305,12 @@ Polymer({
 		return this.token;
 	},
 
-	_onOverrideEnabled: function(event) {
+	_onOverrideEnabled: function() {
 		this.isOverrideEnabled = true;
 		this._levelSelector.setFocus();
 	},
 
-	_onOverrideDisabled: function(event) {
+	_onOverrideDisabled: function() {
 		//Update the level calculation if necessary
 		if (this._isCalculationUpdateNeeded(this.calculationMethod, this.newAssessmentsAdded, true)) {
 			this._updateLevelCalculation();
@@ -318,7 +320,7 @@ Polymer({
 		this.isOverrideEnabled = false;
 	},
 
-	_onCalcButtonClicked: function(event) {
+	_onCalcButtonClicked: function() {
 		if (this._updateLevelCalculation()) {
 			//Calculation successfully updated
 			this._levelSelector.resetToSuggested();

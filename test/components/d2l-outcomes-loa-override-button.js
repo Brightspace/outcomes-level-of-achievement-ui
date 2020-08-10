@@ -1,6 +1,5 @@
-/* global suite, test, fixture, expect, suiteSetup, suiteTeardown, sinon */
+/* global suite, test, fixture, expect, suiteSetup, describe, done, afterEach, it, sinon */
 
-import { fixture, expect } from '@open-wc/testing';
 import { afterNextRender } from '@polymer/polymer/lib/utils/render-status.js';
 import '../../override-button/d2l-outcomes-loa-override-button.js';
 
