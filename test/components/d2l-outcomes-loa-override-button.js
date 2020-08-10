@@ -29,7 +29,7 @@ describe('<d2l-outcomes-loa-override-button>', function() {
 
 	describe('Accessibility Tests', () => {
 
-		it('should pass all axe tests', async () => {
+		it('should pass all axe tests', async() => {
 			await expect(element).to.be.accessible();
 		});
 
