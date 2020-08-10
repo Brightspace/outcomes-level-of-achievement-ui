@@ -57,7 +57,7 @@ Polymer({
 	properties: {
 		readOnly: {
 			type: Boolean,
-			value: false,
+			value: false
 		},
 		_hasAction: Boolean,
 		_demonstrationLevels: Array,

@@ -261,7 +261,6 @@ Polymer({
 		window.D2L.Siren.EntityStore.fetch(calcMethodHref, this.token, true).then(calcMethodRequest => {
 			var calcMethod = calcMethodRequest.entity;
 			this.calculationMethod = calcMethod.properties.name;
-			//TODO: help menu content population
 			this._hasHelpMenu = calcMethod.properties.hasHelpPopup;
 			this._helpMenuItems = [];
 			var newHelpMenuItems = calcMethod.getSubEntitiesByClass('help-popup-item');
@@ -329,7 +328,7 @@ Polymer({
 	},
 
 	_updateLevelCalculation: function() {
-		//TODO: send calculation request here. This will retrieve a calculated value and any corresponding data
+		//Calculation request will be sent here. This will retrieve a calculated value and any corresponding data
 		this.newAssessmentsAdded = false;
 		return true;
 	}

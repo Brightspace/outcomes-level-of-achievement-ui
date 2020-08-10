@@ -84,7 +84,6 @@ Polymer({
 		D2L.PolymerBehaviors.OutcomesLOA.LocalizeBehavior
 	],
 
-	//TODO: define event behavior and other methods
 	ready: function() {
 		afterNextRender(this, /* @this */ function() {
 		});

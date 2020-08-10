@@ -59,7 +59,6 @@ Polymer({
 		D2L.PolymerBehaviors.OutcomesLOA.LocalizeBehavior
 	],
 
-	//TODO: define event behavior and other methods
 	ready: function() {
 		afterNextRender(this, /* @this */ function() {
 			this.buttonText = this._getButtonText();
@@ -86,6 +85,7 @@ Polymer({
 		}
 	},
 
+	//Called when the button is clicked or tapped
 	_handleTap: function(event) {
 		if (this.hidden) {
 			return;
@@ -95,7 +95,6 @@ Polymer({
 		event.preventDefault();
 	},
 
-	//Invoked when the button is clicked, tapped, or keyboard-activated
 	_handleSelected: function() {
 		this._dispatchCalculationEvent();
 	},
