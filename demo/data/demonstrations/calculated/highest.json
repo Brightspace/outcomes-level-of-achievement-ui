@@ -3,7 +3,6 @@
     "demonstration"
   ],
   "properties": {
-    "calculationMethod": "Highest"
   },
   "entities": [
     {
@@ -159,6 +158,12 @@
         "self"
       ],
       "href": "data/demonstrations/3-levels.json"
+    },
+    {
+      "rel": [
+        "calculation-method"
+      ],
+      "href": "data/calculation-methods/highest.json"
     }
   ]
 }

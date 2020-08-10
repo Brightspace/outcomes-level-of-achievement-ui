@@ -144,23 +144,26 @@ $_documentContainer.innerHTML = `<dom-module id="d2l-outcomes-gradebook-eval">
 
 		<div style="clear: both;"></div>
 
-		<template is="dom-if" if="[[_hasCalculation(calculationMethod)]]">
-			<div class="calculation-info">
-				<span class="calculation-label">
-					Calculation method: [[calculationMethod]]
-				</span>
-				<d2l-outcomes-loa-calculation-help calculation-method="[[calculationMethod]]" decaying-average-rate="[[decayingAverageRate]]" tabindex="0"></d2l-outcomes-loa-calculation-help>
-			</div>
-		</template>
+		<div id="calculation-info-container">
+			<template is="dom-if" if="[[_hasCalculation(calculationMethod)]]">
+				<div class="calculation-info">
+					<span class="calculation-label">
+						Calculation method: [[calculationMethod]]
+					</span>
+					<d2l-outcomes-loa-calculation-help id="calculation-help" popup-items="[[_helpMenuItems]]" hidden="[[!_hasHelpMenu]]" tabindex="0"></d2l-outcomes-loa-calculation-help>
+				</div>
+			</template>
+		</div>
 
 		<div style="clear: both;"></div>
 
-		<template is="dom-if" if="[[_isDecayingAverageVisible()]]">
+		<template is="dom-if" if="[[_isDecayingAverageVisible(calculationMethod)]]">
 			<div class="decaying-average-info">
-				[[_getDecayingAverageText()]]
+				[[_getDecayingAverageText(calculationMethod, calculatedAchievementValue)]]
 			</div>
 		</template>
-		<d2l-outcomes-level-of-achievements id="level-selector" tooltip-position="top" read-only="[[!_canEditLevel(isOverrideEnabled, calculationMethod)]]" has-calculation="[[_hasCalculation(calculationMethod)]]" token="[[_getToken()]]" href="[[levelsOfAchievementData]]">
+
+		<d2l-outcomes-level-of-achievements id="level-selector" tooltip-position="top" read-only="[[!_canEditLevel(isOverrideEnabled, calculationMethod)]]" has-calculation="[[_hasCalculation(calculationMethod)]]" token="[[_getToken()]]" href="[[href]]";>
 		</d2l-outcomes-level-of-achievements>
 	
 		<template is="dom-if" if="[[_hasCalculation(calculationMethod)]]">
@@ -179,21 +182,12 @@ Polymer({
 
 		isOverrideEnabled: {
 			type: Boolean,
-			value: false,
-			reflectToAttribute: true
+			value: false
 		},
 
 		newAssessmentsAdded: {
 			type: Boolean,
-			value: false,
-			reflectToAttribute: true
-		},
-
-		//Should link to the siren data for the achievement selector component
-		levelsOfAchievementData: {
-			type: String,
-			value: null,
-			reflectToAttribute: true
+			value: false
 		},
 
 		calculatedLevel: {
@@ -203,14 +197,12 @@ Polymer({
 
 		calculationMethod: {
 			type: String,
-			value: null,
-			reflectToAttribute: true
+			value: null
 		},
 
-		decayingAverageValue: {
+		calculatedAchievementValue: {
 			type: Float32Array,
-			value: 0.0,
-			reflectToAttribute: true
+			value: 0.0
 		},
 
 		decayingAverageRate: {
@@ -220,14 +212,21 @@ Polymer({
 
 		token: {
 			type: String,
-			value: "abc123",
-			reflectToAttribute: true
+			value: "abc123"
 		},
 
 		_calcUpdateNeeded: {
 			type: Boolean,
-			value: false,
-			reflectToAttribute: true
+			value: false
+		},
+
+		_hasHelpMenu: {
+			type: Boolean,
+			value: false
+		},
+		_helpMenuItems: {
+			type: Array,
+			value: []
 		},
 
 		_loaSelector: {
@@ -238,7 +237,7 @@ Polymer({
 	},
 
 	observers: [
-		//'_getDemonstrationLevels(entity)'
+		'_getCalculationDetails(entity)'
 	],
 
 	behaviors: [
@@ -254,8 +253,43 @@ Polymer({
 		this.addEventListener('d2l-loa-calculation-clicked', this._onCalcButtonClicked);
 	},
 
-	_isDecayingAverageVisible: function () {
-		if (this.calculationMethod === 'Decaying Average') {
+	_getCalculationDetails: function (entity) {
+		if (!entity) {
+			return null;
+		}
+
+		var demonstrationCalculatedValue = entity.properties.calculatedValue;
+		if (!!demonstrationCalculatedValue) {
+			this.calculatedAchievementValue = demonstrationCalculatedValue;
+		}
+		var overrideActive = entity.properties.overrideActive;
+		if (!!overrideActive) {
+			this.isOverrideEnabled = overrideActive;
+		}
+		var newAssessments = entity.properties.newAssessments;
+		if (!!newAssessments) {
+			this.newAssessmentsAdded = newAssessments;
+		}
+
+		var calcMethodHref = entity.getLinkByRel("calculation-method").href;
+		window.D2L.Siren.EntityStore.fetch(calcMethodHref, this.token, true).then(calcMethodRequest => {			
+			var calcMethod = calcMethodRequest.entity;
+			this.calculationMethod = calcMethod.properties.name;
+			//TODO: help menu content population
+			this._hasHelpMenu = calcMethod.properties.hasHelpPopup;
+			this._helpMenuItems = [];
+			var newHelpMenuItems = calcMethod.getSubEntitiesByClass("help-popup-item");
+			newHelpMenuItems.forEach((item, index) => {
+				var label = item.properties.label;
+				var content = item.properties.content;
+				this._helpMenuItems.push({ label, content });
+			});
+		});
+
+	},
+
+	_isDecayingAverageVisible: function (calculationMethod) {
+		if (calculationMethod === 'Decaying Average') {
 			return true;
 		}
 		else {
@@ -275,8 +309,8 @@ Polymer({
 		return overrideActive || !this._hasCalculation(calculationMethod);
 	},
 
-	_getDecayingAverageText: function () {
-		return this.localize('decayingAverageValue', 'value', this.decayingAverageValue.toString());
+	_getDecayingAverageText: function (calculationMethod, calculatedValue) {
+		return this.localize('calculatedValue', 'method', calculationMethod, 'value', calculatedValue.toString());
 	},
 
 	_getToken: function () {
@@ -289,19 +323,27 @@ Polymer({
 	},
 
 	_onOverrideDisabled: function (event) {
+		//Update the level calculation if necessary
+		if (this._isCalculationUpdateNeeded(this.calculationMethod, this.newAssessmentsAdded, true)) {
+			this._updateLevelCalculation();
+		}
+
 		this._levelSelector.resetToSuggested();
 		this.isOverrideEnabled = false;
 	},
 
 	_onCalcButtonClicked: function (event) {
-		this._retrieveLevelCalculation();
-		this._levelSelector.resetToSuggested();
-		this.newAssessmentsAdded = false;
+		if (this._updateLevelCalculation()) {
+			//Calculation successfully updated
+			this._levelSelector.resetToSuggested();
+			this.isOverrideEnabled = false;
+		}
 	},
 
-	_retrieveLevelCalculation: function () {
+	_updateLevelCalculation: function () {
 		//TODO: send calculation request here. This will retrieve a calculated value and any corresponding data
-
+		this.newAssessmentsAdded = false;
+		return true;
 	}
 
 });

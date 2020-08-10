@@ -1,0 +1,67 @@
+{
+  "class": [
+    "calculation-method"
+  ],
+  "properties": {
+    "name": "Decaying Average",
+    "hasHelpPopup": true
+  },
+  "entities": [
+    {
+      "class": [
+        "help-popup-item"
+      ],
+      "rel": [
+        "helpItem"
+      ],
+      "properties": {
+        "label": "Method",
+        "content": "Decaying Average"
+      }
+    },
+    {
+      "class": [
+        "help-popup-item"
+      ],
+      "rel": [
+        "helpItem"
+      ],
+      "properties": {
+        "label": "Decaying rate:",
+        "content": "75%"
+      }
+    },
+    {
+      "class": [
+        "help-popup-item"
+      ],
+      "rel": [
+        "helpItem"
+      ],
+      "properties": {
+        "label": "Activities used in the calculations:",
+        "content": "All activities"
+      }
+    },
+    {
+      "class": [
+        "help-popup-item"
+      ],
+      "rel": [
+        "helpItem"
+      ],
+      "properties": {
+        "label": "If a student makes multiple attempts on an activity, use the:",
+        "content": "Highest attempt"
+      }
+    }
+  ],
+  "links": [
+    {
+      "rel": [
+        "self"
+      ],
+      "href": "data/calculation-methods/decaying-average.json"
+    }
+  ]
+}

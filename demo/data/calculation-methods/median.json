@@ -1,0 +1,17 @@
+{
+  "class": [
+    "calculation-method"
+  ],
+  "properties": {
+    "name": "Median",
+    "hasHelpPopup":  false
+  },
+  "links": [
+    {
+      "rel": [
+        "self"
+      ],
+      "href": "data/calculation-methods/median.json"
+    }
+  ]
+}

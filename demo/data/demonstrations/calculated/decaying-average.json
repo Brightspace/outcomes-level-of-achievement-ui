@@ -3,7 +3,7 @@
     "demonstration"
   ],
   "properties": {
-    "calculationMethod": "Most Common"
+    "calculatedValue": "2.91"
   },
   "entities": [
     {
@@ -159,6 +159,12 @@
         "self"
       ],
       "href": "data/demonstrations/3-levels.json"
+    },
+    {
+      "rel": [
+        "calculation-method"
+      ],
+      "href": "data/calculation-methods/decaying-average.json"
     }
   ]
 }

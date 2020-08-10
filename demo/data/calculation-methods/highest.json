@@ -1,0 +1,43 @@
+{
+  "class": [
+    "calculation-method"
+  ],
+  "properties": {
+    "name": "Highest",
+    "hasHelpPopup": true
+  },
+  "entities": [
+    {
+      "class": [
+        "help-popup-item"
+      ],
+      "rel": [
+        "helpItem"
+      ],
+      "properties": {
+        "label": "Method",
+        "content": "Highest"
+      }
+    },
+    {
+      "class": [
+        "help-popup-item"
+      ],
+      "rel": [
+        "helpItem"
+      ],
+      "properties": {
+        "label": "Activities used in the calculations:",
+        "content": "All activities"
+      }
+    }
+  ],
+  "links": [
+    {
+      "rel": [
+        "self"
+      ],
+      "href": "data/calculation-methods/highest.json"
+    }
+  ]
+}

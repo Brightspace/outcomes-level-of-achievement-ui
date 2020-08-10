@@ -10,20 +10,12 @@ window.D2L.PolymerBehaviors.OutcomesLOA.LocalizeBehavior = window.D2L.PolymerBeh
  */
 D2L.PolymerBehaviors.OutcomesLOA.LocalizeBehavior.LangEnBehavior = {
 	en: {
-		'calcHelpActivitiesBody': '{calcActivities}',
-		'calcHelpActivitiesLabel': 'Activities used in the calculations:',
-		'calcHelpDecayRateBody': '{number}%',
-		'calcHelpDecayRateLabel': 'Decaying rate:',
-		'calcHelpMethodBody': '{calcMethod}',
-		'calcHelpMethodLabel': 'Method',
-		'calcHelpMultipleAttemptsBody': '{policy}',
-		'calcHelpMultipleAttemptsLabel': 'If a student makes multiple attempts on an activity, use the:',
-		'calcHelpMultipleCommonLevelsBody': '{policy}',
-		'calcHelpMultipleCommonLevelsLabel': 'when there are multiple most common achievement levels, use the:',
+		'calcHelpItemLabel': '{label}',
+		'calcHelpItemContent': '{content}',
 		'calcHelpTitle': 'Calculation Method Details',
 		'calculationMethod': 'Calculation method: {calcMethod}',
 		'calculationMethodDetails': 'Calculation Method Details',
-		'decayingAverageValue': 'Decaying Average: {value}',
+		'calculatedValue': '{method}: {value}',
 		'clearManualOverride': 'Clear Manual Override',
 		'manuallyOverride': 'Manually Override',
 		'recalculateOverallAchievement': 'Recalculate Overall Achievement',

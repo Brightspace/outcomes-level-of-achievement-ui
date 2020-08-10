@@ -3,7 +3,10 @@
     "demonstration"
   ],
   "properties": {
-    "calculationMethod": "Median"
+
+    "calculatedValue": "2.57",
+    "newAssessments": true,
+    "overrideActive":  true
   },
   "entities": [
     {
@@ -44,7 +47,8 @@
     },
     {
       "class": [
-        "demonstratable-level"
+        "demonstratable-level",
+        "selected"
       ],
       "rel": [
         "item"
@@ -81,7 +85,6 @@
     {
       "class": [
         "demonstratable-level",
-        "selected",
         "suggested"
       ],
       "rel": [
@@ -159,6 +162,12 @@
         "self"
       ],
       "href": "data/demonstrations/3-levels.json"
+    },
+    {
+      "rel": [
+        "calculation-method"
+      ],
+      "href": "data/calculation-methods/decaying-average.json"
     }
   ]
 }

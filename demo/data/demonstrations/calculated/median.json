@@ -3,9 +3,6 @@
     "demonstration"
   ],
   "properties": {
-    "calculationMethod": "Decaying Average",
-    "calculatedValue": "2.91",
-    "decayRate": "75%"
   },
   "entities": [
     {
@@ -161,6 +158,12 @@
         "self"
       ],
       "href": "data/demonstrations/3-levels.json"
+    },
+    {
+      "rel": [
+        "calculation-method"
+      ],
+      "href": "data/calculation-methods/median.json"
     }
   ]
 }

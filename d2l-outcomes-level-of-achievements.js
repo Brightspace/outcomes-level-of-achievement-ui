@@ -178,7 +178,6 @@ Polymer({
 		if (!action) {
 			return;
 		}
-
 		this.performSirenAction(action)
 			.catch(function () { });
 	},

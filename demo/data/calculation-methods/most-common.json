@@ -1,0 +1,67 @@
+{
+  "class": [
+    "calculation-method"
+  ],
+  "properties": {
+    "name": "Most Common",
+    "hasHelpPopup": true
+  },
+  "entities": [
+    {
+      "class": [
+        "help-popup-item"
+      ],
+      "rel": [
+        "helpItem"
+      ],
+      "properties": {
+        "label": "Method",
+        "content": "Most Common"
+      }
+    },
+    {
+      "class": [
+        "help-popup-item"
+      ],
+      "rel": [
+        "helpItem"
+      ],
+      "properties": {
+        "label": "Activities used in the calculations:",
+        "content": "All activities"
+      }
+    },
+    {
+      "class": [
+        "help-popup-item"
+      ],
+      "rel": [
+        "helpItem"
+      ],
+      "properties": {
+        "label": "When there are multiple most common achievement levels, use the:",
+        "content": "Highest level"
+      }
+    },
+    {
+      "class": [
+        "help-popup-item"
+      ],
+      "rel": [
+        "helpItem"
+      ],
+      "properties": {
+        "label": "If a student makes multiple attempts on an activity, use the:",
+        "content": "Highest attempt"
+      }
+    }
+  ],
+  "links": [
+    {
+      "rel": [
+        "self"
+      ],
+      "href": "data/calculation-methods/most-common.json"
+    }
+  ]
+}
