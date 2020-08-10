@@ -60,13 +60,13 @@ Polymer({
 	],
 
 	//TODO: define event behavior and other methods
-	ready: function () {
-		afterNextRender(this, function () {
+	ready: function() {
+		afterNextRender(this, /* @this */ function() {
 			this.buttonText = this._getButtonText();
 		});
 	},
 
-	_getButtonText: function () {
+	_getButtonText: function() {
 		return this.localize('recalculateOverallAchievement');
 	},
 
@@ -75,7 +75,7 @@ Polymer({
 		SPACE: 32
 	},
 
-	_onKeyDown: function (event) {
+	_onKeyDown: function(event) {
 		if (this.hidden) {
 			return;
 		}
@@ -86,7 +86,7 @@ Polymer({
 		}
 	},
 
-	_handleTap: function (event) {
+	_handleTap: function(event) {
 		if (this.hidden) {
 			return;
 		}
@@ -96,11 +96,11 @@ Polymer({
 	},
 
 	//Invoked when the button is clicked, tapped, or keyboard-activated
-	_handleSelected: function () {
+	_handleSelected: function() {
 		this._dispatchCalculationEvent();
 	},
 
-	_dispatchCalculationEvent: function () {
+	_dispatchCalculationEvent: function() {
 		var eventName = 'd2l-loa-calculation-clicked';
 		this.dispatchEvent(new CustomEvent(eventName, {
 			composed: true

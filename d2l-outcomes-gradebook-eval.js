@@ -187,12 +187,12 @@ Polymer({
 		},
 
 		calculatedAchievementValue: {
-			type: Float32Array,
+			type: Number,
 			value: 0.0
 		},
 
 		decayingAverageRate: {
-			type: Float32Array,
+			type: Number,
 			value: 75
 		},
 
@@ -232,14 +232,14 @@ Polymer({
 		D2L.PolymerBehaviors.OutcomesLOA.LocalizeBehavior
 	],
 
-	ready: function () {
+	ready: function() {
 		this._levelSelector = this.$$('d2l-outcomes-level-of-achievements');
 		this.addEventListener('d2l-loa-manual-override-enabled', this._onOverrideEnabled);
 		this.addEventListener('d2l-loa-manual-override-disabled', this._onOverrideDisabled);
 		this.addEventListener('d2l-loa-calculation-clicked', this._onCalcButtonClicked);
 	},
 
-	_getCalculationDetails: function (entity) {
+	_getCalculationDetails: function(entity) {
 		if (!entity) {
 			return null;
 		}
@@ -274,7 +274,7 @@ Polymer({
 
 	},
 
-	_isDecayingAverageVisible: function (calculationMethod) {
+	_isDecayingAverageVisible: function(calculationMethod) {
 		if (calculationMethod === 'Decaying Average') {
 			return true;
 		}
@@ -283,32 +283,32 @@ Polymer({
 		}
 	},
 
-	_isCalculationUpdateNeeded: function (calculationMethod, newAssessments, overrideActive) {
+	_isCalculationUpdateNeeded: function(calculationMethod, newAssessments, overrideActive) {
 		return this._hasCalculation(calculationMethod) && overrideActive && newAssessments;
 	},
 
-	_hasCalculation: function (calculationMethod) {
+	_hasCalculation: function(calculationMethod) {
 		return !!calculationMethod && calculationMethod !== 'None';
 	},
 
-	_canEditLevel: function (overrideActive, calculationMethod) {
+	_canEditLevel: function(overrideActive, calculationMethod) {
 		return overrideActive || !this._hasCalculation(calculationMethod);
 	},
 
-	_getDecayingAverageText: function (calculationMethod, calculatedValue) {
+	_getDecayingAverageText: function(calculationMethod, calculatedValue) {
 		return this.localize('calculatedValue', 'method', calculationMethod, 'value', calculatedValue.toString());
 	},
 
-	_getToken: function () {
+	_getToken: function() {
 		return this.token;
 	},
 
-	_onOverrideEnabled: function (event) {
+	_onOverrideEnabled: function(event) {
 		this.isOverrideEnabled = true;
 		this._levelSelector.setFocus();
 	},
 
-	_onOverrideDisabled: function (event) {
+	_onOverrideDisabled: function(event) {
 		//Update the level calculation if necessary
 		if (this._isCalculationUpdateNeeded(this.calculationMethod, this.newAssessmentsAdded, true)) {
 			this._updateLevelCalculation();
@@ -318,7 +318,7 @@ Polymer({
 		this.isOverrideEnabled = false;
 	},
 
-	_onCalcButtonClicked: function (event) {
+	_onCalcButtonClicked: function(event) {
 		if (this._updateLevelCalculation()) {
 			//Calculation successfully updated
 			this._levelSelector.resetToSuggested();
@@ -326,7 +326,7 @@ Polymer({
 		}
 	},
 
-	_updateLevelCalculation: function () {
+	_updateLevelCalculation: function() {
 		//TODO: send calculation request here. This will retrieve a calculated value and any corresponding data
 		this.newAssessmentsAdded = false;
 		return true;

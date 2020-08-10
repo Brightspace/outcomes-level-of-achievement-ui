@@ -85,8 +85,8 @@ Polymer({
 	],
 
 	//TODO: define event behavior and other methods
-	ready: function () {
-		afterNextRender(this, /* @this */ function () {
+	ready: function() {
+		afterNextRender(this, /* @this */ function() {
 		});
 	},
 
@@ -95,7 +95,7 @@ Polymer({
 		SPACE: 32
 	},
 
-	_onKeyDown: function (event) {
+	_onKeyDown: function(event) {
 		if (this.hidden) {
 			return;
 		}
@@ -105,7 +105,7 @@ Polymer({
 		}
 	},
 
-	_handleTap: function (event) {
+	_handleTap: function(event) {
 		if (this.hidden) {
 			return;
 		}
@@ -115,7 +115,7 @@ Polymer({
 	},
 
 	//Invoked when the button is clicked, tapped, or keyboard-activated
-	_handleSelected: function () {
+	_handleSelected: function() {
 		var helpDialog = this.shadowRoot.getElementById('help-dialog');
 		if (!helpDialog.opened) {
 			helpDialog.opened = true;
@@ -124,19 +124,19 @@ Polymer({
 
 	//Text localization
 	//Currently using placeholder arguments where applicable rather than properties or data
-	_getHelpButtonText: function () {
+	_getHelpButtonText: function() {
 		return this.localize('calculationMethodDetails');
 	},
 
-	_getHelpMenuTitle: function () {
+	_getHelpMenuTitle: function() {
 		return this.localize('calculationMethodDetails');
 	},
 
-	_getHelpItemLabelText: function (item) {
+	_getHelpItemLabelText: function(item) {
 		return this.localize('calcHelpItemLabel', 'label', item.label);
 	},
 
-	_getHelpItemContentText: function (item) {
+	_getHelpItemContentText: function(item) {
 		return this.localize('calcHelpItemContent', 'content', item.content);
 	},
 

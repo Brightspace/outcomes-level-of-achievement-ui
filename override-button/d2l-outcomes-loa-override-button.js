@@ -64,7 +64,7 @@ Polymer({
 
 		buttonData: {
 			type: Object,
-			value: function () { return {}; }
+			value: function() { return {}; }
 		},
 
 		tooltipPosition: {
@@ -84,8 +84,8 @@ Polymer({
 	],
 
 	//TODO: define event behavior and other methods
-	ready: function () {
-		afterNextRender(this, /* @this */ function () {
+	ready: function() {
+		afterNextRender(this, /* @this */ function() {
 		});
 	},
 
@@ -94,12 +94,12 @@ Polymer({
 		SPACE: 32
 	},
 
-	_onOverrideToggled: function () {
+	_onOverrideToggled: function() {
 		this.buttonIcon = this._getButtonIcon(this.overrideActive);
 		this.buttonText = this._getButtonText(this.overrideActive);
 	},
 
-	_onKeyDown: function (event) {
+	_onKeyDown: function(event) {
 		if (this.hidden) {
 			return;
 		}
@@ -110,7 +110,7 @@ Polymer({
 		}
 	},
 
-	_handleTap: function (event) {
+	_handleTap: function(event) {
 		if (this.hidden) {
 			return;
 		}
@@ -119,20 +119,20 @@ Polymer({
 		event.preventDefault();
 	},
 
-	_toggleOverrideState: function () {
+	_toggleOverrideState: function() {
 		this.overrideActive = !this.overrideActive;
 		this._dispatchItemToggledEvent(this.overrideActive);
 	},
 
-	_getHidden: function (hidden) {
+	_getHidden: function(hidden) {
 		return hidden;
 	},
 
-	_getOverrideActive: function (overrideActive) {
+	_getOverrideActive: function(overrideActive) {
 		return overrideActive;
 	},
 
-	_getButtonText: function (overrideActive) {
+	_getButtonText: function(overrideActive) {
 		if (overrideActive) {
 			return this.localize('clearManualOverride');
 		}
@@ -141,7 +141,7 @@ Polymer({
 		}
 	},
 
-	_getButtonIcon: function (overrideActive) {
+	_getButtonIcon: function(overrideActive) {
 		if (overrideActive) {
 			return 'tier1:close-default';
 		}
@@ -150,7 +150,7 @@ Polymer({
 		}
 	},
 
-	_dispatchItemToggledEvent: function (newOverrideState) {
+	_dispatchItemToggledEvent: function(newOverrideState) {
 		var eventName = newOverrideState ? 'd2l-loa-manual-override-enabled' : 'd2l-loa-manual-override-disabled';
 		//var eventName = 'd2l-manual-override-toggled';
 		this.dispatchEvent(new CustomEvent(eventName, {

@@ -58,7 +58,6 @@ Polymer({
 		readOnly: {
 			type: Boolean,
 			value: false,
-			observer: '_readOnlyChanged'
 		},
 		_hasAction: Boolean,
 		_demonstrationLevels: Array,
@@ -77,17 +76,13 @@ Polymer({
 		'_getDemonstrationLevels(entity)'
 	],
 
-	_readOnlyChanged: function () {
-		console.log('readOnly set to ' + this.readOnly.toString());
-	},
-
 	behaviors: [
 		D2L.PolymerBehaviors.Siren.EntityBehavior,
 		D2L.PolymerBehaviors.Siren.SirenActionBehavior,
 		D2L.PolymerBehaviors.OutcomesLOA.LocalizeBehavior
 	],
 
-	ready: function () {
+	ready: function() {
 		this._onItemSelected = this._onItemSelected.bind(this);
 		this.$$('d2l-squishy-button-selector').addEventListener('d2l-squishy-button-selected', this._onItemSelected);
 		this._handleRefresh = this._handleRefresh.bind(this);
@@ -96,35 +91,35 @@ Polymer({
 
 	},
 
-	attached: function () {
+	attached: function() {
 		window.addEventListener('refresh-outcome-demonstrations', this._handleRefresh);
 	},
 
-	detached: function () {
+	detached: function() {
 		this.$$('d2l-squishy-button-selector').removeEventListener('d2l-squishy-button-selected', this._onItemSelected);
 		window.removeEventListener('refresh-outcome-demonstrations', this._handleRefresh);
 	},
 
-	_handleRefresh: function () {
+	_handleRefresh: function() {
 		this.entity = null;
 		const newEntity = window.D2L.Siren.EntityStore.fetch(this.href, this.token, true);
 		this.entity = newEntity;
 	},
 
-	_getDemonstrationLevels: function (entity) {
+	_getDemonstrationLevels: function(entity) {
 		if (!entity) {
 			return null;
 		}
 
 		let newSuggestedLevel;
 
-		Promise.all(entity.getSubEntitiesByClass(Classes.outcomes.demonstratableLevel).map(function (e) {
+		Promise.all(entity.getSubEntitiesByClass(Classes.outcomes.demonstratableLevel).map(function(e) {
 			var selected = e.hasClass(Classes.outcomes.selected);
 			var suggested = e.hasClass(Classes.outcomes.suggested);
 			var action = e.getActionByName(Actions.outcomes.select) || e.getActionByName('deselect');
 			var entityHref = e.getLinkByRel('https://achievements.api.brightspace.com/rels/level').href;
 
-			return window.D2L.Siren.EntityStore.fetch(entityHref, this.token, true).then(function (levelRequest) {
+			return window.D2L.Siren.EntityStore.fetch(entityHref, this.token, true).then(function(levelRequest) {
 				var levelEntity = levelRequest.entity;
 
 				return {
@@ -135,7 +130,7 @@ Polymer({
 					isSuggested: suggested
 				};
 			});
-		}.bind(this))).then(function (demonstrationLevels) {
+		}.bind(this))).then(function(demonstrationLevels) {
 			this._demonstrationLevels = demonstrationLevels;
 
 			var firstSuggested = undefined;
@@ -155,44 +150,44 @@ Polymer({
 				};
 			}
 
-			this._hasAction = demonstrationLevels.some(function (level) { return !!level.action; });
-		}.bind(this)).finally(function () {
+			this._hasAction = demonstrationLevels.some(function(level) { return !!level.action; });
+		}.bind(this)).finally(function() {
 			this._suggestedLevel = newSuggestedLevel;
 		}.bind(this));
 
 	},
-	_getButtonData: function (item) {
+	_getButtonData: function(item) {
 		return {
 			action: item.action
 		};
 	},
-	_hasSuggestedLevel: function (suggestedLevel) {
+	_hasSuggestedLevel: function(suggestedLevel) {
 		return !!suggestedLevel;
 	},
-	_shouldShowSuggestion: function (readOnly, hasAction, hasCalculation, suggestedLevel) {
+	_shouldShowSuggestion: function(readOnly, hasAction, hasCalculation, suggestedLevel) {
 
 		return !this._getIsDisabled(readOnly, hasAction) && this._hasSuggestedLevel(suggestedLevel) && !this.hasCalculation;
 	},
-	_onItemSelected: function (event) {
+	_onItemSelected: function(event) {
 		var action = event.detail.data.action;
 		if (!action) {
 			return;
 		}
 		this.performSirenAction(action)
-			.catch(function () { });
+			.catch(function() { });
 	},
-	_getIsDisabled: function (readOnly, hasAction) {
+	_getIsDisabled: function(readOnly, hasAction) {
 		return !!readOnly || hasAction === false;
 	},
-	_getSuggestedLevelText: function (level) {
+	_getSuggestedLevelText: function(level) {
 		return this.localize('suggestedLevel', 'level', level);
 	},
 
-	setFocus: function () {
+	setFocus: function() {
 		this.$$('d2l-squishy-button-selector').focus();
 	},
 
-	resetToSuggested: function () {
+	resetToSuggested: function() {
 		var suggestedLevelElement = this.shadowRoot.getElementById("item-" + this._suggestedLevel.index.toString());
 		suggestedLevelElement.click();
 	}

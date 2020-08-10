@@ -4,25 +4,25 @@ import { fixture, expect } from '@open-wc/testing';
 import { afterNextRender } from '@polymer/polymer/lib/utils/render-status.js';
 import '../../override-button/d2l-outcomes-loa-override-button.js';
 
-describe('<d2l-outcomes-loa-override-button>', function () {
+describe('<d2l-outcomes-loa-override-button>', function() {
 
 	var element, sandbox;
 
-	suiteSetup(function () {
+	suiteSetup(function() {
 		sandbox = sinon.sandbox.create();
 		element = fixture('basic');
-		afterNextRender(element, function () {
+		afterNextRender(element, function() {
 			done();
 		});
 	});
 
-	afterEach(function () {
+	afterEach(function() {
 		sandbox.restore();
 	});
 
-	suite('smoke test', function () {
+	suite('smoke test', function() {
 
-		test('can be instantiated', function () {
+		test('can be instantiated', function() {
 			expect(element.is).to.equal('d2l-outcomes-loa-override-button');
 		});
 
