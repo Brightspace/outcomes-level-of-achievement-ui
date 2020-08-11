@@ -24,10 +24,10 @@ const $_documentContainer = document.createElement('template');
 
 $_documentContainer.innerHTML = `<dom-module id="d2l-outcomes-coa-calculation-help">
 <template strip-whitespace="" id="button-template">	
-	<d2l-button-icon id="help-button" text="[[_getHelpButtonText()]]" icon="tier1:help" tabindex="-1">
+	<d2l-button-icon id="help-button" text="[[localize('calculationMethodDetails')]]" icon="tier1:help" tabindex="-1">
 	</d2l-button-icon>
 
-	<d2l-dialog id="help-dialog" title-text="[[_getHelpMenuTitle()]]">
+	<d2l-dialog id="help-dialog" title-text="[[localize('calculationMethodDetails')]]">
 		<style>
 			p {
 				@apply --d2l-body-text;
@@ -41,13 +41,39 @@ $_documentContainer.innerHTML = `<dom-module id="d2l-outcomes-coa-calculation-he
 				content: ""; /* clears default height */
 				margin-top: 18px; /* change this to whatever height you want it */
 			}
-			
 		</style>
-		
-		<template id="help-content" is="dom-repeat" items="[[popupItems]]">
-			<p><b>[[_getHelpItemLabelText(item)]]</b><br>[[_getHelpItemContentText(item)]]</p>
+
+		<div id="help-method">
+			<p>
+				<b>[[localize('calcHelpMethodLabel')]]</b><br>
+				[[localize('calcHelpMethodBody', 'calcMethod', calculationMethod)]]
+			</p>
+		</div>
+		<template is="dom-if" if="[[_shouldShowDecayRate(calculationMethod)]]" id="help-decaying-rate">
+			<p>
+				<b>[[localize('calcHelpDecayRateLabel')]]</b><br>
+				[[localize('calcHelpDecayRateBody', 'number', decayingAverageRate)]]
+			</p>
 		</template>
-		
+		<div id="help-activities-used">
+			<p>
+				<b>[[localize('calcHelpActivitiesLabel')]]</b><br>
+				[[localize('calcHelpActivitiesBody', 'calcActivities', 'All activities')]]
+			</p>
+		</div>
+		<template is="dom-if" if="[[_shouldShowMultipleCommonLevelsPolicy(calculationMethod)]]" id="help-multi-most-common-policy">
+			<p>
+				<b>[[localize('calcHelpMultipleCommonLevelsLabel')]]</b><br>
+				[[localize('calcHelpMultipleCommonLevelsBody', 'policy', 'Highest level')]]
+			</p>
+		</template>
+		<template is="dom-if" if="[[_shouldShowMultipleAttemptsPolicy(calculationMethod)]]" id="help-multi-attempts-policy">
+			<p>
+				<b>[[localize('calcHelpMultipleAttemptsLabel')]]</b><br>
+				[[localize('calcHelpMultipleAttemptsBody', 'policy', 'Highest attempt')]]
+			</p>
+		</template>
+
 		<d2l-button slot="footer" primary data-dialog-action="done">OK</d2l-button>
 	</d2l-dialog>
 </template>
@@ -60,9 +86,15 @@ Polymer({
 
 	properties: {
 
-		popupItems: {
-			type: Array,
-			value: [],
+		calculationMethod: {
+			type: String,
+			value: "None",
+			reflectToAttribute: true
+		},
+
+		decayingAverageRate: {
+			type: Number,
+			value: 0,
 			reflectToAttribute: true
 		},
 	},
@@ -103,22 +135,21 @@ Polymer({
 		}
 	},
 
-	//Text localization
-	//Currently using placeholder arguments where applicable rather than properties or data
-	_getHelpButtonText: function() {
-		return this.localize('calculationMethodDetails');
+	_shouldShowDecayRate: function(calculationMethod) {
+		return (calculationMethod === 'Decaying Average');
 	},
 
-	_getHelpMenuTitle: function() {
-		return this.localize('calculationMethodDetails');
+	_shouldShowMultipleCommonLevelsPolicy: function(calculationMethod) {
+		return (calculationMethod === 'Most Common');
 	},
 
-	_getHelpItemLabelText: function(item) {
-		return this.localize('calcHelpItemLabel', 'label', item.label);
+	_shouldShowMultipleAttemptsPolicy: function(calculationMethod) {
+		switch (calculationMethod) {
+			case 'Decaying Average':
+			case 'Most Common':
+				return true;
+			default:
+				return false;
+		}
 	},
-
-	_getHelpItemContentText: function(item) {
-		return this.localize('calcHelpItemContent', 'content', item.content);
-	},
-
 });
