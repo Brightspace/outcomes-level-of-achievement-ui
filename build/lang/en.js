@@ -10,8 +10,16 @@ window.D2L.PolymerBehaviors.OutcomesLOA.LocalizeBehavior = window.D2L.PolymerBeh
  */
 D2L.PolymerBehaviors.OutcomesLOA.LocalizeBehavior.LangEnBehavior = {
 	en: {
-		'calcHelpItemLabel': '{label}',
-		'calcHelpItemContent': '{content}',
+		'calcHelpActivitiesBody': '{calcActivities}',
+		'calcHelpActivitiesLabel': 'Activities used in the calculations:',
+		'calcHelpDecayRateBody': '{number}%',
+		'calcHelpDecayRateLabel': 'Decaying rate:',
+		'calcHelpMethodBody': '{calcMethod}',
+		'calcHelpMethodLabel': 'Method',
+		'calcHelpMultipleAttemptsBody': '{policy}',
+		'calcHelpMultipleAttemptsLabel': 'If a student makes multiple attempts on an activity, use the:',
+		'calcHelpMultipleCommonLevelsBody': '{policy}',
+		'calcHelpMultipleCommonLevelsLabel': 'when there are multiple most common achievement levels, use the:',
 		'calcHelpTitle': 'Calculation Method Details',
 		'calculationMethod': 'Calculation method: {calcMethod}',
 		'calculationMethodDetails': 'Calculation Method Details',
