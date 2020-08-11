@@ -6,6 +6,9 @@ calculated values for a user's overall outcome achievement level
 @demo demo/d2l-outcomes-coa-override-button.html
 */
 
+const KEYCODE_ENTER = 13;
+const KEYCODE_SPACE = 32;
+
 import '@polymer/polymer/polymer-legacy.js';
 import '../localize-behavior.js';
 import 'd2l-polymer-behaviors/d2l-dom.js';
@@ -21,7 +24,7 @@ const $_documentContainer = document.createElement('template');
 
 $_documentContainer.innerHTML = `<dom-module id="d2l-outcomes-coa-calculation-help">
 <template strip-whitespace="" id="button-template">	
-	<d2l-button-icon id="help-button" text="[[_getHelpButtonText()]]" icon="[[buttonIcon]]" tabindex="-1">
+	<d2l-button-icon id="help-button" text="[[_getHelpButtonText()]]" icon="tier1:help" tabindex="-1">
 	</d2l-button-icon>
 
 	<d2l-dialog id="help-dialog" title-text="[[_getHelpMenuTitle()]]">
@@ -57,20 +60,9 @@ Polymer({
 
 	properties: {
 
-		buttonIcon: {
-			type: String,
-			value: 'tier1:help'
-		},
-
 		popupItems: {
 			type: Array,
 			value: [],
-			reflectToAttribute: true
-		},
-
-		tooltipPosition: {
-			type: String,
-			value: 'bottom',
 			reflectToAttribute: true
 		},
 	},
@@ -84,22 +76,12 @@ Polymer({
 		D2L.PolymerBehaviors.OutcomesLOA.LocalizeBehavior
 	],
 
-	ready: function() {
-		afterNextRender(this, /* @this */ function() {
-		});
-	},
-
-	_keyCodes: {
-		ENTER: 13,
-		SPACE: 32
-	},
-
 	_onKeyDown: function(event) {
 		if (this.hidden) {
 			return;
 		}
 
-		if (event.keyCode === this._keyCodes.ENTER || event.keyCode === this._keyCodes.SPACE) {
+		if (event.keyCode === KEYCODE_ENTER || event.keyCode === KEYCODE_SPACE) {
 			this._handleSelected();
 		}
 	},
