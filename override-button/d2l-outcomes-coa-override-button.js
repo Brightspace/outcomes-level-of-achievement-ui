@@ -5,6 +5,8 @@ calculated values for a user's overall outcome achievement level
 
 @demo demo/d2l-outcomes-coa-override-button.html
 */
+const KEYCODE_ENTER = 13;
+const KEYCODE_SPACE = 32;
 
 import '@polymer/polymer/polymer-legacy.js';
 import '../localize-behavior.js';
@@ -20,9 +22,7 @@ const $_documentContainer = document.createElement('template');
 
 $_documentContainer.innerHTML = `<dom-module id="d2l-outcomes-coa-override-button">
 <template strip-whitespace="">	
-	<style>
-	</style>
-	<d2l-button-subtle text="[[buttonText]]" icon="[[buttonIcon]]" id="overrideButton" tabindex="-1" hidden="[[hidden]]">
+	<d2l-button-subtle text="[[_getButtonText(overrideActive)]]" icon="[[_getButtonIcon(overrideActive)]]" id="overrideButton" tabindex="-1">
 	</d2l-button-subtle>
 </template>
 </dom-module> `;
@@ -34,42 +34,9 @@ Polymer({
 
 	properties: {
 
-		buttonText: {
-			type: String,
-			value: 'Manually override'
-		},
-
-		buttonIcon: {
-			type: String,
-			value: 'tier1:edit'
-		},
-
-		hidden: {
-			type: Boolean,
-			value: false,
-			reflectToAttribute: true
-		},
-
 		overrideActive: {
 			type: Boolean,
 			value: false,
-			reflectToAttribute: true,
-			observer: '_onOverrideToggled'
-		},
-
-		index: {
-			type: Number,
-			reflectToAttribute: true
-		},
-
-		buttonData: {
-			type: Object,
-			value: function() { return {}; }
-		},
-
-		tooltipPosition: {
-			type: String,
-			value: 'bottom',
 			reflectToAttribute: true
 		},
 	},
@@ -88,22 +55,12 @@ Polymer({
 		});
 	},
 
-	_keyCodes: {
-		ENTER: 13,
-		SPACE: 32
-	},
-
-	_onOverrideToggled: function() {
-		this.buttonIcon = this._getButtonIcon(this.overrideActive);
-		this.buttonText = this._getButtonText(this.overrideActive);
-	},
-
 	_onKeyDown: function(event) {
 		if (this.hidden) {
 			return;
 		}
 
-		if (event.keyCode === this._keyCodes.ENTER || event.keyCode === this._keyCodes.SPACE) {
+		if (event.keyCode === KEYCODE_ENTER || event.keyCode === KEYCODE_SPACE) {
 			this._toggleOverrideState();
 			event.preventDefault();
 		}
@@ -121,14 +78,6 @@ Polymer({
 	_toggleOverrideState: function() {
 		this.overrideActive = !this.overrideActive;
 		this._dispatchItemToggledEvent(this.overrideActive);
-	},
-
-	_getHidden: function(hidden) {
-		return hidden;
-	},
-
-	_getOverrideActive: function(overrideActive) {
-		return overrideActive;
 	},
 
 	_getButtonText: function(overrideActive) {
@@ -151,11 +100,9 @@ Polymer({
 
 	_dispatchItemToggledEvent: function(newOverrideState) {
 		var eventName = newOverrideState ? 'd2l-coa-manual-override-enabled' : 'd2l-coa-manual-override-disabled';
-		//var eventName = 'd2l-manual-override-toggled';
 		this.dispatchEvent(new CustomEvent(eventName, {
 			bubbles: true,
 			composed: true
-			//newVal: newOverrideState
 		}));
 	}
 });
