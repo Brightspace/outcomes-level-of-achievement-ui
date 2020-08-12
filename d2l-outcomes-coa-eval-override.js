@@ -124,7 +124,7 @@ $_documentContainer.innerHTML = `<dom-module id="d2l-outcomes-coa-eval-override"
 		</style>
 		<div class="flex-box">
 			<h3 class="page-heading">Select Overall Achievement</h3>
-			<template is="dom-if" if="[[_isCalculationUpdateNeeded(_calculationMethod, newAssessmentsAdded, isOverrideEnabled)]]">
+			<template is="dom-if" if="[[_isCalculationUpdateNeeded(_calculationMethod, _newAssessmentsAdded, _isOverrideActive)]]">
 				<span class="calculate-button-container">
 					<d2l-outcomes-coa-calculate-button align="right" tabindex="0"></d2l-outcomes-coa-calculate-button>
 				</span>
@@ -138,7 +138,9 @@ $_documentContainer.innerHTML = `<dom-module id="d2l-outcomes-coa-eval-override"
 				<span class="calculation-label">
 					Calculation method: [[_calculationMethod]]
 				</span>
-				<d2l-outcomes-coa-calculation-help id="calculation-help" calculation-method="[[_calculationMethod]]" decaying-average-rate="[[_decayingAverageRate]]" hidden="[[!_hasHelpMenu]]" tabindex="0"></d2l-outcomes-coa-calculation-help>
+				<template is="dom-if" if="[[_hasHelpMenu(_calculationMethod)]]">
+					<d2l-outcomes-coa-calculation-help id="calculation-help" calculation-method="[[_calculationMethod]]" decaying-average-rate="[[_decayingAverageRate]]" tabindex="0"></d2l-outcomes-coa-calculation-help>
+				</template>
 			</div>
 		</template>
 
@@ -150,11 +152,11 @@ $_documentContainer.innerHTML = `<dom-module id="d2l-outcomes-coa-eval-override"
 			</div>
 		</template>
 
-		<d2l-outcomes-level-of-achievements id="level-selector" tooltip-position="top" read-only="[[!_canEditLevel(isOverrideEnabled, calculationMethod)]]" has-calculation="[[_hasCalculation(_calculationMethod)]]" token="[[_getToken()]]" href="[[href]]";>
+		<d2l-outcomes-level-of-achievements id="level-selector" tooltip-position="top" read-only="[[!_canEditLevel(_isOverrideActive, _calculationMethod)]]" has-calculation="[[_hasCalculation(_calculationMethod)]]" token="[[token]]" href="[[href]]";>
 		</d2l-outcomes-level-of-achievements>
 	
 		<template is="dom-if" if="[[_hasCalculation(_calculationMethod)]]">
-			<d2l-outcomes-coa-override-button id="override-button" tooltip-position="top" override-active="[[isOverrideEnabled]]" tabindex="0"></d2l-outcomes-coa-override-button>
+			<d2l-outcomes-coa-override-button id="override-button" tooltip-position="top" override-active="[[_isOverrideActive]]" tabindex="0"></d2l-outcomes-coa-override-button>
 		</template>
 	</template>
 
@@ -166,12 +168,12 @@ Polymer({
 
 	properties: {
 
-		isOverrideEnabled: {
+		_isOverrideActive: {
 			type: Boolean,
 			value: false
 		},
 
-		newAssessmentsAdded: {
+		_newAssessmentsAdded: {
 			type: Boolean,
 			value: false
 		},
@@ -196,17 +198,7 @@ Polymer({
 			value: 75
 		},
 
-		token: {
-			type: String,
-			value: 'abc123'
-		},
-
 		_calcUpdateNeeded: {
-			type: Boolean,
-			value: false
-		},
-
-		_hasHelpMenu: {
 			type: Boolean,
 			value: false
 		},
@@ -246,29 +238,23 @@ Polymer({
 		}
 		var overrideActive = entity.properties.overrideActive;
 		if (overrideActive) {
-			this.isOverrideEnabled = overrideActive;
+			this._isOverrideActive = overrideActive;
 		}
 		var newAssessments = entity.properties.newAssessments;
 		if (newAssessments) {
-			this.newAssessmentsAdded = newAssessments;
+			this._newAssessmentsAdded = newAssessments;
 		}
 
 		var calcMethodHref = entity.getLinkByRel('calculation-method').href;
 		window.D2L.Siren.EntityStore.fetch(calcMethodHref, this.token, true).then(calcMethodRequest => {
 			var calcMethod = calcMethodRequest.entity;
 			this._calculationMethod = calcMethod.properties.name;
-			this._hasHelpMenu = calcMethod.properties.hasHelpPopup;
 		});
 
 	},
 
-	_isDecayingAverageVisible: function(calculationMethod) {
-		if (calculationMethod === 'Decaying Average') {
-			return true;
-		}
-		else {
-			return false;
-		}
+	_isDecayingAverageVisible: function (calculationMethod) {
+		return (calculationMethod === 'Decaying Average');
 	},
 
 	_isCalculationUpdateNeeded: function(calculationMethod, newAssessments, overrideActive) {
@@ -279,6 +265,11 @@ Polymer({
 		return !!calculationMethod && calculationMethod !== 'None';
 	},
 
+	_hasHelpMenu: function(calculationMethod) {
+		return (calculationMethod === 'Decaying Average'
+			|| calculationMethod === 'Most Common'
+			|| calculationMethod === 'Highest');
+	},
 	_canEditLevel: function(overrideActive, calculationMethod) {
 		return overrideActive || !this._hasCalculation(calculationMethod);
 	},
@@ -287,36 +278,32 @@ Polymer({
 		return this.localize('calculatedValue', 'method', calculationMethod, 'value', calculatedValue.toString());
 	},
 
-	_getToken: function() {
-		return this.token;
-	},
-
 	_onOverrideEnabled: function() {
-		this.isOverrideEnabled = true;
+		this._isOverrideActive = true;
 		this._levelSelector.setFocus();
 	},
 
 	_onOverrideDisabled: function() {
 		//Update the level calculation if necessary
-		if (this._isCalculationUpdateNeeded(this._calculationMethod, this.newAssessmentsAdded, true)) {
+		if (this._isCalculationUpdateNeeded(this._calculationMethod, this._newAssessmentsAdded, true)) {
 			this._updateLevelCalculation();
 		}
 
 		this._levelSelector.resetToSuggested();
-		this.isOverrideEnabled = false;
+		this._isOverrideActive = false;
 	},
 
 	_onCalcButtonClicked: function() {
 		if (this._updateLevelCalculation()) {
 			//Calculation successfully updated
 			this._levelSelector.resetToSuggested();
-			this.isOverrideEnabled = false;
+			this._isOverrideActive = false;
 		}
 	},
 
 	_updateLevelCalculation: function() {
 		//Calculation request will be sent here. This will retrieve a calculated value and any corresponding data
-		this.newAssessmentsAdded = false;
+		this._newAssessmentsAdded = false;
 		return true;
 	}
 
