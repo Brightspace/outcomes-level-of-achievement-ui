@@ -39,7 +39,7 @@ $_documentContainer.innerHTML = `<dom-module id="d2l-squishy-button">
 			}
 
 			:host([disabled]) {
-				border: 0px;
+				border: var(--d2l-squishy-button-border-width) solid var(--d2l-color-mica);0px;
 				z-index: 0;
 			}
 
@@ -62,6 +62,7 @@ $_documentContainer.innerHTML = `<dom-module id="d2l-squishy-button">
 				margin: 0;
 				color: var(--d2l-color-tungsten);
 			}
+
 			:host([selected]) .d2l-squishy-button-container {
 				color: var(--d2l-color-ferrite);
 				font-weight: 700;
