@@ -170,7 +170,11 @@ $_documentContainer.innerHTML = `<dom-module id="d2l-outcomes-coa-eval-override"
 
 		<template is="dom-if" if="[[_isDecayingAverageVisible(_calculationMethod)]]">
 			<div class="decaying-average-info">
+<<<<<<< HEAD
 				[[_calculationMethod]]: [[_calculatedAchievementValue]]
+=======
+				[[localize('calculatedValue', 'method', _calculationMethod, 'value', _calculatedAchievementValue)]]
+>>>>>>> c253add1693f9729aa94c1eb17bc3d828102015e
 			</div>
 		</template>
 
@@ -224,7 +228,6 @@ Polymer({
 			type: Array,
 			value: []
 		},
-
 	},
 
 	listeners: {
