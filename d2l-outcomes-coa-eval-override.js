@@ -94,17 +94,29 @@ $_documentContainer.innerHTML = `<dom-module id="d2l-outcomes-coa-eval-override"
 				margin-bottom: 12px;
 			}
 
+			.decaying-average-info {
+				@apply --d2l-body-small-text;
+				margin-top: 0px;
+				margin-bottom: 12px;				
+			}
+
+			:dir(rtl) .decaying-average-info {
+				@apply --d2l-body-small-text;
+				margin-top: 0px;
+				margin-bottom: 12px;				
+			}
+
 			#help-button {
 				float: left;
-				margin-bottom: 12px;
+				margin-bottom: 0px;
 				margin-top: 6px;
 				margin-left: 6px;
 			}
 
 			:dir(rtl) #help-button {
 				float: right;
-				margin-bottom: 12px;
-				margin-top: 16px;
+				margin-bottom: 0px;
+				margin-top: 6px;
 				margin-right: 6px;
 			}
 
@@ -170,11 +182,7 @@ $_documentContainer.innerHTML = `<dom-module id="d2l-outcomes-coa-eval-override"
 
 		<template is="dom-if" if="[[_isDecayingAverageVisible(_calculationMethod)]]">
 			<div class="decaying-average-info">
-<<<<<<< HEAD
 				[[_calculationMethod]]: [[_calculatedAchievementValue]]
-=======
-				[[localize('calculatedValue', 'method', _calculationMethod, 'value', _calculatedAchievementValue)]]
->>>>>>> c253add1693f9729aa94c1eb17bc3d828102015e
 			</div>
 		</template>
 
