@@ -3,6 +3,7 @@
     "demonstration"
   ],
   "properties": {
+    "newAssessments": false
   },
   "entities": [
     {
@@ -163,7 +164,7 @@
       "rel": [
         "calculation-method"
       ],
-      "href": "data/calculation-methods/median.json"
+      "href": "data/calculation-methods/most-recent.json"
     }
   ]
 }

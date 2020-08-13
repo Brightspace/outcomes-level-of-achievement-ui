@@ -3,7 +3,8 @@
     "demonstration"
   ],
   "properties": {
-    "calculatedValue": "2.91"
+    "calculatedValue": "2.91",
+    "newAssessments": false
   },
   "entities": [
     {

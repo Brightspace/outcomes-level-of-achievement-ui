@@ -3,8 +3,7 @@
     "calculation-method"
   ],
   "properties": {
-    "name": "Median",
-    "hasHelpPopup":  false
+    "name": "Most Recent"
   },
   "links": [
     {

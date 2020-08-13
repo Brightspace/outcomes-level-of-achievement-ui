@@ -3,6 +3,7 @@
     "demonstration"
   ],
   "properties": {
+    "newAssessments": false
   },
   "entities": [
     {
@@ -88,7 +89,7 @@
         {
           "type": "application/json",
           "href": "#",
-          "name": "deselect",
+          "name": "select",
           "method": "POST",
           "fields": [
             {
@@ -99,7 +100,7 @@
             {
               "type": "hidden",
               "name": "select",
-              "value": false
+              "value": true
             }
           ]
         }
@@ -126,7 +127,7 @@
         {
           "type": "application/json",
           "href": "#",
-          "name": "select",
+          "name": "deselect",
           "method": "POST",
           "fields": [
             {
@@ -137,7 +138,7 @@
             {
               "type": "hidden",
               "name": "select",
-              "value": true
+              "value": false
             }
           ]
         }

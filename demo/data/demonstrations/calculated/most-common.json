@@ -3,6 +3,7 @@
     "demonstration"
   ],
   "properties": {
+    "newAssessments": false
   },
   "entities": [
     {

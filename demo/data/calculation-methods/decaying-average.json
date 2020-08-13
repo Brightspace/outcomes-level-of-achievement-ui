@@ -3,55 +3,54 @@
     "calculation-method"
   ],
   "properties": {
-    "name": "Decaying Average",
-    "hasHelpPopup": true
+    "name": "Decaying Average"
   },
   "entities": [
     {
       "class": [
-        "help-popup-item"
+        "calculation-setting"
       ],
       "rel": [
-        "helpItem"
+        "calcSetting"
       ],
       "properties": {
-        "label": "Method",
+        "name": "Method",
         "content": "Decaying Average"
       }
     },
     {
       "class": [
-        "help-popup-item"
+        "calculation-setting"
       ],
       "rel": [
-        "helpItem"
+        "calcSetting"
       ],
       "properties": {
-        "label": "Decaying rate:",
+        "name": "Decaying rate",
         "content": "75%"
       }
     },
     {
       "class": [
-        "help-popup-item"
+        "calculation-setting"
       ],
       "rel": [
-        "helpItem"
+        "calcSetting"
       ],
       "properties": {
-        "label": "Activities used in the calculations:",
+        "name": "Activities used in the calculations",
         "content": "All activities"
       }
     },
     {
       "class": [
-        "help-popup-item"
+        "calculation-setting"
       ],
       "rel": [
-        "helpItem"
+        "calcSetting"
       ],
       "properties": {
-        "label": "If a student makes multiple attempts on an activity, use the:",
+        "name": "If a student makes multiple attempts on an activity, use the",
         "content": "Highest attempt"
       }
     }

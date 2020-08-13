@@ -3,55 +3,54 @@
     "calculation-method"
   ],
   "properties": {
-    "name": "Most Common",
-    "hasHelpPopup": true
+    "name": "Most Common"
   },
   "entities": [
     {
       "class": [
-        "help-popup-item"
+        "calculation-setting"
       ],
       "rel": [
-        "helpItem"
+        "calcSetting"
       ],
       "properties": {
-        "label": "Method",
+        "name": "Method",
         "content": "Most Common"
       }
     },
     {
       "class": [
-        "help-popup-item"
+        "calculation-setting"
       ],
       "rel": [
-        "helpItem"
+        "calcSetting"
       ],
       "properties": {
-        "label": "Activities used in the calculations:",
+        "name": "Activities used in the calculations",
         "content": "All activities"
       }
     },
     {
       "class": [
-        "help-popup-item"
+        "calculation-setting"
       ],
       "rel": [
-        "helpItem"
+        "calcSetting"
       ],
       "properties": {
-        "label": "When there are multiple most common achievement levels, use the:",
+        "name": "When there are multiple most common achievement levels, use the",
         "content": "Highest level"
       }
     },
     {
       "class": [
-        "help-popup-item"
+        "calculation-setting"
       ],
       "rel": [
-        "helpItem"
+        "calcSetting"
       ],
       "properties": {
-        "label": "If a student makes multiple attempts on an activity, use the:",
+        "name": "If a student makes multiple attempts on an activity, use the",
         "content": "Highest attempt"
       }
     }
