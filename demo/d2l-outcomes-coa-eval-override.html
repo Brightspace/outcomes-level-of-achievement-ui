@@ -11,7 +11,7 @@
 		import '../d2l-outcomes-coa-eval-override.js';
 	</script>
 </head>
-<body unresolved>
+<body>
 	<d2l-demo-page page-title="d2l-coa-eval-controls demo">
 		<h3>Decaying average</h3>
 		<d2l-demo-snippet>
@@ -31,19 +31,23 @@
 		</d2l-demo-snippet>
 		<hr>
 
-
 		<h3>Other</h3>
 		<d2l-demo-snippet>
-			<d2l-outcomes-coa-eval-override href="data/demonstrations/calculated/median.json" token="abc123"></d2l-outcomes-coa-eval-override>
+			<d2l-outcomes-coa-eval-override href="data/demonstrations/calculated/most-recent.json" token="abc123"></d2l-outcomes-coa-eval-override>
 		</d2l-demo-snippet>
 		<hr>
 
-		<h3>Decaying Average with new data</h3>
+		<h3>Override active + new assessments</h3>
 		<d2l-demo-snippet>
 			<d2l-outcomes-coa-eval-override href="data/demonstrations/calculated/decaying-average-new-assessments.json" token="abc123"></d2l-outcomes-coa-eval-override>
 		</d2l-demo-snippet>
 		<hr>
 
+		<h3>No override permissions</h3>
+		<d2l-demo-snippet>
+			<d2l-outcomes-coa-eval-override href="data/demonstrations/calculated/most-common-no-actions.json" token="abc123"></d2l-outcomes-coa-eval-override>
+		</d2l-demo-snippet>
+		<hr>
 
 		<h3>No calculation</h3>
 		<d2l-demo-snippet>
