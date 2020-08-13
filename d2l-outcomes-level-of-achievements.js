@@ -166,7 +166,7 @@ Polymer({
 	},
 	_shouldShowSuggestion: function(readOnly, hasAction, hasCalculation, suggestedLevel) {
 
-		return !this._getIsDisabled(readOnly, hasAction) && this._hasSuggestedLevel(suggestedLevel) && !this.hasCalculation;
+		return !this._getIsDisabled(readOnly, hasAction) && this._hasSuggestedLevel(suggestedLevel) && !hasCalculation;
 	},
 	_onItemSelected: function(event) {
 		var action = event.detail.data.action;
