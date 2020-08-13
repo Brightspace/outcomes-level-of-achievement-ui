@@ -39,7 +39,7 @@ $_documentContainer.innerHTML = `<dom-module id="d2l-squishy-button">
 			}
 
 			:host([disabled]) {
-				border: var(--d2l-squishy-button-border-width) solid var(--d2l-color-mica);0px;
+				border: var(--d2l-squishy-button-border-width) solid var(--d2l-color-mica);
 				z-index: 0;
 			}
 
