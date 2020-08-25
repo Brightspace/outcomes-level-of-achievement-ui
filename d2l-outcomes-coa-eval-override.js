@@ -242,20 +242,12 @@ export class d2lOutcomesCOAEvalOverride extends LocalizeMixin(LitElement) {
 		</d2l-outcomes-level-of-achievements>
 	
 		${(this._isOverrideAllowed && !!this._calculationMethod)
-        ?
-            this._isOverrideActive
-            ? html`
-	            <d2l-button-subtle id="override-button"
-				    @click=${this._onOverrideButtonClicked}
-					text="${this.localize('clearManualOverride')}"
-                    icon="tier1:close-default"
-                />`
-            : html`
-	            <d2l-button-subtle id="override-button"
-				    @click=${this._onOverrideButtonClicked}
-					text="${this.localize('manuallyOverride')}"
-                    icon="tier1:edit"
-                />`
+        ? html`
+	        <d2l-button-subtle id="override-button"
+			    @click=${this._onOverrideButtonClicked}
+					text="${this.localize(this._isOverrideActive ? 'clearManualOverride' : 'manuallyOverride')}"
+                    icon="${this._isOverrideActive ? 'tier1:close-default' : 'tier1:edit'}"
+            />`
 		: html ``
 		}
 		`;
