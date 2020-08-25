@@ -6,7 +6,6 @@ import 'd2l-typography/d2l-typography-shared-styles.js';
 import { css, html, LitElement } from 'lit-element/lit-element.js';
 import { KEYCODES } from '../keycodes.js';
 
-
 export class d2lSquishyButton extends LitElement {
 
 	static get properties() {
@@ -178,7 +177,7 @@ export class d2lSquishyButton extends LitElement {
 		super();
 		this.selected = false;
 		this.disabled = false;
-		this.buttonData = function () { return {}; }
+		this.buttonData = function() { return {}; };
 		this.role = 'radio';
 		this.addEventListener('keydown', this._onKeyDown);
 		this.addEventListener('click', this._handleTap);
@@ -251,7 +250,6 @@ export class d2lSquishyButton extends LitElement {
 			event.preventDefault();
 			this._dispatchItemSelectedEvent(true, true);
 		}
-		
 	}
 
 	_handleTap(event) {

@@ -28,7 +28,7 @@ export class d2lSquishyButtonSelector extends ArrowKeysMixin(LitElement) {
 				type: String,
 				reflect: true
 			}
-		}
+		};
 	}
 
 	static get styles() {
@@ -128,7 +128,7 @@ export class d2lSquishyButtonSelector extends ArrowKeysMixin(LitElement) {
 	_getListOfAllButtons() {
 		const slot = this.shadowRoot.querySelector('slot');
 		var childrenArray = slot.assignedElements({ flatten: true });
-		this._buttons = childrenArray.filter(function (tag) {
+		this._buttons = childrenArray.filter(function(tag) {
 			return tag.nodeName === 'D2L-SQUISHY-BUTTON';
 		}) || [];
 	}
@@ -157,7 +157,7 @@ export class d2lSquishyButtonSelector extends ArrowKeysMixin(LitElement) {
 		}
 
 		if (this.selectedIndex === undefined) {
-			var selected = this._buttons.filter(function (button) {
+			var selected = this._buttons.filter(function(button) {
 				return button.hasAttribute('selected');
 			});
 			if (selected.length > 0) {
@@ -225,11 +225,11 @@ export class d2lSquishyButtonSelector extends ArrowKeysMixin(LitElement) {
 		}
 
 		if (hasShortText) {
-			toSet.forEach(function (item) {
+			toSet.forEach(function(item) {
 				item.button.setAttribute('short-text', item.text);
 			});
 		} else {
-			this._buttons.forEach(function (button) {
+			this._buttons.forEach(function(button) {
 				button.removeAttribute('short-text');
 			});
 		}

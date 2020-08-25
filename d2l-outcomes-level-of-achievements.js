@@ -28,8 +28,8 @@ export class d2lOutcomesLevelOfAchievements extends EntityMixinLit(LocalizeMixin
                 type: Boolean,
                 attribute: 'disable-suggestion',
                 reflect: true
-            },
-        }
+            }
+        };
 	}
 
 	static get styles() {
@@ -52,31 +52,31 @@ export class d2lOutcomesLevelOfAchievements extends EntityMixinLit(LocalizeMixin
 
 	render() {
         return html`
-			<div id="suggestion-label">
-				${(!this.readOnly && this._hasAction && !this.disableSuggestion && !!this._suggestedLevel)
-            ? html`<p class="d2l-suggestion-text">${this.localize('suggestedLevel', 'level', this._suggestedLevel.text)}</p>`
+            <div id="suggestion-label">
+    			${(!this.readOnly && this._hasAction && !this.disableSuggestion && !!this._suggestedLevel)
+                ? html`
+                    <p class="d2l-suggestion-text">${this.localize('suggestedLevel', 'level', this._suggestedLevel.text)}</p>`
                 : html``}
 			</div>
     		<d2l-squishy-button-selector tooltip-position="top" ?disabled=${this.readOnly || !this._hasAction}>
-    			${this._demonstrationLevels.map((item, i) => {
+                ${this._demonstrationLevels.map((item, i) => {
                     const dataObj = { action: item.action };
                     return html` 
     				<d2l-squishy-button color="${item.color}" ?selected="${item.selected}" button-data="${dataObj}" index="${i}" id="item-${i}">
     					${item.text}
-    				</d2l-squishy-button>
-    			`})}
+                    </d2l-squishy-button>`;
+                })}
     		</d2l-squishy-button-selector>`;
 	}
 
-	constructor() {
+    constructor() {
         super();
         this.readOnly = false;
-		this.disableSuggestion = false;
+        this.disableSuggestion = false;
         this.hasAction = false;
         this._demonstrationLevels = [];
-		this._demonstrationEntity = null;
-		this._suggestedLevel = null;
-
+        this._demonstrationEntity = null;
+        this._suggestedLevel = null;
 	}
 
     firstUpdated() {
@@ -85,11 +85,11 @@ export class d2lOutcomesLevelOfAchievements extends EntityMixinLit(LocalizeMixin
         this._handleRefresh = this._handleRefresh.bind(this);
         this.addEventListener('refresh-outcome-demonstrations', this._handleRefresh);
         this._tryRetrieveDemonstrations();
-	}
+    }
 
     _handleRefresh() {
         this._tryRetrieveDemonstrations();
-	}
+    }
 
     _tryRetrieveDemonstrations() {
         if (this.token && this.href) {
@@ -105,7 +105,7 @@ export class d2lOutcomesLevelOfAchievements extends EntityMixinLit(LocalizeMixin
 		}
 		let newSuggestedLevel;
 
-		Promise.all(entity.getSubEntitiesByClass(Classes.outcomes.demonstratableLevel).map(function (e) {
+		Promise.all(entity.getSubEntitiesByClass(Classes.outcomes.demonstratableLevel).map(function(e) {
 
 			var selected = e.hasClass(Classes.outcomes.selected);
 			var suggested = e.hasClass(Classes.outcomes.suggested);
@@ -122,7 +122,7 @@ export class d2lOutcomesLevelOfAchievements extends EntityMixinLit(LocalizeMixin
 					isSuggested: suggested
 				};
 			});
-        }.bind(this))).then(function (demonstrationLevels) {
+        }.bind(this))).then(function(demonstrationLevels) {
             this._demonstrationLevels = demonstrationLevels;
 
             var firstSuggested = undefined;
@@ -134,7 +134,7 @@ export class d2lOutcomesLevelOfAchievements extends EntityMixinLit(LocalizeMixin
 					firstSuggestedIndex = i;
 					break;
 				}
-				
+
 			}
 			if (typeof firstSuggested !== 'undefined') {
 				newSuggestedLevel = {
@@ -144,7 +144,7 @@ export class d2lOutcomesLevelOfAchievements extends EntityMixinLit(LocalizeMixin
 			}
 
 			this._hasAction = demonstrationLevels.some(function(level) { return !!level.action; });
-		}.bind(this)).finally(function () {
+		}.bind(this)).finally(function() {
 			this._suggestedLevel = newSuggestedLevel;
 		}.bind(this));
 
