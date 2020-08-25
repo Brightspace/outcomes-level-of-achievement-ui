@@ -167,17 +167,16 @@ export class d2lOutcomesCOAEvalOverride extends LocalizeMixin(LitElement) {
 		return html`
 		<div class="flex-box">
 			<h3 class="page-heading">Select Overall Achievement</h3>
-			${(!!this._calculationMethod && this._newAssessmentsAdded && this._isOverrideActive)
-			? html`
-				<span class="calculate-button-container">
-					<d2l-button-icon id="calculate-button"
-						@click=${this._onCalcButtonClicked}
-						text="${this.localize('recalculateOverallAchievement')}"
-						icon="tier1:calculate">
-					</d2l-button-icon>
-				</span>`
-			: html``
-			}
+		${(!!this._calculationMethod && this._newAssessmentsAdded && this._isOverrideActive)
+		? html`
+			<span class="calculate-button-container">
+				<d2l-button-icon id="calculate-button"
+					@click=${this._onCalcButtonClicked}
+					text="${this.localize('recalculateOverallAchievement')}"
+					icon="tier1:calculate">
+				</d2l-button-icon>
+			</span>`
+		: html``}
 		</div>
 
 		<div style="clear: both;"></div>
@@ -188,40 +187,38 @@ export class d2lOutcomesCOAEvalOverride extends LocalizeMixin(LitElement) {
 				<span class="calculation-label">
 					Calculation method: ${this._calculationMethod}
 				</span>
-				${this._helpPopupItems.length > 0
-				? html`
-					<d2l-button-icon id="help-button"
-						@click=${this._onHelpButtonClicked}
-						text="${this.localize('calculationMethodDetails')}"
-						icon="tier1:help">
-					</d2l-button-icon>
-					<d2l-dialog id="help-dialog" title-text="${this.localize('calculationMethodDetails')}">
-						<style>
-							p {
-								@apply --d2l-body-text;
-								display: block;
-								content: "";
-								margin-top: 30px;
-							}
+		${this._helpPopupItems.length > 0
+		? html`
+			<d2l-button-icon id="help-button"
+				@click=${this._onHelpButtonClicked}
+				text="${this.localize('calculationMethodDetails')}"
+				icon="tier1:help">
+			</d2l-button-icon>
+			<d2l-dialog id="help-dialog" title-text="${this.localize('calculationMethodDetails')}">
+				<style>
+					p {
+						@apply --d2l-body-text;
+						display: block;
+						content: "";
+						margin-top: 30px;
+					}
 			
-							br {
-								display: block;
-								content: "";
-								margin-top: 18px;
-							}
-						</style>
+					br {
+						display: block;
+						content: "";
+						margin-top: 18px;
+					}
+				</style>
 
-						${this._helpPopupItems.map((item) => html`
-							<p><b>${item.label}:</b><br>${item.content}</p>
-						`)}
+				${this._helpPopupItems.map((item) => html`
+					<p><b>${item.label}:</b><br>${item.content}</p>
+				`)}
 
-						<d2l-button slot="footer" primary data-dialog-action="done">OK</d2l-button>
-					</d2l-dialog>`
-					: html``
-				}
-			</div>`
-		: html``
-		}
+				<d2l-button slot="footer" primary data-dialog-action="done">OK</d2l-button>
+			</d2l-dialog>`
+		: html``}
+		</div>`
+		: html``}
 
 		<div style="clear: both;"></div>
 
@@ -248,8 +245,7 @@ export class d2lOutcomesCOAEvalOverride extends LocalizeMixin(LitElement) {
 					text="${this.localize(this._isOverrideActive ? 'clearManualOverride' : 'manuallyOverride')}"
                     icon="${this._isOverrideActive ? 'tier1:close-default' : 'tier1:edit'}"
 			/>`
-		: html ``
-		}
+		: html `` }
 		`;
 	}
 	constructor() {

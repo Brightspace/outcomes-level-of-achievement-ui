@@ -54,18 +54,15 @@ export class d2lOutcomesLevelOfAchievements extends EntityMixinLit(LocalizeMixin
 		return html`
 			<div id="suggestion-label">
 				${(!this.readOnly && this._hasAction && !this.disableSuggestion && !!this._suggestedLevel)
-				? html`
+		? html`
 					<p class="d2l-suggestion-text">${this.localize('suggestedLevel', 'level', this._suggestedLevel.text)}</p>`
-				: html``}
+		: html``}
 			</div>
 			<d2l-squishy-button-selector tooltip-position="top" ?disabled=${this.readOnly || !this._hasAction}>
-				${this._demonstrationLevels.map((item, i) => {
-					const dataObj = { action: item.action };
-					return html` 
-					<d2l-squishy-button color="${item.color}" ?selected="${item.selected}" button-data="${dataObj}" index="${i}" id="item-${i}">
-						${item.text}
-					</d2l-squishy-button>`;
-				})}
+			${this._demonstrationLevels.map((item, i) => { return html` 
+				<d2l-squishy-button color="${item.color}" ?selected="${item.selected}" button-data="${{ action: item.action }}" index="${i}" id="item-${i}">
+					${item.text}
+				</d2l-squishy-button>`; })}
 			</d2l-squishy-button-selector>`;
 	}
 
