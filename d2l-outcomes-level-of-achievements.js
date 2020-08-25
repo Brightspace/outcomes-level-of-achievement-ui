@@ -85,7 +85,7 @@ export class d2lOutcomesLevelOfAchievements extends EntityMixinLit(LocalizeMixin
 	}
 
 	_handleRefresh() {
-	this._tryRetrieveDemonstrations();
+		this._tryRetrieveDemonstrations();
 	}
 
 	_tryRetrieveDemonstrations() {

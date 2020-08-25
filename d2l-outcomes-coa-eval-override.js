@@ -303,7 +303,7 @@ export class d2lOutcomesCOAEvalOverride extends LocalizeMixin(LitElement) {
 		}
 		if (demonstration.hasProperty('newAssessments')) {
 			this._newAssessmentsAdded = demonstration.properties.newAssessments;
-        }
+		}
 
 		var calcMethodRel = demonstration.getLinkByRel('calculation-method');
 		if (calcMethodRel) {
