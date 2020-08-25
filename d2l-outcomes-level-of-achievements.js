@@ -15,21 +15,21 @@ import { LocalizeMixin } from './localize-mixin.js';
 export class d2lOutcomesLevelOfAchievements extends EntityMixinLit(LocalizeMixin(LitElement)) {
 
 	static get properties() {
-        return {
-            readOnly: {
-                type: Boolean,
-                attribute: 'read-only',
-                reflect: true
-            },
-            _hasAction: Boolean,
-            _demonstrationLevels: Array,
-            _suggestedLevel: Object,
-            disableSuggestion: {
-                type: Boolean,
-                attribute: 'disable-suggestion',
-                reflect: true
-            }
-        };
+		return {
+			readOnly: {
+				type: Boolean,
+				attribute: 'read-only',
+				reflect: true
+			},
+			_hasAction: Boolean,
+			_demonstrationLevels: Array,
+			_suggestedLevel: Object,
+			disableSuggestion: {
+				type: Boolean,
+				attribute: 'disable-suggestion',
+				reflect: true
+			}
+		};
 	}
 
 	static get styles() {
@@ -51,53 +51,53 @@ export class d2lOutcomesLevelOfAchievements extends EntityMixinLit(LocalizeMixin
 	}
 
 	render() {
-        return html`
-            <div id="suggestion-label">
-    			${(!this.readOnly && this._hasAction && !this.disableSuggestion && !!this._suggestedLevel)
-                ? html`
-                    <p class="d2l-suggestion-text">${this.localize('suggestedLevel', 'level', this._suggestedLevel.text)}</p>`
-                : html``}
+		return html`
+			<div id="suggestion-label">
+				${(!this.readOnly && this._hasAction && !this.disableSuggestion && !!this._suggestedLevel)
+				? html`
+					<p class="d2l-suggestion-text">${this.localize('suggestedLevel', 'level', this._suggestedLevel.text)}</p>`
+				: html``}
 			</div>
-    		<d2l-squishy-button-selector tooltip-position="top" ?disabled=${this.readOnly || !this._hasAction}>
-                ${this._demonstrationLevels.map((item, i) => {
-                    const dataObj = { action: item.action };
-                    return html` 
-    				<d2l-squishy-button color="${item.color}" ?selected="${item.selected}" button-data="${dataObj}" index="${i}" id="item-${i}">
-    					${item.text}
-                    </d2l-squishy-button>`;
-                })}
-    		</d2l-squishy-button-selector>`;
+			<d2l-squishy-button-selector tooltip-position="top" ?disabled=${this.readOnly || !this._hasAction}>
+				${this._demonstrationLevels.map((item, i) => {
+					const dataObj = { action: item.action };
+					return html` 
+					<d2l-squishy-button color="${item.color}" ?selected="${item.selected}" button-data="${dataObj}" index="${i}" id="item-${i}">
+						${item.text}
+					</d2l-squishy-button>`;
+				})}
+			</d2l-squishy-button-selector>`;
 	}
 
-    constructor() {
-        super();
-        this.readOnly = false;
-        this.disableSuggestion = false;
-        this.hasAction = false;
-        this._demonstrationLevels = [];
-        this._demonstrationEntity = null;
-        this._suggestedLevel = null;
+	constructor() {
+		super();
+		this.readOnly = false;
+		this.disableSuggestion = false;
+		this.hasAction = false;
+		this._demonstrationLevels = [];
+		this._demonstrationEntity = null;
+		this._suggestedLevel = null;
 	}
 
-    firstUpdated() {
-        this._onItemSelected = this._onItemSelected.bind(this);
-        this.shadowRoot.querySelector('d2l-squishy-button-selector').addEventListener('d2l-squishy-button-selected', this._onItemSelected);
-        this._handleRefresh = this._handleRefresh.bind(this);
-        this.addEventListener('refresh-outcome-demonstrations', this._handleRefresh);
-        this._tryRetrieveDemonstrations();
-    }
+	firstUpdated() {
+		this._onItemSelected = this._onItemSelected.bind(this);
+		this.shadowRoot.querySelector('d2l-squishy-button-selector').addEventListener('d2l-squishy-button-selected', this._onItemSelected);
+		this._handleRefresh = this._handleRefresh.bind(this);
+		this.addEventListener('refresh-outcome-demonstrations', this._handleRefresh);
+		this._tryRetrieveDemonstrations();
+	}
 
-    _handleRefresh() {
-        this._tryRetrieveDemonstrations();
-    }
+	_handleRefresh() {
+	this._tryRetrieveDemonstrations();
+	}
 
-    _tryRetrieveDemonstrations() {
-        if (this.token && this.href) {
-            window.D2L.Siren.EntityStore.fetch(this.href, this.token, true).then(entity => {
-                this._getDemonstrationLevels(entity.entity);
-            });
-        }
-    }
+	_tryRetrieveDemonstrations() {
+		if (this.token && this.href) {
+			window.D2L.Siren.EntityStore.fetch(this.href, this.token, true).then(entity => {
+				this._getDemonstrationLevels(entity.entity);
+			});
+		}
+	}
 
 	_getDemonstrationLevels(entity) {
 		if (!entity) {
@@ -122,10 +122,10 @@ export class d2lOutcomesLevelOfAchievements extends EntityMixinLit(LocalizeMixin
 					isSuggested: suggested
 				};
 			});
-        }.bind(this))).then(function(demonstrationLevels) {
-            this._demonstrationLevels = demonstrationLevels;
+		}.bind(this))).then(function(demonstrationLevels) {
+			this._demonstrationLevels = demonstrationLevels;
 
-            var firstSuggested = undefined;
+			var firstSuggested = undefined;
 			var firstSuggestedIndex = null;
 			for (var i = 0; i < demonstrationLevels.length; i++) {
 				const level = demonstrationLevels[i];
@@ -148,7 +148,7 @@ export class d2lOutcomesLevelOfAchievements extends EntityMixinLit(LocalizeMixin
 			this._suggestedLevel = newSuggestedLevel;
 		}.bind(this));
 
-    }
+	}
 
 	_onItemSelected(event) {
 		var action = event.detail.data.action;
@@ -163,11 +163,11 @@ export class d2lOutcomesLevelOfAchievements extends EntityMixinLit(LocalizeMixin
 		return this.localize('suggestedLevel', 'level', level);
 	}
 
-    enableAndFocus() {
-        this.readOnly = false;
-        const selector = this.shadowRoot.querySelector('d2l-squishy-button-selector');
-        selector.removeAttribute('disabled');
-        selector.focus();
+	enableAndFocus() {
+		this.readOnly = false;
+		const selector = this.shadowRoot.querySelector('d2l-squishy-button-selector');
+		selector.removeAttribute('disabled');
+		selector.focus();
 	}
 
 	resetToSuggested() {

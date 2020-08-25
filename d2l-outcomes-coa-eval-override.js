@@ -21,36 +21,36 @@ import { KEYCODES } from './keycodes.js';
 export class d2lOutcomesCOAEvalOverride extends LocalizeMixin(LitElement) {
 
 	static get properties() {
-        return {
-            _isOverrideActive: Boolean,
+		return {
+			_isOverrideActive: Boolean,
 
-            _isOverrideAllowed: Boolean,
+			_isOverrideAllowed: Boolean,
 
-            _newAssessmentsAdded: Boolean,
+			_newAssessmentsAdded: Boolean,
 
-            _calculationMethod: String,
+			_calculationMethod: String,
 
-            _calculatedAchievementValue: Number,
+			_calculatedAchievementValue: Number,
 
-            _levelSelector: Object,
+			_levelSelector: Object,
 
-            _helpPopupItems: {
-                type: Array,
-                value: []
-            },
+			_helpPopupItems: {
+				type: Array,
+				value: []
+			},
 
-            token: {
-                type: String,
-                attribute: 'token',
-                reflect: true
-            },
+			token: {
+				type: String,
+				attribute: 'token',
+				reflect: true
+			},
 
-            href: {
-                type: String,
-                attribute: 'href',
-                reflect: true
-            }
-        };
+			href: {
+				type: String,
+				attribute: 'href',
+				reflect: true
+			}
+		};
 	}
 
 	static get styles() {
@@ -163,12 +163,12 @@ export class d2lOutcomesCOAEvalOverride extends LocalizeMixin(LitElement) {
 		`;
 	}
 
-    render() {
-        return html`
+	render() {
+		return html`
 		<div class="flex-box">
 			<h3 class="page-heading">Select Overall Achievement</h3>
 			${(!!this._calculationMethod && this._newAssessmentsAdded && this._isOverrideActive)
-                ? html`
+			? html`
 				<span class="calculate-button-container">
 					<d2l-button-icon id="calculate-button"
 						@click=${this._onCalcButtonClicked}
@@ -176,20 +176,20 @@ export class d2lOutcomesCOAEvalOverride extends LocalizeMixin(LitElement) {
 						icon="tier1:calculate">
 					</d2l-button-icon>
 				</span>`
-                : html``
-            }
+			: html``
+			}
 		</div>
 
 		<div style="clear: both;"></div>
 
 		${this._calculationMethod
-        ? html`
+		? html`
 			<div class="calculation-info">
 				<span class="calculation-label">
 					Calculation method: ${this._calculationMethod}
 				</span>
-                ${this._helpPopupItems.length > 0
-                ? html`
+				${this._helpPopupItems.length > 0
+				? html`
 					<d2l-button-icon id="help-button"
 						@click=${this._onHelpButtonClicked}
 						text="${this.localize('calculationMethodDetails')}"
@@ -217,20 +217,20 @@ export class d2lOutcomesCOAEvalOverride extends LocalizeMixin(LitElement) {
 
 						<d2l-button slot="footer" primary data-dialog-action="done">OK</d2l-button>
 					</d2l-dialog>`
-                    : html``
-                }
+					: html``
+				}
 			</div>`
-        : html``
-        }
+		: html``
+		}
 
 		<div style="clear: both;"></div>
 
-        ${(this._calculationMethod === 'Decaying Average')
-        ? html`
+		${(this._calculationMethod === 'Decaying Average')
+		? html`
 			<div class="decaying-average-info">
 				${this._calculationMethod}: ${this._calculatedAchievementValue}
 			</div>`
-        : html``}
+		: html``}
 
 		<d2l-outcomes-level-of-achievements
 				id="level-selector"
@@ -242,14 +242,14 @@ export class d2lOutcomesCOAEvalOverride extends LocalizeMixin(LitElement) {
 		</d2l-outcomes-level-of-achievements>
 	
 		${(this._isOverrideAllowed && !!this._calculationMethod)
-        ? html`
+		? html`
 	        <d2l-button-subtle id="override-button"
 			    @click=${this._onOverrideButtonClicked}
 					text="${this.localize(this._isOverrideActive ? 'clearManualOverride' : 'manuallyOverride')}"
                     icon="${this._isOverrideActive ? 'tier1:close-default' : 'tier1:edit'}"
-            />`
+			/>`
 		: html ``
-        }
+		}
 		`;
 	}
 	constructor() {
@@ -351,16 +351,16 @@ export class d2lOutcomesCOAEvalOverride extends LocalizeMixin(LitElement) {
 
 	//For keyboard accessibility
 	_onKeyDown(event) {
-        if (event.keyCode === KEYCODES.ENTER || event.keyCode === KEYCODES.SPACE) {
-            this.shadowRoot.activeElement.click();
-            event.preventDefault();
+		if (event.keyCode === KEYCODES.ENTER || event.keyCode === KEYCODES.SPACE) {
+			this.shadowRoot.activeElement.click();
+			event.preventDefault();
 		}
 	}
 
 	_onOverrideButtonClicked() {
 		if (!this._isOverrideActive) {
-            this._isOverrideActive = true;
-            this._levelSelector.enableAndFocus();
+			this._isOverrideActive = true;
+			this._levelSelector.enableAndFocus();
 		}
 		else {
 			if (this._isCalculationUpdateNeeded(this._calculationMethod, this._newAssessmentsAdded, true)) {
