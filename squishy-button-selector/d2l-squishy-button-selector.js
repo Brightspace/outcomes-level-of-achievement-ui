@@ -8,7 +8,6 @@ LitElement component for a responsive list of selectable buttons
 import 'd2l-colors/d2l-colors.js';
 import { css, html, LitElement } from 'lit-element/lit-element.js';
 import { ArrowKeysMixin } from '@brightspace-ui/core/mixins/arrow-keys-mixin.js';
-import { KEYCODES } from '../keycodes.js';
 
 export class d2lSquishyButtonSelector extends ArrowKeysMixin(LitElement) {
 
@@ -111,10 +110,12 @@ export class d2lSquishyButtonSelector extends ArrowKeysMixin(LitElement) {
 		this.addEventListener('focus', this._onFocus, true);
 		this.addEventListener('blur', this._onBlur, true);
 		this.addEventListener('mouseover', this._onHover, true);
+		this._handleDomChanges = this._handleDomChanges.bind(this);
+		this.shadowRoot.addEventListener('slotchange', this._handleDomChanges, true);
 	}
 
 	updated() {
-		this._handleDomChanges()
+		this._handleDomChanges();
 		this._setShortTextIfAppropriate();
 	}
 
