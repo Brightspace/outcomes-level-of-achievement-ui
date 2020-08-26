@@ -139,7 +139,7 @@ export class D2lOutcomesLevelOfAchievements extends EntityMixinLit(LocalizeMixin
 				};
 				this._suggestedLevel = newSuggestedLevel;
 			}
-			this._hasAction = this._demonstrationLevels.some(function (level) { return !!level.action; });
+			this._hasAction = this._demonstrationLevels.some(function(level) { return !!level.action; });
 		});
 	}
 

@@ -213,7 +213,7 @@ export class D2lOutcomesCOAEvalOverride extends EntityMixinLit(LocalizeMixin(Lit
 					<p><b>${item.label}:</b><br>${item.content}</p>
 				`)}
 				<d2l-button slot="footer" primary data-dialog-action="done">OK</d2l-button>
-			</d2l-dialog>`
+			</d2l-dialog>`;
 		}
 		return html``;
 	}
@@ -247,7 +247,7 @@ export class D2lOutcomesCOAEvalOverride extends EntityMixinLit(LocalizeMixin(Lit
 			    @click=${this._onOverrideButtonClicked}
 					text="${this.localize(this._isOverrideActive ? 'clearManualOverride' : 'manuallyOverride')}"
                     icon="${this._isOverrideActive ? 'tier1:close-default' : 'tier1:edit'}"
-			/>`
+			/>`;
 		}
 		return html``;
 	}
@@ -331,7 +331,7 @@ export class D2lOutcomesCOAEvalOverride extends EntityMixinLit(LocalizeMixin(Lit
 				if (suggested && selectAction) {
 					this._isOverrideActive = true;
 				}
-			};
+			}
 		});
 	}
 

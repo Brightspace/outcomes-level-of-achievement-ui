@@ -27,7 +27,7 @@ export class DemonstrationEntity extends Entity {
 			return;
 		}
 
-		let levelEntities = [];
+		const levelEntities = [];
 		const levels = this._entity.getSubEntitiesByClass(DemonstratableLevelEntity.class);
 		for (var i = 0; i < levels.length; i++) {
 			const level = levels[i];

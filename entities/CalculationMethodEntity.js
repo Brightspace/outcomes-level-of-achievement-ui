@@ -12,7 +12,7 @@ export class CalculationMethodEntity extends Entity {
 		if (!this._entity) {
 			return;
 		}
-		let settingEntities = [];
+		const settingEntities = [];
 		const settings = this._entity.getSubEntitiesByClass(CalculationSettingEntity.class);
 		for (var i = 0; i < settings.length; i++) {
 			const setting = settings[i];
