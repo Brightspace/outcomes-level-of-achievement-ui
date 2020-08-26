@@ -6,7 +6,7 @@ import 'd2l-typography/d2l-typography-shared-styles.js';
 import { css, html, LitElement } from 'lit-element/lit-element.js';
 import { KEYCODES } from '../keycodes.js';
 
-export class d2lSquishyButton extends LitElement {
+export class D2lSquishyButton extends LitElement {
 
 	static get properties() {
 		return {
@@ -287,4 +287,4 @@ export class d2lSquishyButton extends LitElement {
 	}
 }
 
-customElements.define('d2l-squishy-button', d2lSquishyButton);
+customElements.define('d2l-squishy-button', D2lSquishyButton);

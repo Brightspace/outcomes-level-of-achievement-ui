@@ -9,14 +9,14 @@ import 'd2l-colors/d2l-colors.js';
 import { css, html, LitElement } from 'lit-element/lit-element.js';
 import { ArrowKeysMixin } from '@brightspace-ui/core/mixins/arrow-keys-mixin.js';
 
-export class d2lSquishyButtonSelector extends ArrowKeysMixin(LitElement) {
+export class D2lSquishyButtonSelector extends ArrowKeysMixin(LitElement) {
 
 	static get properties() {
 		return {
 			selectedIndex: {
 				type: Number,
-				reflect: true,
-				observer: '_updateButtonSelectedAttribute'
+				attribute: 'selected-index',
+				reflect: true
 			},
 			_focused: Boolean,
 			disabled: {
@@ -26,8 +26,9 @@ export class d2lSquishyButtonSelector extends ArrowKeysMixin(LitElement) {
 			},
 			tooltipPosition: {
 				type: String,
-				reflect: true
-			}
+				attribute: 'tooltip-position'
+			},
+			_buttons: { attribute: false }
 		};
 	}
 
@@ -93,9 +94,13 @@ export class d2lSquishyButtonSelector extends ArrowKeysMixin(LitElement) {
 		this.addEventListener('d2l-squishy-button-selection-changed', this._onItemSelected);
 		this.addEventListener('squishy-button-text-changed', this._setShortTextIfAppropriate);
 		this.addEventListener('squishy-button-focus-changed', this._setShortTextIfAppropriate);
+		this._getListOfAllButtons = this._getListOfAllButtons.bind(this);
+		this.shadowRoot.addEventListener('slotchange', this._getListOfAllButtons, true);
 		this.arrowKeysDirection = 'leftright';
 		this.arrowKeysNoWrap = true;
 		this._focused = false;
+		this._pushTabIndex('0');
+		this._buttons = [];
 	}
 
 	render() {
@@ -110,8 +115,6 @@ export class d2lSquishyButtonSelector extends ArrowKeysMixin(LitElement) {
 		this.addEventListener('focus', this._onFocus, true);
 		this.addEventListener('blur', this._onBlur, true);
 		this.addEventListener('mouseover', this._onHover, true);
-		this._handleDomChanges = this._handleDomChanges.bind(this);
-		this.shadowRoot.addEventListener('slotchange', this._handleDomChanges, true);
 	}
 
 	updated() {
@@ -120,7 +123,6 @@ export class d2lSquishyButtonSelector extends ArrowKeysMixin(LitElement) {
 	}
 
 	_handleDomChanges() {
-		this._getListOfAllButtons();
 		this._setButtonProperties();
 		this._updateButtonSelectedAttribute();
 	}
@@ -294,4 +296,4 @@ export class d2lSquishyButtonSelector extends ArrowKeysMixin(LitElement) {
 
 }
 
-customElements.define('d2l-squishy-button-selector', d2lSquishyButtonSelector);
+customElements.define('d2l-squishy-button-selector', D2lSquishyButtonSelector);

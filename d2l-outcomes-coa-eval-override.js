@@ -13,43 +13,29 @@ import '@brightspace-ui/core/components/dialog/dialog.js';
 
 import './d2l-outcomes-level-of-achievements.js';
 
-import { Actions, Classes } from 'd2l-hypermedia-constants';
 import { css, html, LitElement } from 'lit-element/lit-element.js';
+import { EntityMixinLit } from 'siren-sdk/src/mixin/entity-mixin-lit.js';
 import { LocalizeMixin } from './localize-mixin.js';
+import { DemonstrationEntity } from './entities/DemonstrationEntity';
 import { KEYCODES } from './keycodes.js';
 
-export class d2lOutcomesCOAEvalOverride extends LocalizeMixin(LitElement) {
+export class D2lOutcomesCOAEvalOverride extends EntityMixinLit(LocalizeMixin(LitElement)) {
 
 	static get properties() {
 		return {
-			_isOverrideActive: Boolean,
+			_isOverrideActive: { attribute: false },
 
-			_isOverrideAllowed: Boolean,
+			_isOverrideAllowed: { attribute: false },
 
-			_newAssessmentsAdded: Boolean,
+			_newAssessmentsAdded: { attribute: false },
 
-			_calculationMethod: String,
+			_calculationMethod: { attribute: false },
 
-			_calculatedAchievementValue: Number,
+			_calculatedAchievementValue: { attribute: false },
 
-			_levelSelector: Object,
+			_levelSelector: { attribute: false },
 
-			_helpPopupItems: {
-				type: Array,
-				value: []
-			},
-
-			token: {
-				type: String,
-				attribute: 'token',
-				reflect: true
-			},
-
-			href: {
-				type: String,
-				attribute: 'href',
-				reflect: true
-			}
+			_helpPopupItems: { attribute: false }
 		};
 	}
 
@@ -138,6 +124,19 @@ export class d2lOutcomesCOAEvalOverride extends LocalizeMixin(LitElement) {
 				margin-left: 6px;
 			}
 
+			d2l-dialog p {
+				@apply --d2l-body-text;
+				display: block;
+				content: "";
+				margin-top: 30px;
+			}
+
+			d2l-dialog br {
+				display: block;
+				content: "";
+				margin-top: 18px;
+			}
+
 			:host([dir="rtl"]) #help-button {
 				float: right;
 				margin-bottom: 0px;
@@ -163,100 +162,116 @@ export class d2lOutcomesCOAEvalOverride extends LocalizeMixin(LitElement) {
 		`;
 	}
 
-	render() {
+	renderElementHeading() {
 		return html`
-		<div class="flex-box">
-			<h3 class="page-heading">Select Overall Achievement</h3>
-		${(!!this._calculationMethod && this._newAssessmentsAdded && this._isOverrideActive)
-		? html`
+			<div class="flex-box">
+				<h3 class="page-heading">Select Overall Achievement</h3>
+				${this.renderCalcButton()}
+			</div>
+		<div style="clear: both;"></div>`;
+	}
+
+	renderCalcButton() {
+		if (this._isCalculationUpdateNeeded()) {
+			return html`
 			<span class="calculate-button-container">
 				<d2l-button-icon id="calculate-button"
 					@click=${this._onCalcButtonClicked}
 					text="${this.localize('recalculateOverallAchievement')}"
 					icon="tier1:calculate">
 				</d2l-button-icon>
-			</span>`
-		: html``}
-		</div>
+			</span>`;
+		}
+		return html``;
+	}
 
-		<div style="clear: both;"></div>
-
-		${this._calculationMethod
-		? html`
+	renderCalculationMethod() {
+		if (this._calculationMethod) {
+			return html`
 			<div class="calculation-info">
 				<span class="calculation-label">
 					Calculation method: ${this._calculationMethod}
 				</span>
-		${this._helpPopupItems.length > 0
-		? html`
+				${this.renderCalculationHelp()}
+			</div>
+			
+			<div style="clear: both;"></div>`;
+		}
+		return html``;
+	}
+
+	renderCalculationHelp() {
+		if (this._helpPopupItems.length > 0) {
+			return html`
 			<d2l-button-icon id="help-button"
 				@click=${this._onHelpButtonClicked}
 				text="${this.localize('calculationMethodDetails')}"
 				icon="tier1:help">
 			</d2l-button-icon>
 			<d2l-dialog id="help-dialog" title-text="${this.localize('calculationMethodDetails')}">
-				<style>
-					p {
-						@apply --d2l-body-text;
-						display: block;
-						content: "";
-						margin-top: 30px;
-					}
-			
-					br {
-						display: block;
-						content: "";
-						margin-top: 18px;
-					}
-				</style>
-
 				${this._helpPopupItems.map((item) => html`
 					<p><b>${item.label}:</b><br>${item.content}</p>
 				`)}
-
 				<d2l-button slot="footer" primary data-dialog-action="done">OK</d2l-button>
 			</d2l-dialog>`
-		: html``}
-		</div>`
-		: html``}
+		}
+		return html``;
+	}
 
-		<div style="clear: both;"></div>
-
-		${(this._calculationMethod === 'Decaying Average')
-		? html`
+	renderCalculatedValue() {
+		if (this._calculationMethod === 'Decaying Average') {
+			return html`
 			<div class="decaying-average-info">
 				${this._calculationMethod}: ${this._calculatedAchievementValue}
-			</div>`
-		: html``}
+			</div>`;
+		}
+		return html``;
+	}
 
+	renderAchievementSelector() {
+		return html`
 		<d2l-outcomes-level-of-achievements
-				id="level-selector"
-				tooltip-position="top"
-				?read-only="${!this._isOverrideActive && !!this._calculationMethod}"
-				disable-suggestion=""
-				token="${this._token}"
-				href="${this.href}">
-		</d2l-outcomes-level-of-achievements>
-	
-		${(this._isOverrideAllowed && !!this._calculationMethod)
-		? html`
+			id="level-selector"
+			tooltip-position="top"
+			?read-only="${!this._canEditLevel()}"
+			disable-suggestion=""
+			token="${this.getAttribute('token')}"
+			href="${this.getAttribute('href')}">
+		</d2l-outcomes-level-of-achievements>`;
+	}
+
+	renderOverrideButton() {
+		if (this._isOverrideAllowed && !!this._calculationMethod) {
+			return html`
 	        <d2l-button-subtle id="override-button"
 			    @click=${this._onOverrideButtonClicked}
 					text="${this.localize(this._isOverrideActive ? 'clearManualOverride' : 'manuallyOverride')}"
                     icon="${this._isOverrideActive ? 'tier1:close-default' : 'tier1:edit'}"
 			/>`
-		: html `` }
+		}
+		return html``;
+	}
+
+	render() {
+		return html`
+		${this.renderElementHeading()}
+		${this.renderCalculationMethod()}
+		${this.renderCalculatedValue()}
+		${this.renderAchievementSelector()}
+		${this.renderOverrideButton()}
 		`;
 	}
 	constructor() {
 		super();
+
+		this._setEntityType(DemonstrationEntity);
 
 		this._isOverrideActive = false;
 		this._isOverrideAllowed = false;
 		this._newAssessmentsAdded = false;
 		this._calculationMethod = null;
 		this._entity = null;
-		this._token = null;
+		this._helpPopupItems = [];
 
 		this._onCalcButtonClicked = this._onCalcButtonClicked.bind(this);
 		this._onOverrideButtonClicked = this._onOverrideButtonClicked.bind(this);
@@ -269,82 +284,64 @@ export class d2lOutcomesCOAEvalOverride extends LocalizeMixin(LitElement) {
 
 	firstUpdated() {
 		this._levelSelector = this.shadowRoot.getElementById('level-selector');
-		if (this.token && this.href) {
-			window.D2L.Siren.EntityStore.fetch(this.href, this.token, true).then(entity => {
-				this._getCalculationDetails(entity.entity);
-			});
-		}
-	}
-
-	set token(val) {
-		this._token = val;
-		if (this._token && this.href) {
-			this._initializeDemonstrationEntity(this.href, val);
-		}
-	}
-
-	async _initializeDemonstrationEntity(href, token) {
-		if (href && token) {
-			this._entity = await window.D2L.Siren.EntityStore.fetch(href, token, true);
-		}
 	}
 
 	set _entity(entity) {
-		this._getCalculationDetails(entity);
+		if (this._entityHasChanged(entity)) {
+			this._onEntityChanged(entity);
+			super._entity = entity;
+		}
 	}
 
-	_getCalculationDetails(entity) {
+	_onEntityChanged(entity) {
 		if (!entity) {
-			return null;
-		}
-		var demonstration = entity.entity;
-		if (demonstration.hasProperty('calculatedValue')) {
-			this._calculatedAchievementValue = demonstration.properties.calculatedValue;
-		}
-		if (demonstration.hasProperty('newAssessments')) {
-			this._newAssessmentsAdded = demonstration.properties.newAssessments;
+			return;
 		}
 
-		var calcMethodRel = demonstration.getLinkByRel('calculation-method');
-		if (calcMethodRel) {
-			window.D2L.Siren.EntityStore.fetch(calcMethodRel.href, this.token, true).then(calcMethodRequest => {
-				var calcMethod = calcMethodRequest.entity;
-				this._calculationMethod = calcMethod.properties.name;
+		this._calculatedAchievementValue = entity.getCalculatedValue();
+		this._newAssessmentsAdded = entity.hasNewAssessments();
 
-				//Help menu population
-				this._helpPopupItems = [];
-				var helpMenuEntities = calcMethod.getSubEntitiesByClass('calculation-setting');
-				helpMenuEntities.forEach((item) => {
-					var helpItemObj = {
-						label: item.properties.name,
-						content: item.properties.content
-					};
-					this._helpPopupItems.push(helpItemObj);
-				});
+		entity.onCalcMethodChanged(calcMethod => {
+			if (!calcMethod) {
+				return;
+			}
+			this._calculationMethod = calcMethod.getName();
+			this._helpPopupItems = [];
+			const helpMenuEntities = calcMethod.getSettings();
+			helpMenuEntities.forEach((item) => {
+				var helpItemObj = {
+					label: item.getName(),
+					content: item.getContent()
+				};
+				this._helpPopupItems.push(helpItemObj);
 			});
-		}
-		//determine if override is allowed and/or enabled
-		var levels = demonstration.getSubEntitiesByClass(Classes.outcomes.demonstratableLevel);
-		this._isOverrideAllowed = false;
-		this._isOverrideActive = false;
-		levels.forEach((level) => {
-			var suggested = level.hasClass(Classes.outcomes.suggested);
-			var hasSelectAction = !!(level.getActionByName(Actions.outcomes.select));
-
-			if (hasSelectAction) {
-				this._isOverrideAllowed = true;
-			}
-			if (suggested && hasSelectAction) {
-				this._isOverrideActive = true;
-			}
 		});
+		entity.subEntitiesLoaded().then(() => {
+			const levels = entity.getAllDemonstratableLevels();
+			this._isOverrideAllowed = false;
+			this._isOverrideActive = false;
+			for (var i = 0; i < levels.length; i++) {
+				const level = levels[i];
+				const suggested = level.isSuggested();
+				const selectAction = level.getSelectAction();
 
+				if (selectAction) {
+					this._isOverrideAllowed = true;
+				}
+				if (suggested && selectAction) {
+					this._isOverrideActive = true;
+				}
+			};
+		});
 	}
 
-	_isCalculationUpdateNeeded(calculationMethod, newAssessments, overrideActive) {
-		return !!calculationMethod && overrideActive && newAssessments;
+	_isCalculationUpdateNeeded() {
+		return !!this._calculationMethod && this._newAssessmentsAdded && this._isOverrideActive;
 	}
 
+	_canEditLevel() {
+		return (this._isOverrideActive || !this._calculationMethod);
+	}
 	//For keyboard accessibility
 	_onKeyDown(event) {
 		if (event.keyCode === KEYCODES.ENTER || event.keyCode === KEYCODES.SPACE) {
@@ -359,7 +356,7 @@ export class d2lOutcomesCOAEvalOverride extends LocalizeMixin(LitElement) {
 			this._levelSelector.enableAndFocus();
 		}
 		else {
-			if (this._isCalculationUpdateNeeded(this._calculationMethod, this._newAssessmentsAdded, true)) {
+			if (this._isCalculationUpdateNeeded()) {
 				this._updateLevelCalculation();
 			}
 			this._levelSelector.resetToSuggested();
@@ -392,4 +389,4 @@ export class d2lOutcomesCOAEvalOverride extends LocalizeMixin(LitElement) {
 	}
 }
 
-customElements.define('d2l-outcomes-coa-eval-override', d2lOutcomesCOAEvalOverride);
+customElements.define('d2l-outcomes-coa-eval-override', D2lOutcomesCOAEvalOverride);
