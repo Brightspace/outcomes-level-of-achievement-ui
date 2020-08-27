@@ -33,13 +33,6 @@ export class DemonstratableLevelEntity extends SelflessEntity {
 		return this._entity && this._entity.getActionByName('select');
 	}
 
-	getAchievementLevel() {
-		if (!this._entity) {
-			return;
-		}
-		const achievementEntity = this._entity.getSubEntityByClass(AchievementLevelEntity.class);
-		return new AchievementLevelEntity(this, achievementEntity);
-	}
 	onLevelChanged(onChange) {
 		const href = this._levelHref();
 		href && this._subEntity(AchievementLevelEntity, href, onChange);

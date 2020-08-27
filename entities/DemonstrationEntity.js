@@ -26,14 +26,8 @@ export class DemonstrationEntity extends Entity {
 		if (!this._entity) {
 			return;
 		}
-
-		const levelEntities = [];
 		const levels = this._entity.getSubEntitiesByClass(DemonstratableLevelEntity.class);
-		for (var i = 0; i < levels.length; i++) {
-			const level = levels[i];
-			levelEntities.push(new DemonstratableLevelEntity(this, level));
-		}
-		return levelEntities;
+		return levels.map(level => new DemonstratableLevelEntity(this, level));
 	}
 
 	onCalcMethodChanged(onChange) {

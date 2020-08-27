@@ -162,16 +162,16 @@ export class D2lOutcomesCOAEvalOverride extends EntityMixinLit(LocalizeMixin(Lit
 		`;
 	}
 
-	renderElementHeading() {
+	_renderElementHeading() {
 		return html`
 			<div class="flex-box">
 				<h3 class="page-heading">Select Overall Achievement</h3>
-				${this.renderCalcButton()}
+				${this._renderCalcButton()}
 			</div>
 		<div style="clear: both;"></div>`;
 	}
 
-	renderCalcButton() {
+	_renderCalcButton() {
 		if (this._isCalculationUpdateNeeded()) {
 			return html`
 			<span class="calculate-button-container">
@@ -182,25 +182,25 @@ export class D2lOutcomesCOAEvalOverride extends EntityMixinLit(LocalizeMixin(Lit
 				</d2l-button-icon>
 			</span>`;
 		}
-		return html``;
+		return null;
 	}
 
-	renderCalculationMethod() {
+	_renderCalculationMethod() {
 		if (this._calculationMethod) {
 			return html`
 			<div class="calculation-info">
 				<span class="calculation-label">
 					Calculation method: ${this._calculationMethod}
 				</span>
-				${this.renderCalculationHelp()}
+				${this._renderCalculationHelp()}
 			</div>
 			
 			<div style="clear: both;"></div>`;
 		}
-		return html``;
+		return null;
 	}
 
-	renderCalculationHelp() {
+	_renderCalculationHelp() {
 		if (this._helpPopupItems.length > 0) {
 			return html`
 			<d2l-button-icon id="help-button"
@@ -215,20 +215,20 @@ export class D2lOutcomesCOAEvalOverride extends EntityMixinLit(LocalizeMixin(Lit
 				<d2l-button slot="footer" primary data-dialog-action="done">OK</d2l-button>
 			</d2l-dialog>`;
 		}
-		return html``;
+		return null;
 	}
 
-	renderCalculatedValue() {
+	_renderCalculatedValue() {
 		if (this._calculationMethod === 'Decaying Average') {
 			return html`
 			<div class="decaying-average-info">
 				${this._calculationMethod}: ${this._calculatedAchievementValue}
 			</div>`;
 		}
-		return html``;
+		return null;
 	}
 
-	renderAchievementSelector() {
+	_renderAchievementSelector() {
 		return html`
 		<d2l-outcomes-level-of-achievements
 			id="level-selector"
@@ -240,7 +240,7 @@ export class D2lOutcomesCOAEvalOverride extends EntityMixinLit(LocalizeMixin(Lit
 		</d2l-outcomes-level-of-achievements>`;
 	}
 
-	renderOverrideButton() {
+	_renderOverrideButton() {
 		if (this._isOverrideAllowed && !!this._calculationMethod) {
 			return html`
 	        <d2l-button-subtle id="override-button"
@@ -249,18 +249,19 @@ export class D2lOutcomesCOAEvalOverride extends EntityMixinLit(LocalizeMixin(Lit
                     icon="${this._isOverrideActive ? 'tier1:close-default' : 'tier1:edit'}"
 			/>`;
 		}
-		return html``;
+		return null;
 	}
 
 	render() {
 		return html`
-		${this.renderElementHeading()}
-		${this.renderCalculationMethod()}
-		${this.renderCalculatedValue()}
-		${this.renderAchievementSelector()}
-		${this.renderOverrideButton()}
+		${this._renderElementHeading()}
+		${this._renderCalculationMethod()}
+		${this._renderCalculatedValue()}
+		${this._renderAchievementSelector()}
+		${this._renderOverrideButton()}
 		`;
 	}
+
 	constructor() {
 		super();
 
@@ -298,16 +299,28 @@ export class D2lOutcomesCOAEvalOverride extends EntityMixinLit(LocalizeMixin(Lit
 			return;
 		}
 
-		this._calculatedAchievementValue = entity.getCalculatedValue();
-		this._newAssessmentsAdded = entity.hasNewAssessments();
+		let calcMethod;
+		let helpMenuEntities = [];
+		const calcAchievementValue = entity.getCalculatedValue();
+		const newAssessments = entity.hasNewAssessments();
 
-		entity.onCalcMethodChanged(calcMethod => {
-			if (!calcMethod) {
+		const levels = entity.getAllDemonstratableLevels();
+
+		entity.onCalcMethodChanged(method => {
+			if (!method) {
 				return;
 			}
-			this._calculationMethod = calcMethod.getName();
+			calcMethod = method.getName();
+			helpMenuEntities = method.getSettings();
+		});
+
+		entity.subEntitiesLoaded().then(() => {
+
+			this._calculationMethod = calcMethod;
+			this._calculatedAchievementValue = calcAchievementValue;
+			this._newAssessmentsAdded = newAssessments;
+
 			this._helpPopupItems = [];
-			const helpMenuEntities = calcMethod.getSettings();
 			helpMenuEntities.forEach((item) => {
 				var helpItemObj = {
 					label: item.getName(),
@@ -315,9 +328,7 @@ export class D2lOutcomesCOAEvalOverride extends EntityMixinLit(LocalizeMixin(Lit
 				};
 				this._helpPopupItems.push(helpItemObj);
 			});
-		});
-		entity.subEntitiesLoaded().then(() => {
-			const levels = entity.getAllDemonstratableLevels();
+
 			this._isOverrideAllowed = false;
 			this._isOverrideActive = false;
 			for (var i = 0; i < levels.length; i++) {
