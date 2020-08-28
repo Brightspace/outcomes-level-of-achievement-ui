@@ -110,12 +110,16 @@ export class D2lOutcomesLevelOfAchievements extends EntityMixinLit(LocalizeMixin
 					selected: level.isSelected(),
 					color: achievementLevel.getColor(),
 					text: achievementLevel.getName(),
-					isSuggested: level.isSuggested()
+					isSuggested: level.isSuggested(),
+					sortOrder: achievementLevel.getSortOrder()
 				};
 				demonstratableLevels.push(levelObj);
 			});
 		}
 		entity.subEntitiesLoaded().then(() => {
+			demonstratableLevels.sort((left, right) => {
+				return left.sortOrder - right.sortOrder;
+			});
 			this._demonstrationLevels = demonstratableLevels;
 			var firstSuggested = undefined;
 			var firstSuggestedIndex = null;

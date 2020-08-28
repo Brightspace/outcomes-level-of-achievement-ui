@@ -10,4 +10,8 @@ export class AchievementLevelEntity extends Entity {
 	getName() {
 		return this._entity && this._entity.properties && this._entity.properties.name;
 	}
+
+	getSortOrder() {
+		return this._entity && this._entity.properties && this._entity.properties.sortOrder;
+	}
 }
