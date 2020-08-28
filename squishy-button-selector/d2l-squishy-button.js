@@ -181,6 +181,9 @@ export class D2lSquishyButton extends LitElement {
 		this.role = 'radio';
 		this.addEventListener('keydown', this._onKeyDown);
 		this.addEventListener('click', this._handleTap);
+		this._handleDomChanges = this._handleDomChanges.bind(this);
+		this.shadowRoot.addEventListener('slotchange', this._handleDomChanges, true);
+		this.addEventListener('slotchange', this._handleDomChanges, true);
 	}
 
 	render() {
@@ -198,10 +201,8 @@ export class D2lSquishyButton extends LitElement {
 
 	updated() {
 		this._measureSize = this._measureSize.bind(this);
-		this._handleDomChanges = this._handleDomChanges.bind(this);
 
 		window.addEventListener('resize', this._measureSize);
-		this.shadowRoot.addEventListener('slotchange', this._handleDomChanges);
 		this._measureSize();
 		this.tabIndex = this.disabled ? '-1' : '0';
 	}

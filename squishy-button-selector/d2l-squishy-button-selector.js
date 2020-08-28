@@ -128,11 +128,14 @@ export class D2lSquishyButtonSelector extends ArrowKeysMixin(LitElement) {
 	}
 
 	_getListOfAllButtons() {
-		const slot = this.shadowRoot.querySelector('slot');
-		var childrenArray = slot.assignedElements({ flatten: true });
-		this._buttons = childrenArray.filter(function(tag) {
-			return tag.nodeName === 'D2L-SQUISHY-BUTTON';
-		}) || [];
+		const childElements = this.children;
+		this._buttons = [];
+		for (var i = 0; i < childElements.length; i++) {
+			const element = childElements[i];
+			if (element.tagName === 'D2L-SQUISHY-BUTTON') {
+				this._buttons.push(element);
+			}
+		}
 	}
 
 	_setButtonProperties() {

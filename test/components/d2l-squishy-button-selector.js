@@ -6,15 +6,12 @@ describe('<d2l-squishy-button-selector>', function() {
 
 	var element, sandbox;
 
-	beforeEach(function(done) {
+	beforeEach(async() => {
 		sandbox = sinon.sandbox.create();
-		element = fixture('basic');
-		element.shadowRoot.addEventListener('slotchange', () => {
-			done();
-		}, { once: true });
+		element = await fixture('basic');
 	});
 
-	beforeEach(function() {
+	afterEach(function() {
 		sandbox.restore();
 	});
 
