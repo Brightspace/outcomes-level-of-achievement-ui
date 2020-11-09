@@ -7,10 +7,3 @@ export const keyCodes = {
 	leftArrow: 37,
 	rightArrow: 39
 };
-
-export const calcMethods = {
-	decayingAverage: 'Decaying Average',
-	highest: 'Highest',
-	mostCommon: 'Most Common',
-	mostRecent: 'Most Recent'
-};

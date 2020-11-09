@@ -18,7 +18,7 @@ import { EntityMixinLit } from 'siren-sdk/src/mixin/entity-mixin-lit.js';
 import { bodySmallStyles, bodyStandardStyles, heading3Styles, labelStyles } from '@brightspace-ui/core/components/typography/styles';
 import { LocalizeMixin } from './localize-mixin.js';
 import { DemonstrationEntity } from './entities/DemonstrationEntity';
-import { keyCodes, calcMethods } from './consts.js';
+import { keyCodes } from './consts.js';
 
 export class D2lOutcomesCOAEvalOverride extends EntityMixinLit(LocalizeMixin(LitElement)) {
 
@@ -157,12 +157,12 @@ export class D2lOutcomesCOAEvalOverride extends EntityMixinLit(LocalizeMixin(Lit
 		return null;
 	}
 
-	_renderCalculationMethod(calcMethod, methodText) {
+	_renderCalculationMethod(calcMethod) {
 		if (calcMethod) {
 			return html`
 			<div class="calculation-info">
 				<span class="calculation-label d2l-body-small">
-					${this.localize('calculationMethod', 'calcMethod', methodText)}
+					${this.localize('calculationMethod', 'calcMethod', calcMethod)}
 				</span>
 				${this._renderCalculationHelp()}
 			</div>
@@ -191,11 +191,11 @@ export class D2lOutcomesCOAEvalOverride extends EntityMixinLit(LocalizeMixin(Lit
 		return null;
 	}
 
-	_renderCalculatedValue(calcMethod, methodText, value) {
-		if (calcMethod === calcMethods.decayingAverage) {
+	_renderCalculatedValue(calcMethod, value) {
+		if (calcMethod === this.localize('decayingAverage')) {
 			return html`
 			<div class="decaying-average-info d2l-body-small">
-				${this.localize('calculatedValue', 'calcMethod', methodText, 'value', value)}
+				${this.localize('calculatedValue', 'calcMethod', calcMethod, 'value', value)}
 			</div>`;
 		}
 		return null;
@@ -228,11 +228,10 @@ export class D2lOutcomesCOAEvalOverride extends EntityMixinLit(LocalizeMixin(Lit
 	}
 
 	render() {
-		const calcMethodText = this._getCalcMethodText(this._calculationMethod);
 		return html`
 		${this._renderElementHeading()}
-		${this._renderCalculationMethod(this._calculationMethod, calcMethodText)}
-		${this._renderCalculatedValue(this._calculationMethod, calcMethodText, this._calculatedAchievementValue)}
+		${this._renderCalculationMethod(this._calculationMethod)}
+		${this._renderCalculatedValue(this._calculationMethod, this._calculatedAchievementValue)}
 		${this._renderAchievementSelector()}
 		${this._renderOverrideButton()}
 		`;
@@ -267,16 +266,6 @@ export class D2lOutcomesCOAEvalOverride extends EntityMixinLit(LocalizeMixin(Lit
 		if (this._entityHasChanged(entity)) {
 			this._onEntityChanged(entity);
 			super._entity = entity;
-		}
-	}
-
-	_getCalcMethodText(calcMethod) {
-		switch (calcMethod) {
-			case calcMethods.decayingAverage: return this.localize('decayingAverage');
-			case calcMethods.highest: return this.localize('highest');
-			case calcMethods.mostCommon: return this.localize('mostCommon');
-			case calcMethods.mostRecent: return this.localize('mostRecent');
-			default: return null;
 		}
 	}
 
