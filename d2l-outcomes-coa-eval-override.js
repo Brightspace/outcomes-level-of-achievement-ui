@@ -228,7 +228,6 @@ export class D2lOutcomesCOAEvalOverride extends EntityMixinLit(LocalizeMixin(Lit
 	}
 
 	render() {
-		console.log(this._calculatedAchievementValue);
 		const calcMethodText = this._getCalcMethodText(this._calculationMethod);
 		return html`
 		${this._renderElementHeading()}
@@ -272,7 +271,7 @@ export class D2lOutcomesCOAEvalOverride extends EntityMixinLit(LocalizeMixin(Lit
 	}
 
 	_getCalcMethodText(calcMethod) {
-		switch(calcMethod) {
+		switch (calcMethod) {
 			case calcMethods.decayingAverage: return this.localize('decayingAverage');
 			case calcMethods.highest: return this.localize('highest');
 			case calcMethods.mostCommon: return this.localize('mostCommon');
@@ -285,7 +284,7 @@ export class D2lOutcomesCOAEvalOverride extends EntityMixinLit(LocalizeMixin(Lit
 		if (!entity) {
 			return;
 		}
-		
+
 		let calcMethod;
 		let helpMenuEntities = [];
 		const calcAchievementValue = entity.getCalculatedValue();
