@@ -3,7 +3,7 @@
     "calculation-method"
   ],
   "properties": {
-    "name": "Highest"
+    "Name": "Highest"
   },
   "entities": [
     {

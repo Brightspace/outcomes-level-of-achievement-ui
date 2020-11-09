@@ -3,7 +3,7 @@
     "calculation-method"
   ],
   "properties": {
-    "name": "Decaying Average"
+    "Name": "Decaying Average"
   },
   "entities": [
     {
