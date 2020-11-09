@@ -5,7 +5,7 @@ export class CalculationMethodEntity extends Entity {
 	static get class() { return 'calculation-method'; }
 
 	getName() {
-		return this._entity && this._entity.properties && this._entity.properties.name;
+		return this._entity && this._entity.properties && this._entity.properties.Name;
 	}
 
 	getSettings() {

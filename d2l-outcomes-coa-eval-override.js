@@ -15,9 +15,10 @@ import './d2l-outcomes-level-of-achievements.js';
 
 import { css, html, LitElement } from 'lit-element/lit-element.js';
 import { EntityMixinLit } from 'siren-sdk/src/mixin/entity-mixin-lit.js';
+import { bodySmallStyles, bodyStandardStyles, heading3Styles, labelStyles } from '@brightspace-ui/core/components/typography/styles';
 import { LocalizeMixin } from './localize-mixin.js';
 import { DemonstrationEntity } from './entities/DemonstrationEntity';
-import { KEYCODES } from './keycodes.js';
+import { keyCodes, calcMethods } from './consts.js';
 
 export class D2lOutcomesCOAEvalOverride extends EntityMixinLit(LocalizeMixin(LitElement)) {
 
@@ -40,132 +41,103 @@ export class D2lOutcomesCOAEvalOverride extends EntityMixinLit(LocalizeMixin(Lit
 	}
 
 	static get styles() {
-		return css`
-			.d2l-suggestion-text {
-				@apply --d2l-body-small-text;
-				margin: 0.3rem 0 0.3rem 0;
-			}
+		return [
+			css`
+				.d2l-suggestion-text {
+					margin: 0.3rem 0 0.3rem 0;
+				}
 
-			.page-heading {
-				@apply --d2l-heading-3;
-				margin: 0;
-				padding-top: 36px;
-				padding-bottom: 10px;
-				float: left;
-			}
+				.page-heading {
+					margin: 0;
+					float: left;
+				}
 
-			:host([dir="rtl"]) .page-heading {
-				@apply --d2l-heading-3;
-				margin: 0;
-				padding-top: 36px;
-				padding-bottom: 10px;
-				float: right;
-			}
+				:host([dir="rtl"]) .page-heading {
+					margin: 0;
+					float: right;
+				}
 
-			.flex-box {
-				width: 100%;
-			}
+				.flex-box {
+					width: 100%;
+				}
 
-			.title-container {
-				float: left;
-				margin-top: 0;
-				margin-bottom: 0;
-			}
-			:host([dir="rtl"]) .title-container {
-				float: right;
-				margin-top: 0;
-				margin-bottom: 0;
-			}
+				.title-container {
+					float: left;
+					margin-top: 0;
+					margin-bottom: 0;
+				}
 
-			.calculate-button-container {
-				float: right;
-				width: 44px;
-				height: 44px;
-				margin: 0px;
-				padding-top: 24px;
-			}
-			:host([dir="rtl"]) .calculate-button-container {
-				float: left;
-				width: 44px;
-				height: 44px;
-				margin: 0px;
-				padding-top: 24px;
-			}
+				:host([dir="rtl"]) .title-container {
+					float: right;
+					margin-top: 0;
+					margin-bottom: 0;
+				}
 
-			.calculation-label {
-				@apply --d2l-body-small-text;
-				float: left;
-				margin-top: 20px;
-				margin-bottom: 12px;
-			}
-			:host([dir="rtl"]) .calculation-label {
-				@apply --d2l-body-small-text;
-				float: right;
-				margin-top: 20px;
-				margin-bottom: 12px;
-			}
+				.calculate-button-container {
+					float: right;
+					width: 2.2rem;
+					height: 2.2rem;
+					margin-top: 1.2rem;
+				}
 
-			.decaying-average-info {
-				@apply --d2l-body-small-text;
-				margin-top: 0px;
-				margin-bottom: 12px;				
-			}
+				:host([dir="rtl"]) .calculate-button-container {
+					float: left;
+				}
 
-			:host([dir="rtl"]) .decaying-average-info {
-				@apply --d2l-body-small-text;
-				margin-top: 0px;
-				margin-bottom: 12px;				
-			}
+				.calculation-label {
+					float: left;
+					padding-bottom: 0.6rem;
+				}
 
-			#help-button {
-				float: left;
-				margin-bottom: 0px;
-				margin-top: 6px;
-				margin-left: 6px;
-			}
+				:host([dir="rtl"]) .calculation-label {
+					float: right;
+				}
 
-			d2l-dialog p {
-				@apply --d2l-body-text;
-				display: block;
-				content: "";
-				margin-top: 30px;
-			}
+				.decaying-average-info {
+					padding-bottom: 0.5rem;
+				}
 
-			d2l-dialog br {
-				display: block;
-				content: "";
-				margin-top: 18px;
-			}
+				#help-button {
+					float: left;
+					margin-left: 0.3rem;
+					margin-top: -0.6rem;
+				}
 
-			:host([dir="rtl"]) #help-button {
-				float: right;
-				margin-bottom: 0px;
-				margin-top: 6px;
-				margin-right: 6px;
-			}
+				:host([dir="rtl"]) #help-button {
+					float: right;
+				}
 
-			.decaying-average-info {
-				@apply --d2l-body-small-text;
-				padding-bottom: 12px;
-				padding-top: 0px;
-			}
+				.help-item-label {
+					display: block;
+					margin-bottom: 0.9rem;
+				}
 
-			d2l-outcomes-level-of-achievements {
-				width: 100%;
-				padding-bottom: 12px;
-				padding-top: 0px;
-			}
+				.help-item-content {
+					display: block;
+					margin-bottom: 1.5rem;
+				}
 
-			:host {
-				display: block;
-			}
-		`;
+				d2l-outcomes-level-of-achievements {
+					width: 100%;
+					margin-bottom: 0.6rem;
+					margin-top: 0.3rem;
+				}
+
+				:host {
+					display: block;
+				}
+			`,
+			bodySmallStyles,
+			bodyStandardStyles,
+			heading3Styles,
+			labelStyles
+		];
 	}
 
 	_renderElementHeading() {
 		return html`
 			<div class="flex-box">
-				<h3 class="page-heading">Select Overall Achievement</h3>
+				<h2 class="page-heading d2l-heading-3">${this.localize('selectOverallAchievement')}</h2>
 				${this._renderCalcButton()}
 			</div>
 		<div style="clear: both;"></div>`;
@@ -185,12 +157,12 @@ export class D2lOutcomesCOAEvalOverride extends EntityMixinLit(LocalizeMixin(Lit
 		return null;
 	}
 
-	_renderCalculationMethod() {
-		if (this._calculationMethod) {
+	_renderCalculationMethod(calcMethod, methodText) {
+		if (calcMethod) {
 			return html`
 			<div class="calculation-info">
-				<span class="calculation-label">
-					Calculation method: ${this._calculationMethod}
+				<span class="calculation-label d2l-body-small">
+					${this.localize('calculationMethod', 'calcMethod', methodText)}
 				</span>
 				${this._renderCalculationHelp()}
 			</div>
@@ -210,7 +182,8 @@ export class D2lOutcomesCOAEvalOverride extends EntityMixinLit(LocalizeMixin(Lit
 			</d2l-button-icon>
 			<d2l-dialog id="help-dialog" title-text="${this.localize('calculationMethodDetails')}">
 				${this._helpPopupItems.map((item) => html`
-					<p><b>${item.label}:</b><br>${item.content}</p>
+					<div class="help-item-label d2l-label"><b>${item.label}:</b></div>
+					<div class="help-item-content d2l-body-standard">${item.content}</div>
 				`)}
 				<d2l-button slot="footer" primary data-dialog-action="done">OK</d2l-button>
 			</d2l-dialog>`;
@@ -218,11 +191,11 @@ export class D2lOutcomesCOAEvalOverride extends EntityMixinLit(LocalizeMixin(Lit
 		return null;
 	}
 
-	_renderCalculatedValue() {
-		if (this._calculationMethod === 'Decaying Average') {
+	_renderCalculatedValue(calcMethod, methodText, value) {
+		if (calcMethod === calcMethods.decayingAverage) {
 			return html`
-			<div class="decaying-average-info">
-				${this._calculationMethod}: ${this._calculatedAchievementValue}
+			<div class="decaying-average-info d2l-body-small">
+				${this.localize('calculatedValue', 'calcMethod', methodText, 'value', value)}
 			</div>`;
 		}
 		return null;
@@ -255,10 +228,12 @@ export class D2lOutcomesCOAEvalOverride extends EntityMixinLit(LocalizeMixin(Lit
 	}
 
 	render() {
+		console.log(this._calculatedAchievementValue);
+		const calcMethodText = this._getCalcMethodText(this._calculationMethod);
 		return html`
 		${this._renderElementHeading()}
-		${this._renderCalculationMethod()}
-		${this._renderCalculatedValue()}
+		${this._renderCalculationMethod(this._calculationMethod, calcMethodText)}
+		${this._renderCalculatedValue(this._calculationMethod, calcMethodText, this._calculatedAchievementValue)}
 		${this._renderAchievementSelector()}
 		${this._renderOverrideButton()}
 		`;
@@ -296,18 +271,27 @@ export class D2lOutcomesCOAEvalOverride extends EntityMixinLit(LocalizeMixin(Lit
 		}
 	}
 
+	_getCalcMethodText(calcMethod) {
+		switch(calcMethod) {
+			case calcMethods.decayingAverage: return this.localize('decayingAverage');
+			case calcMethods.highest: return this.localize('highest');
+			case calcMethods.mostCommon: return this.localize('mostCommon');
+			case calcMethods.mostRecent: return this.localize('mostRecent');
+			default: return null;
+		}
+	}
+
 	_onEntityChanged(entity) {
 		if (!entity) {
 			return;
 		}
-
+		
 		let calcMethod;
 		let helpMenuEntities = [];
 		const calcAchievementValue = entity.getCalculatedValue();
 		const newAssessments = entity.hasNewAssessments();
 
 		const levels = entity.getAllDemonstratableLevels();
-
 		entity.onCalcMethodChanged(method => {
 			if (!method) {
 				return;
@@ -357,7 +341,7 @@ export class D2lOutcomesCOAEvalOverride extends EntityMixinLit(LocalizeMixin(Lit
 	}
 	//For keyboard accessibility
 	_onKeyDown(event) {
-		if (event.keyCode === KEYCODES.ENTER || event.keyCode === KEYCODES.SPACE) {
+		if (event.keyCode === keyCodes.enter || event.keyCode === keyCodes.space) {
 			this.shadowRoot.activeElement.click();
 			event.preventDefault();
 		}
