@@ -18,7 +18,7 @@ import { EntityMixinLit } from 'siren-sdk/src/mixin/entity-mixin-lit.js';
 import { bodySmallStyles, bodyStandardStyles, heading3Styles, labelStyles } from '@brightspace-ui/core/components/typography/styles';
 import { LocalizeMixin } from './localize-mixin.js';
 import { DemonstrationEntity } from './entities/DemonstrationEntity';
-import { keyCodes } from './consts.js';
+import { keyCodes, calcMethods } from './consts.js';
 
 export class D2lOutcomesCOAEvalOverride extends EntityMixinLit(LocalizeMixin(LitElement)) {
 
@@ -31,6 +31,8 @@ export class D2lOutcomesCOAEvalOverride extends EntityMixinLit(LocalizeMixin(Lit
 			_newAssessmentsAdded: { attribute: false },
 
 			_calculationMethod: { attribute: false },
+
+			_calculationMethodKey: {attribute: false},
 
 			_calculatedAchievementValue: { attribute: false },
 
@@ -191,8 +193,8 @@ export class D2lOutcomesCOAEvalOverride extends EntityMixinLit(LocalizeMixin(Lit
 		return null;
 	}
 
-	_renderCalculatedValue(calcMethod, value) {
-		if (calcMethod === this.localize('decayingAverage')) {
+	_renderCalculatedValue(calcMethod, methodKey, value) {
+		if (methodKey === calcMethods.decayingAverage) {
 			return html`
 			<div class="decaying-average-info d2l-body-small">
 				${this.localize('calculatedValue', 'calcMethod', calcMethod, 'value', value)}
@@ -231,7 +233,7 @@ export class D2lOutcomesCOAEvalOverride extends EntityMixinLit(LocalizeMixin(Lit
 		return html`
 		${this._renderElementHeading()}
 		${this._renderCalculationMethod(this._calculationMethod)}
-		${this._renderCalculatedValue(this._calculationMethod, this._calculatedAchievementValue)}
+		${this._renderCalculatedValue(this._calculationMethod, this._calculationMethodKey, this._calculatedAchievementValue)}
 		${this._renderAchievementSelector()}
 		${this._renderOverrideButton()}
 		`;
@@ -246,6 +248,7 @@ export class D2lOutcomesCOAEvalOverride extends EntityMixinLit(LocalizeMixin(Lit
 		this._isOverrideAllowed = false;
 		this._newAssessmentsAdded = false;
 		this._calculationMethod = null;
+		this._calculationMethodKey = null;
 		this._entity = null;
 		this._helpPopupItems = [];
 
@@ -274,7 +277,7 @@ export class D2lOutcomesCOAEvalOverride extends EntityMixinLit(LocalizeMixin(Lit
 			return;
 		}
 
-		let calcMethod;
+		let calcMethod, calcMethodKey;
 		let helpMenuEntities = [];
 		const calcAchievementValue = entity.getCalculatedValue();
 		const newAssessments = entity.hasNewAssessments();
@@ -285,12 +288,14 @@ export class D2lOutcomesCOAEvalOverride extends EntityMixinLit(LocalizeMixin(Lit
 				return;
 			}
 			calcMethod = method.getName();
+			calcMethodKey = method.getKey();
 			helpMenuEntities = method.getSettings();
 		});
 
 		entity.subEntitiesLoaded().then(() => {
 
 			this._calculationMethod = calcMethod;
+			this._calculationMethodKey = calcMethodKey;
 			this._calculatedAchievementValue = calcAchievementValue;
 			this._newAssessmentsAdded = newAssessments;
 
